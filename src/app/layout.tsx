@@ -1,28 +1,9 @@
 import type { Metadata } from "next";
-import { DM_Sans, Playfair_Display, Space_Mono } from "next/font/google";
 import SiteShell from "@/components/layout/SiteShell";
 import NavigationProgress from "@/components/NavigationProgress";
 import ScrollReveal from "@/components/ScrollReveal";
 import SmoothScroll from "@/components/SmoothScroll";
 import "./globals.css";
-
-const playfair = Playfair_Display({
-  subsets: ["latin"],
-  weight: ["400", "600", "700", "900"],
-  variable: "--font-display",
-});
-
-const dmSans = DM_Sans({
-  subsets: ["latin"],
-  weight: ["300", "400", "500", "600"],
-  variable: "--font-body",
-});
-
-const spaceMono = Space_Mono({
-  subsets: ["latin"],
-  weight: ["400", "700"],
-  variable: "--font-mono",
-});
 
 export const metadata: Metadata = {
   title: "ProCareerVista — Professional Resume Writing Services",
@@ -40,7 +21,15 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${playfair.variable} ${dmSans.variable} ${spaceMono.variable}`}>
+      <head>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <link
+          href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&family=Playfair+Display:wght@400;600;700;900&family=Space+Mono:wght@400;700&display=swap"
+          rel="stylesheet"
+        />
+      </head>
+      <body>
         <NavigationProgress />
         <SiteShell>{children}</SiteShell>
         <ScrollReveal />

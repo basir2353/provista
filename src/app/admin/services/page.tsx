@@ -16,8 +16,9 @@ export default function AdminServicesPage() {
   useEffect(() => { load(); }, []);
 
   const handleSave = async () => {
-    if (editing) await api.services.update(editing.id, form);
-    else await api.services.create(form);
+    const payload = { ...form, sortOrder: parseInt(form.sortOrder, 10) || 0 };
+    if (editing) await api.services.update(editing.id, payload);
+    else await api.services.create(payload);
     setModalOpen(false); load();
   };
 

@@ -38,8 +38,9 @@ export default function AdminTeamPage() {
   const handleSave = async () => {
     setSaving(true);
     try {
-      if (editing) await api.team.update(editing.id, form);
-      else await api.team.create(form);
+      const payload = { ...form, sortOrder: parseInt(form.sortOrder, 10) || 0 };
+      if (editing) await api.team.update(editing.id, payload);
+      else await api.team.create(payload);
       setModalOpen(false); load();
     } catch (err) { alert(err instanceof Error ? err.message : "Save failed"); }
     finally { setSaving(false); }

@@ -16,7 +16,7 @@ export default function AdminTestimonialsPage() {
   useEffect(() => { load(); }, []);
 
   const handleSave = async () => {
-    const data = { ...form, rating: parseInt(form.rating) };
+    const data = { ...form, rating: parseInt(form.rating, 10) || 0, sortOrder: parseInt(form.sortOrder, 10) || 0 };
     if (editing) await api.testimonials.update(editing.id, data);
     else await api.testimonials.create(data);
     setModalOpen(false); load();
