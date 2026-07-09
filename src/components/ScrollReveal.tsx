@@ -46,8 +46,8 @@ export default function ScrollReveal() {
   const pathname = usePathname();
 
   useEffect(() => {
-    const revealEls = document.querySelectorAll(".reveal");
-    const counters = document.querySelectorAll("[data-count]");
+    const observedReveals = new WeakSet<Element>();
+    const observedCounters = new WeakSet<Element>();
 
     const revealObserver = new IntersectionObserver(
       (entries) => {
@@ -83,12 +83,43 @@ export default function ScrollReveal() {
       { threshold: 0.4 }
     );
 
-    revealEls.forEach((el) => revealObserver.observe(el));
-    counters.forEach((el) => counterObserver.observe(el));
+    const observeReveal = (el: Element) => {
+      if (observedReveals.has(el)) return;
+      observedReveals.add(el);
+      revealObserver.observe(el);
+    };
+
+    const observeCounter = (el: Element) => {
+      if (observedCounters.has(el)) return;
+      observedCounters.add(el);
+      counterObserver.observe(el);
+    };
+
+    const scanNode = (node: Node) => {
+      if (!(node instanceof HTMLElement)) return;
+
+      if (node.classList.contains("reveal")) observeReveal(node);
+      if (node.hasAttribute("data-count")) observeCounter(node);
+
+      node.querySelectorAll(".reveal").forEach(observeReveal);
+      node.querySelectorAll("[data-count]").forEach(observeCounter);
+    };
+
+    document.querySelectorAll(".reveal").forEach(observeReveal);
+    document.querySelectorAll("[data-count]").forEach(observeCounter);
+
+    const mutationObserver = new MutationObserver((mutations) => {
+      mutations.forEach((mutation) => {
+        mutation.addedNodes.forEach(scanNode);
+      });
+    });
+
+    mutationObserver.observe(document.body, { childList: true, subtree: true });
 
     return () => {
       revealObserver.disconnect();
       counterObserver.disconnect();
+      mutationObserver.disconnect();
     };
   }, [pathname]);
 
