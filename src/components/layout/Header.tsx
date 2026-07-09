@@ -7,11 +7,13 @@ import { useEffect, useState } from "react";
 
 const navLinks = [
   { href: "/", label: "Home" },
-  { href: "/#industries", label: "Industries" },
-  { href: "/contact", label: "Contact" },
-  { href: "/get-started", label: "Get Started" },
-  { href: "/pricing", label: "Pricing" },
   { href: "/about", label: "About" },
+  { href: "/services", label: "Services" },
+  { href: "/templates", label: "Templates" },
+  { href: "/pricing", label: "Pricing" },
+  { href: "/team", label: "Team" },
+  { href: "/blog", label: "Blog" },
+  { href: "/contact", label: "Contact" },
 ];
 
 export default function Header() {

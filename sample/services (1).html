@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Our Services — ProCareerVista</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700;900&family=DM+Sans:wght@300;400;500;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{--teal:#00B8A9;--teal-light:#00D4C4;--teal-dark:#007F76;--navy:#0D1B2A;--navy-mid:#1A2E42;--navy-soft:#243B55;--aqua:#64DFDF;--mint:#B2F5EA;--white:#FFFFFF;--off-white:#F7FFFE;--gray-100:#F2F4F5;--gray-300:#C8D0D5;--gray-500:#8A9BAA;--gray-700:#4A5568;--accent:#FF6B6B;--gold:#F6C90E;--font-display:'Playfair Display',Georgia,serif;--font-body:'DM Sans',sans-serif;--font-mono:'Space Mono',monospace;--radius:12px;--radius-lg:24px;--shadow:0 4px 24px rgba(0,184,169,0.12);--shadow-lg:0 16px 48px rgba(13,27,42,0.18);}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{font-family:var(--font-body);background:var(--white);color:var(--navy);overflow-x:hidden;}
+.container{max-width:1200px;margin:0 auto;padding:0 24px;}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:14px 30px;border-radius:50px;font-family:var(--font-body);font-weight:600;font-size:15px;cursor:pointer;transition:all .3s;text-decoration:none;border:none;}
+.btn-primary{background:var(--teal);color:white;box-shadow:0 6px 20px rgba(0,184,169,0.35);}
+.btn-primary:hover{background:var(--teal-dark);transform:translateY(-2px);}
+.btn-outline{background:transparent;color:var(--teal);border:2px solid var(--teal);}
+.btn-outline:hover{background:var(--teal);color:white;}
+.section-label{font-family:var(--font-mono);font-size:11px;letter-spacing:3px;text-transform:uppercase;color:var(--teal);margin-bottom:12px;display:block;}
+.reveal{opacity:0;transform:translateY(28px);transition:all .7s cubic-bezier(0.16,1,0.3,1);}
+.reveal.visible{opacity:1;transform:translateY(0);}
+.rd1{transition-delay:.1s}.rd2{transition-delay:.2s}.rd3{transition-delay:.3s}
+
+/* NAV */
+#header{position:fixed;top:0;left:0;right:0;z-index:1000;background:rgba(255,255,255,0.95);backdrop-filter:blur(20px);border-bottom:1px solid rgba(0,184,169,0.1);transition:box-shadow .3s;}
+.nav-inner{display:flex;align-items:center;justify-content:space-between;height:70px;}
+.logo{display:flex;align-items:center;gap:10px;text-decoration:none;}
+.logo-icon{width:38px;height:38px;background:linear-gradient(135deg,var(--teal),var(--aqua));border-radius:10px;display:flex;align-items:center;justify-content:center;font-family:var(--font-display);font-weight:900;color:white;font-size:18px;}
+.logo-text{font-family:var(--font-display);font-size:20px;font-weight:700;color:var(--navy);}
+.logo-text span{color:var(--teal);}
+.nav-links{display:flex;align-items:center;gap:28px;list-style:none;}
+.nav-links a{font-size:14px;font-weight:500;color:var(--gray-700);text-decoration:none;transition:color .2s;}
+.nav-links a:hover,.nav-links a.active{color:var(--teal);}
+.nav-cta{display:flex;gap:10px;}
+@media(max-width:900px){.nav-links{display:none;}}
+
+/* HERO */
+.page-hero{padding:140px 0 90px;background:linear-gradient(135deg,var(--navy),var(--navy-mid));text-align:center;position:relative;overflow:hidden;}
+.page-hero::before{content:'';position:absolute;inset:0;background-image:linear-gradient(rgba(0,184,169,0.04) 1px,transparent 1px),linear-gradient(90deg,rgba(0,184,169,0.04) 1px,transparent 1px);background-size:60px 60px;}
+.blob{position:absolute;border-radius:50%;filter:blur(80px);opacity:0.12;pointer-events:none;}
+.b1{width:500px;height:500px;background:var(--teal);top:-200px;right:-100px;}
+.b2{width:300px;height:300px;background:var(--aqua);bottom:-100px;left:100px;}
+.page-hero h1{font-family:var(--font-display);font-size:clamp(2.5rem,5vw,4rem);font-weight:900;color:white;line-height:1.1;margin-bottom:20px;position:relative;z-index:2;}
+.page-hero h1 span{color:var(--teal-light);}
+.page-hero p{color:var(--gray-300);font-size:17px;max-width:580px;margin:0 auto 36px;line-height:1.8;position:relative;z-index:2;}
+.page-hero .section-label{position:relative;z-index:2;}
+
+/* SERVICE NAV TABS */
+.service-nav{background:var(--off-white);border-bottom:1px solid var(--gray-100);position:sticky;top:70px;z-index:50;}
+.service-nav-inner{display:flex;gap:0;overflow-x:auto;}
+.service-tab{padding:18px 24px;font-size:13px;font-weight:600;color:var(--gray-700);text-decoration:none;white-space:nowrap;border-bottom:3px solid transparent;transition:all .2s;display:flex;align-items:center;gap:8px;}
+.service-tab:hover{color:var(--teal);}
+.service-tab.active{color:var(--teal);border-bottom-color:var(--teal);}
+
+/* SERVICE SECTIONS */
+.service-section{padding:100px 0;scroll-margin-top:130px;}
+.service-section:nth-child(even){background:var(--off-white);}
+.service-grid{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center;}
+.service-grid.reverse{direction:rtl;}
+.service-grid.reverse>*{direction:ltr;}
+.service-icon-big{width:80px;height:80px;border-radius:24px;display:flex;align-items:center;justify-content:center;font-size:2.5rem;margin-bottom:24px;}
+.service-title{font-family:var(--font-display);font-size:clamp(1.8rem,3vw,2.5rem);font-weight:700;color:var(--navy);line-height:1.2;margin-bottom:16px;}
+.service-title span{color:var(--teal);}
+.service-desc{font-size:16px;color:var(--gray-700);line-height:1.85;margin-bottom:24px;}
+.service-includes{margin-bottom:28px;}
+.service-includes-title{font-weight:700;font-size:14px;color:var(--navy);margin-bottom:12px;font-family:var(--font-mono);letter-spacing:1px;text-transform:uppercase;}
+.service-includes-list{list-style:none;display:flex;flex-direction:column;gap:10px;}
+.service-includes-list li{display:flex;align-items:flex-start;gap:10px;font-size:14px;color:var(--gray-700);}
+.service-check{width:20px;height:20px;background:var(--mint);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;color:var(--teal-dark);font-weight:700;flex-shrink:0;margin-top:1px;}
+.service-price-badge{display:inline-flex;align-items:center;gap:8px;background:var(--navy);color:white;padding:10px 20px;border-radius:50px;font-family:var(--font-mono);font-size:13px;margin-bottom:24px;}
+.service-price-badge span{color:var(--teal-light);font-size:16px;font-weight:700;}
+.service-actions{display:flex;gap:12px;flex-wrap:wrap;}
+.service-visual{position:relative;}
+.service-card-mockup{border-radius:var(--radius-lg);overflow:hidden;box-shadow:var(--shadow-lg);position:relative;}
+.service-card-header{padding:28px 28px 20px;display:flex;justify-content:space-between;align-items:flex-start;}
+.service-card-body{padding:0 28px 28px;}
+.service-result-bar{height:8px;border-radius:4px;background:var(--mint);margin-bottom:8px;position:relative;overflow:hidden;}
+.service-result-bar-fill{position:absolute;left:0;top:0;bottom:0;border-radius:4px;background:var(--teal);}
+.service-result-label{font-size:11px;color:var(--gray-500);margin-bottom:14px;display:flex;justify-content:space-between;}
+.service-stat-row{display:flex;gap:12px;margin-top:16px;}
+.service-stat-pill{flex:1;background:var(--off-white);border-radius:var(--radius);padding:14px;text-align:center;}
+.service-stat-pill-num{font-family:var(--font-display);font-size:1.4rem;font-weight:700;color:var(--teal);}
+.service-stat-pill-label{font-size:11px;color:var(--gray-500);margin-top:3px;}
+
+/* CTA */
+.cta-section{padding:100px 0;background:linear-gradient(135deg,var(--teal-dark),var(--teal));text-align:center;position:relative;overflow:hidden;}
+.cta-section::before{content:'';position:absolute;inset:0;background:radial-gradient(circle at 20% 50%,rgba(255,255,255,0.1),transparent 60%);}
+.cta-section h2{font-family:var(--font-display);font-size:clamp(2rem,4vw,3rem);color:white;font-weight:700;margin-bottom:16px;position:relative;z-index:2;}
+.cta-section p{color:rgba(255,255,255,0.85);font-size:17px;max-width:540px;margin:0 auto 36px;line-height:1.7;position:relative;z-index:2;}
+.cta-actions{display:flex;gap:16px;justify-content:center;flex-wrap:wrap;position:relative;z-index:2;}
+.btn-white{background:white;color:var(--teal-dark);font-weight:700;}
+.btn-white:hover{background:var(--navy);color:white;transform:translateY(-2px);}
+.btn-ghost{background:transparent;color:white;border:2px solid rgba(255,255,255,0.5);}
+.btn-ghost:hover{background:rgba(255,255,255,0.15);}
+
+/* FOOTER */
+#footer{background:var(--navy);padding:80px 0 0;}
+.footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:60px;padding-bottom:60px;border-bottom:1px solid rgba(255,255,255,0.07);}
+.footer-tagline{color:var(--gray-500);font-size:14px;line-height:1.7;margin:16px 0 24px;max-width:280px;}
+.footer-socials{display:flex;gap:10px;}
+.fsoc{width:38px;height:38px;background:rgba(255,255,255,0.07);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:15px;cursor:pointer;border:1px solid rgba(255,255,255,0.06);transition:all .2s;text-decoration:none;color:var(--gray-300);}
+.fsoc:hover{background:var(--teal);}
+.footer-col-title{font-weight:700;font-size:15px;color:white;margin-bottom:20px;}
+.footer-links{list-style:none;display:flex;flex-direction:column;gap:10px;}
+.footer-links a{font-size:14px;color:var(--gray-500);text-decoration:none;transition:color .2s;}
+.footer-links a:hover{color:var(--teal-light);}
+.footer-bottom{padding:24px 0;display:flex;justify-content:space-between;align-items:center;font-size:13px;color:var(--gray-700);}
+.fbl{display:flex;gap:24px;}
+.fbl a{color:var(--gray-700);text-decoration:none;}
+.fbl a:hover{color:var(--teal-light);}
+@media(max-width:1024px){.service-grid{grid-template-columns:1fr;}.service-grid.reverse{direction:ltr;}.footer-grid{grid-template-columns:1fr 1fr;}}
+</style>
+</head>
+<body>
+
+<header id="header">
+  <div class="container">
+    <nav class="nav-inner">
+      <a href="index.html" class="logo"><div class="logo-icon">P</div><div class="logo-text">ProCareer<span>Vista</span></div></a>
+      <ul class="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="services.html" class="active">Services</a></li>
+        <li><a href="templates.html">Templates</a></li>
+        <li><a href="pricing.html">Pricing</a></li>
+        <li><a href="team.html">Team</a></li>
+        <li><a href="blog.html">Blog</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+      <div class="nav-cta">
+        <a href="pricing.html" class="btn btn-outline" style="padding:10px 20px;font-size:13px;">See Plans</a>
+        <a href="get-started.html" class="btn btn-primary" style="padding:10px 20px;font-size:13px;">Get Started</a>
+      </div>
+    </nav>
+  </div>
+</header>
+
+<section class="page-hero">
+  <div class="blob b1"></div><div class="blob b2"></div>
+  <div class="container">
+    <span class="section-label">What We Offer</span>
+    <h1>Every Service You Need to <span>Land Your Dream Job</span></h1>
+    <p>From resume rewrites to interview coaching — we offer a complete suite of career services to give you a decisive competitive edge.</p>
+    <a href="get-started.html" class="btn btn-primary" style="position:relative;z-index:2;margin-right:12px;">✦ Get Started</a>
+    <a href="pricing.html" class="btn btn-outline" style="color:white;border-color:rgba(255,255,255,0.4);position:relative;z-index:2;">View Pricing</a>
+  </div>
+</section>
+
+<!-- STICKY SERVICE NAV -->
+<div class="service-nav">
+  <div class="container">
+    <div class="service-nav-inner">
+      <a href="#resume-writing" class="service-tab active">📄 Resume Writing</a>
+      <a href="#cover-letter" class="service-tab">✉️ Cover Letter</a>
+      <a href="#linkedin" class="service-tab">🔗 LinkedIn</a>
+      <a href="#executive-bio" class="service-tab">👔 Executive Bio</a>
+      <a href="#coaching" class="service-tab">🎯 Career Coaching</a>
+      <a href="#interview-prep" class="service-tab">🎤 Interview Prep</a>
+    </div>
+  </div>
+</div>
+
+<!-- 1. RESUME WRITING -->
+<section class="service-section" id="resume-writing">
+  <div class="container">
+    <div class="service-grid">
+      <div class="reveal">
+        <div class="service-icon-big" style="background:var(--mint);">📄</div>
+        <div class="service-price-badge">Starting at <span>$99</span> · One-Time Payment</div>
+        <h2 class="service-title">Professional <span>Resume Writing</span></h2>
+        <p class="service-desc">Our flagship service. A certified writer who specializes in your exact industry rewrites your resume from scratch — transforming your experience into a compelling, ATS-optimized career story that gets you noticed.</p>
+        <div class="service-includes">
+          <div class="service-includes-title">What's Included</div>
+          <ul class="service-includes-list">
+            <li><span class="service-check">✓</span>Full resume rewrite by a CPRW-certified specialist</li>
+            <li><span class="service-check">✓</span>ATS optimization with 90+ score guarantee</li>
+            <li><span class="service-check">✓</span>Keyword research tailored to your target role</li>
+            <li><span class="service-check">✓</span>Achievement-focused bullet point writing</li>
+            <li><span class="service-check">✓</span>Choice of premium templates</li>
+            <li><span class="service-check">✓</span>Delivered in Word & PDF format</li>
+            <li><span class="service-check">✓</span>Multiple revision rounds until perfected</li>
+          </ul>
+        </div>
+        <div class="service-actions">
+          <a href="get-started.html" class="btn btn-primary">✦ Order Resume Writing</a>
+          <a href="pricing.html" class="btn btn-outline">See Pricing</a>
+        </div>
+      </div>
+      <div class="service-visual reveal rd1">
+        <div class="service-card-mockup" style="background:white;">
+          <div class="service-card-header" style="background:linear-gradient(135deg,var(--navy),var(--teal));">
+            <div>
+              <div style="font-family:var(--font-display);font-size:1.2rem;font-weight:700;color:white;">Jane Cooper</div>
+              <div style="font-size:12px;color:rgba(255,255,255,0.7);">Senior Product Manager</div>
+            </div>
+            <div style="background:rgba(255,255,255,0.15);padding:8px 14px;border-radius:50px;font-size:11px;color:white;font-family:var(--font-mono);">ATS 98/100</div>
+          </div>
+          <div class="service-card-body" style="padding-top:24px;">
+            <div style="font-size:11px;font-weight:700;color:var(--teal);font-family:var(--font-mono);letter-spacing:1px;text-transform:uppercase;margin-bottom:10px;">Experience</div>
+            <div class="service-result-bar"><div class="service-result-bar-fill" style="width:95%"></div></div>
+            <div class="service-result-label"><span>Keyword Match</span><span style="color:var(--teal);font-weight:700;">95%</span></div>
+            <div class="service-result-bar"><div class="service-result-bar-fill" style="width:88%"></div></div>
+            <div class="service-result-label"><span>Impact Score</span><span style="color:var(--teal);font-weight:700;">88%</span></div>
+            <div class="service-result-bar"><div class="service-result-bar-fill" style="width:100%"></div></div>
+            <div class="service-result-label"><span>Formatting</span><span style="color:var(--teal);font-weight:700;">100%</span></div>
+            <div class="service-stat-row">
+              <div class="service-stat-pill"><div class="service-stat-pill-num">3x</div><div class="service-stat-pill-label">More Interviews</div></div>
+              <div class="service-stat-pill"><div class="service-stat-pill-num">48h</div><div class="service-stat-pill-label">Delivery Time</div></div>
+              <div class="service-stat-pill"><div class="service-stat-pill-num">∞</div><div class="service-stat-pill-label">Revisions</div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 2. COVER LETTER -->
+<section class="service-section" id="cover-letter">
+  <div class="container">
+    <div class="service-grid reverse">
+      <div class="reveal">
+        <div class="service-icon-big" style="background:#fce7f3;">✉️</div>
+        <div class="service-price-badge">Add-on <span>$49</span> · Included in Pro & Executive</div>
+        <h2 class="service-title"><span>Cover Letter</span> Writing</h2>
+        <p class="service-desc">A tailored cover letter that complements your resume and tells the story of why you're the perfect fit for a specific role. Our writers craft compelling narratives that make hiring managers want to meet you.</p>
+        <div class="service-includes">
+          <div class="service-includes-title">What's Included</div>
+          <ul class="service-includes-list">
+            <li><span class="service-check">✓</span>Custom cover letter tailored to your target role & company</li>
+            <li><span class="service-check">✓</span>Compelling opening hook that grabs attention</li>
+            <li><span class="service-check">✓</span>Achievement-focused body paragraphs</li>
+            <li><span class="service-check">✓</span>Strong closing with clear call to action</li>
+            <li><span class="service-check">✓</span>Delivered in Word & PDF format</li>
+            <li><span class="service-check">✓</span>2 revision rounds included</li>
+          </ul>
+        </div>
+        <div class="service-actions">
+          <a href="get-started.html" class="btn btn-primary">✦ Order Cover Letter</a>
+          <a href="pricing.html" class="btn btn-outline">See Pricing</a>
+        </div>
+      </div>
+      <div class="service-visual reveal rd1">
+        <div class="service-card-mockup" style="background:white;padding:32px;">
+          <div style="font-family:var(--font-mono);font-size:10px;color:var(--teal);letter-spacing:2px;margin-bottom:16px;text-transform:uppercase;">Cover Letter Preview</div>
+          <div style="height:6px;background:var(--mint);border-radius:3px;width:40%;margin-bottom:20px;"></div>
+          <div style="font-style:italic;font-size:14px;color:var(--gray-700);line-height:1.7;margin-bottom:16px;padding:16px;background:var(--off-white);border-radius:var(--radius);border-left:3px solid var(--teal);">"Dear Hiring Manager,<br><br>When I led a cross-functional team of 24 to deliver a $4M product launch 3 weeks ahead of schedule..."</div>
+          <div style="height:6px;background:var(--gray-100);border-radius:3px;width:100%;margin-bottom:8px;"></div>
+          <div style="height:6px;background:var(--gray-100);border-radius:3px;width:85%;margin-bottom:8px;"></div>
+          <div style="height:6px;background:var(--gray-100);border-radius:3px;width:90%;margin-bottom:8px;"></div>
+          <div style="height:6px;background:var(--gray-100);border-radius:3px;width:60%;margin-bottom:24px;"></div>
+          <div style="display:flex;gap:8px;"><span style="background:var(--mint);color:var(--teal-dark);padding:4px 12px;border-radius:50px;font-size:11px;font-weight:700;">Tailored</span><span style="background:var(--mint);color:var(--teal-dark);padding:4px 12px;border-radius:50px;font-size:11px;font-weight:700;">Compelling</span><span style="background:var(--mint);color:var(--teal-dark);padding:4px 12px;border-radius:50px;font-size:11px;font-weight:700;">ATS Ready</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 3. LINKEDIN -->
+<section class="service-section" id="linkedin">
+  <div class="container">
+    <div class="service-grid">
+      <div class="reveal">
+        <div class="service-icon-big" style="background:#dbeafe;">🔗</div>
+        <div class="service-price-badge">Add-on <span>$79</span> · Included in Pro & Executive</div>
+        <h2 class="service-title">LinkedIn Profile <span>Optimization</span></h2>
+        <p class="service-desc">Your LinkedIn profile is your digital resume — and 87% of recruiters use it to find candidates. We optimize every section to maximize your visibility and attract inbound opportunities from top companies.</p>
+        <div class="service-includes">
+          <div class="service-includes-title">What's Included</div>
+          <ul class="service-includes-list">
+            <li><span class="service-check">✓</span>Keyword-optimized headline & summary section</li>
+            <li><span class="service-check">✓</span>All experience sections rewritten for impact</li>
+            <li><span class="service-check">✓</span>Skills section optimization for recruiter search</li>
+            <li><span class="service-check">✓</span>Featured section strategy & recommendations</li>
+            <li><span class="service-check">✓</span>Profile photo & banner guidance</li>
+            <li><span class="service-check">✓</span>Connection & engagement strategy tips</li>
+          </ul>
+        </div>
+        <div class="service-actions">
+          <a href="get-started.html" class="btn btn-primary">✦ Optimize My LinkedIn</a>
+          <a href="pricing.html" class="btn btn-outline">See Pricing</a>
+        </div>
+      </div>
+      <div class="service-visual reveal rd1">
+        <div class="service-card-mockup" style="background:white;">
+          <div style="background:#0077b5;padding:24px 28px;">
+            <div style="display:flex;gap:14px;align-items:center;">
+              <div style="width:60px;height:60px;border-radius:50%;background:linear-gradient(135deg,var(--teal),var(--aqua));display:flex;align-items:center;justify-content:center;font-size:1.4rem;font-weight:700;color:white;border:3px solid white;">JC</div>
+              <div><div style="color:white;font-weight:700;font-size:16px;">Jane Cooper</div><div style="color:rgba(255,255,255,0.8);font-size:13px;">Senior PM | Ex-Google | Building products that scale to millions</div></div>
+            </div>
+          </div>
+          <div style="padding:20px 24px;">
+            <div style="font-size:11px;font-weight:700;color:var(--teal);font-family:var(--font-mono);letter-spacing:1px;margin-bottom:8px;">SEARCH APPEARANCE</div>
+            <div class="service-result-bar"><div class="service-result-bar-fill" style="width:92%"></div></div>
+            <div class="service-result-label"><span>Search Visibility</span><span style="color:var(--teal);font-weight:700;">92%</span></div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:4px;">
+              <div class="service-stat-pill"><div class="service-stat-pill-num">8x</div><div class="service-stat-pill-label">More Views</div></div>
+              <div class="service-stat-pill"><div class="service-stat-pill-num">5x</div><div class="service-stat-pill-label">Recruiter Messages</div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 4. EXECUTIVE BIO -->
+<section class="service-section" id="executive-bio">
+  <div class="container">
+    <div class="service-grid reverse">
+      <div class="reveal">
+        <div class="service-icon-big" style="background:#ede9fe;">👔</div>
+        <div class="service-price-badge">Included in <span>Executive Plan</span> · $349</div>
+        <h2 class="service-title">Executive <span>Bio Writing</span></h2>
+        <p class="service-desc">For senior leaders who need a compelling professional bio for board applications, speaking engagements, company websites, and media profiles. A polished narrative that positions you as a thought leader.</p>
+        <div class="service-includes">
+          <div class="service-includes-title">What's Included</div>
+          <ul class="service-includes-list">
+            <li><span class="service-check">✓</span>First-person & third-person bio versions</li>
+            <li><span class="service-check">✓</span>Short (150-word) and long (400-word) formats</li>
+            <li><span class="service-check">✓</span>Board application bio version</li>
+            <li><span class="service-check">✓</span>Speaker bio for conference profiles</li>
+            <li><span class="service-check">✓</span>Company website / team page bio</li>
+            <li><span class="service-check">✓</span>2 revision rounds included</li>
+          </ul>
+        </div>
+        <div class="service-actions">
+          <a href="get-started.html?plan=executive" class="btn btn-primary">✦ Order Executive Bio</a>
+          <a href="pricing.html" class="btn btn-outline">See Pricing</a>
+        </div>
+      </div>
+      <div class="service-visual reveal rd1">
+        <div class="service-card-mockup" style="background:linear-gradient(135deg,var(--navy),var(--navy-soft));padding:36px;">
+          <div style="font-family:var(--font-mono);font-size:10px;color:var(--teal-light);letter-spacing:2px;margin-bottom:20px;text-transform:uppercase;">Executive Bio — Board Version</div>
+          <div style="font-family:var(--font-display);font-size:1.4rem;font-weight:700;color:white;margin-bottom:16px;">John Richardson</div>
+          <div style="font-style:italic;font-size:14px;color:var(--gray-300);line-height:1.75;margin-bottom:20px;">"A visionary technology executive with 20+ years driving digital transformation across Fortune 100 organizations, John Richardson has led three successful IPOs and built teams that collectively generated over $2B in enterprise value..."</div>
+          <div style="display:flex;gap:8px;flex-wrap:wrap;"><span style="background:rgba(0,184,169,0.15);border:1px solid rgba(0,184,169,0.3);color:var(--teal-light);padding:4px 12px;border-radius:50px;font-size:11px;">Board-Ready</span><span style="background:rgba(0,184,169,0.15);border:1px solid rgba(0,184,169,0.3);color:var(--teal-light);padding:4px 12px;border-radius:50px;font-size:11px;">Speaker Profile</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 5. CAREER COACHING -->
+<section class="service-section" id="coaching">
+  <div class="container">
+    <div class="service-grid">
+      <div class="reveal">
+        <div class="service-icon-big" style="background:#dcfce7;">🎯</div>
+        <div class="service-price-badge">From <span>$129</span> · 60-Min Session</div>
+        <h2 class="service-title">Career <span>Coaching</span></h2>
+        <p class="service-desc">One-on-one career strategy sessions with a certified coach. Whether you're navigating a career change, pursuing a promotion, or feeling stuck — we give you a clear roadmap to move forward with confidence.</p>
+        <div class="service-includes">
+          <div class="service-includes-title">Session Topics Available</div>
+          <ul class="service-includes-list">
+            <li><span class="service-check">✓</span>Career change strategy & industry pivot roadmap</li>
+            <li><span class="service-check">✓</span>Promotion strategy & leadership positioning</li>
+            <li><span class="service-check">✓</span>Salary negotiation tactics & benchmarking</li>
+            <li><span class="service-check">✓</span>Job search strategy & networking plan</li>
+            <li><span class="service-check">✓</span>Personal branding & executive presence</li>
+            <li><span class="service-check">✓</span>Session recording & action plan provided</li>
+          </ul>
+        </div>
+        <div class="service-actions">
+          <a href="get-started.html" class="btn btn-primary">✦ Book a Coaching Session</a>
+          <a href="pricing.html" class="btn btn-outline">See Pricing</a>
+        </div>
+      </div>
+      <div class="service-visual reveal rd1">
+        <div class="service-card-mockup" style="background:white;padding:32px;">
+          <div style="font-family:var(--font-mono);font-size:10px;color:var(--teal);letter-spacing:2px;margin-bottom:20px;text-transform:uppercase;">Session Results</div>
+          <div style="display:flex;flex-direction:column;gap:14px;">
+            <div style="background:var(--off-white);border-radius:var(--radius);padding:16px;display:flex;align-items:center;gap:12px;"><span style="font-size:1.5rem;">🎯</span><div><div style="font-weight:700;font-size:14px;color:var(--navy);">Clear Career Roadmap</div><div style="font-size:12px;color:var(--gray-500);">90-day action plan delivered</div></div></div>
+            <div style="background:var(--off-white);border-radius:var(--radius);padding:16px;display:flex;align-items:center;gap:12px;"><span style="font-size:1.5rem;">💰</span><div><div style="font-weight:700;font-size:14px;color:var(--navy);">Salary Negotiation</div><div style="font-size:12px;color:var(--gray-500);">Avg. 18% salary increase for clients</div></div></div>
+            <div style="background:var(--off-white);border-radius:var(--radius);padding:16px;display:flex;align-items:center;gap:12px;"><span style="font-size:1.5rem;">🚀</span><div><div style="font-weight:700;font-size:14px;color:var(--navy);">Career Acceleration</div><div style="font-size:12px;color:var(--gray-500);">82% land new role within 60 days</div></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 6. INTERVIEW PREP -->
+<section class="service-section" id="interview-prep">
+  <div class="container">
+    <div class="service-grid reverse">
+      <div class="reveal">
+        <div class="service-icon-big" style="background:#ffedd5;">🎤</div>
+        <div class="service-price-badge">From <span>$99</span> · Mock Interview Session</div>
+        <h2 class="service-title">Interview <span>Preparation</span></h2>
+        <p class="service-desc">The best resume in the world won't help if you can't ace the interview. Our coaches run realistic mock interviews, identify your weak spots, and teach you proven frameworks to answer any question with confidence.</p>
+        <div class="service-includes">
+          <div class="service-includes-title">What's Included</div>
+          <ul class="service-includes-list">
+            <li><span class="service-check">✓</span>Full 60-minute mock interview session (video call)</li>
+            <li><span class="service-check">✓</span>Role-specific question preparation (STAR method)</li>
+            <li><span class="service-check">✓</span>Behavioral & competency-based question coaching</li>
+            <li><span class="service-check">✓</span>Salary negotiation conversation scripts</li>
+            <li><span class="service-check">✓</span>Detailed written feedback report after session</li>
+            <li><span class="service-check">✓</span>Session recording for self-review</li>
+          </ul>
+        </div>
+        <div class="service-actions">
+          <a href="get-started.html" class="btn btn-primary">✦ Book Interview Coaching</a>
+          <a href="pricing.html" class="btn btn-outline">See Pricing</a>
+        </div>
+      </div>
+      <div class="service-visual reveal rd1">
+        <div class="service-card-mockup" style="background:var(--navy);padding:32px;">
+          <div style="font-family:var(--font-mono);font-size:10px;color:var(--teal-light);letter-spacing:2px;margin-bottom:20px;text-transform:uppercase;">Mock Interview Results</div>
+          <div style="display:flex;flex-direction:column;gap:12px;">
+            <div><div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:6px;"><span style="color:var(--gray-300);">Confidence Score</span><span style="color:var(--teal-light);font-weight:700;">Before: 42%</span></div><div style="height:8px;background:rgba(255,255,255,0.1);border-radius:4px;"><div style="height:100%;width:42%;background:var(--gray-500);border-radius:4px;"></div></div></div>
+            <div><div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:6px;"><span style="color:var(--gray-300);">Confidence Score</span><span style="color:var(--teal-light);font-weight:700;">After: 91%</span></div><div style="height:8px;background:rgba(255,255,255,0.1);border-radius:4px;"><div style="height:100%;width:91%;background:var(--teal);border-radius:4px;"></div></div></div>
+            <div style="margin-top:8px;display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+              <div style="background:rgba(255,255,255,0.06);border-radius:var(--radius);padding:14px;text-align:center;"><div style="font-family:var(--font-display);font-size:1.4rem;font-weight:700;color:var(--teal-light);">94%</div><div style="font-size:10px;color:var(--gray-500);margin-top:3px;">Offer Rate</div></div>
+              <div style="background:rgba(255,255,255,0.06);border-radius:var(--radius);padding:14px;text-align:center;"><div style="font-family:var(--font-display);font-size:1.4rem;font-weight:700;color:var(--teal-light);">+21%</div><div style="font-size:10px;color:var(--gray-500);margin-top:3px;">Avg Salary</div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section">
+  <div class="container">
+    <h2>Not Sure Which Service You Need?</h2>
+    <p>Our team will recommend the right combination of services for your career goals — for free. Just reach out.</p>
+    <div class="cta-actions">
+      <a href="get-started.html" class="btn btn-white">✦ Get Started</a>
+      <a href="contact.html" class="btn btn-ghost">Talk to an Expert</a>
+    </div>
+  </div>
+</section>
+
+<footer id="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div><a href="index.html" class="logo"><div class="logo-icon">P</div><div class="logo-text" style="color:white;">ProCareer<span>Vista</span></div></a><p class="footer-tagline">Transforming careers through expert resume writing, ATS optimization, and professional storytelling since 2015.</p><div class="footer-socials"><a class="fsoc" href="#">in</a><a class="fsoc" href="#">𝕏</a><a class="fsoc" href="#">f</a><a class="fsoc" href="#">▶</a></div></div>
+      <div><div class="footer-col-title">Services</div><ul class="footer-links"><li><a href="#resume-writing">Resume Writing</a></li><li><a href="#cover-letter">Cover Letter</a></li><li><a href="#linkedin">LinkedIn</a></li><li><a href="#executive-bio">Executive Bio</a></li><li><a href="#coaching">Career Coaching</a></li><li><a href="#interview-prep">Interview Prep</a></li></ul></div>
+      <div><div class="footer-col-title">Company</div><ul class="footer-links"><li><a href="about.html">About Us</a></li><li><a href="team.html">Our Team</a></li><li><a href="blog.html">Blog</a></li><li><a href="contact.html">Contact</a></li></ul></div>
+      <div><div class="footer-col-title">Quick Links</div><ul class="footer-links"><li><a href="templates.html">Templates</a></li><li><a href="pricing.html">Pricing</a></li><li><a href="get-started.html">Get Started</a></li><li><a href="#">Privacy Policy</a></li></ul></div>
+    </div>
+    <div class="footer-bottom"><span>© 2025 ProCareerVista. All rights reserved.</span><div class="fbl"><a href="#">Privacy</a><a href="#">Terms</a><a href="#">Cookies</a></div></div>
+  </div>
+</footer>
+
+<script>
+const obs=new IntersectionObserver(e=>e.forEach(el=>{if(el.isIntersecting){el.target.classList.add('visible');obs.unobserve(el.target);}}),{threshold:0.1});
+document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+window.addEventListener('scroll',()=>{
+  document.getElementById('header').style.boxShadow=window.scrollY>20?'0 4px 20px rgba(13,27,42,0.08)':'none';
+  document.querySelectorAll('.service-tab').forEach(tab=>{
+    const target=document.querySelector(tab.getAttribute('href'));
+    if(target){const rect=target.getBoundingClientRect();if(rect.top<=200&&rect.bottom>=200){document.querySelectorAll('.service-tab').forEach(t=>t.classList.remove('active'));tab.classList.add('active');}}
+  });
+});
+</script>
+</body>
+</html>

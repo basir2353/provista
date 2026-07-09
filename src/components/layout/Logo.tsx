@@ -16,7 +16,7 @@ export default function Logo({ variant = "header", onClick }: LogoProps) {
       aria-label="ProCareerVista home"
     >
       <Image
-        src="/logo.png"
+        src="/logo1.jpg"
         alt="ProCareerVista"
         width={192}
         height={192}

@@ -216,6 +216,59 @@ export function useContactForm() {
   }, []);
 }
 
+export function useServiceNav() {
+  useEffect(() => {
+    const onScroll = () => {
+      document.querySelectorAll(".service-tab").forEach((tab) => {
+        const href = tab.getAttribute("href");
+        if (!href?.startsWith("#")) return;
+        const target = document.querySelector(href);
+        if (!target) return;
+        const rect = target.getBoundingClientRect();
+        if (rect.top <= 200 && rect.bottom >= 200) {
+          document.querySelectorAll(".service-tab").forEach((t) => t.classList.remove("active"));
+          tab.classList.add("active");
+        }
+      });
+    };
+
+    window.addEventListener("scroll", onScroll);
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+}
+
+export function useBlogFilter() {
+  useEffect(() => {
+    const chips = document.querySelectorAll(".filter-chip");
+    const cards = document.querySelectorAll(".post-card");
+
+    chips.forEach((chip) => {
+      chip.addEventListener("click", () => {
+        const cat = chip.getAttribute("data-cat") || "all";
+        chips.forEach((c) => c.classList.remove("active"));
+        chip.classList.add("active");
+        cards.forEach((card) => {
+          const htmlCard = card as HTMLElement;
+          const match = cat === "all" || card.getAttribute("data-cat") === cat;
+          htmlCard.style.display = match ? "" : "none";
+        });
+      });
+    });
+  }, []);
+}
+
+export function useTeamForm() {
+  useEffect(() => {
+    const submitBtn = document.querySelector(".btn-submit-team");
+    submitBtn?.addEventListener("click", () => {
+      if (submitBtn instanceof HTMLButtonElement) {
+        submitBtn.textContent = "✓ Application Submitted!";
+        submitBtn.style.background = "var(--teal-dark)";
+      }
+    });
+  }, []);
+}
+
 export function useTemplatesFilter() {
   useEffect(() => {
     const tabs = document.querySelectorAll(".filter-tab");

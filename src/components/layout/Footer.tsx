@@ -23,22 +23,22 @@ export default function Footer() {
             <div className="footer-col-title">Services</div>
             <ul className="footer-links">
               <li>
-                <Link href="/get-started" prefetch>Resume Writing</Link>
+                <Link href="/services#resume-writing" prefetch>Resume Writing</Link>
               </li>
               <li>
-                <Link href="/get-started" prefetch>Cover Letter</Link>
+                <Link href="/services#cover-letter" prefetch>Cover Letter</Link>
               </li>
               <li>
-                <Link href="/get-started" prefetch>LinkedIn Optimization</Link>
+                <Link href="/services#linkedin" prefetch>LinkedIn Optimization</Link>
               </li>
               <li>
-                <Link href="/pricing" prefetch>Executive Bio</Link>
+                <Link href="/services#executive-bio" prefetch>Executive Bio</Link>
               </li>
               <li>
-                <Link href="/get-started" prefetch>Career Coaching</Link>
+                <Link href="/services#coaching" prefetch>Career Coaching</Link>
               </li>
               <li>
-                <Link href="/get-started" prefetch>Interview Prep</Link>
+                <Link href="/services#interview-prep" prefetch>Interview Prep</Link>
               </li>
             </ul>
           </div>
@@ -70,6 +70,12 @@ export default function Footer() {
             <ul className="footer-links">
               <li>
                 <Link href="/about" prefetch>About Us</Link>
+              </li>
+              <li>
+                <Link href="/team" prefetch>Our Team</Link>
+              </li>
+              <li>
+                <Link href="/blog" prefetch>Blog</Link>
               </li>
               <li>
                 <Link href="/templates" prefetch>Templates</Link>
