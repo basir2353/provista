@@ -2,43 +2,14 @@
 
 import { useTemplatesFilter } from "@/hooks/usePageInteractivity";
 import { useCmsData } from "@/hooks/useCmsData";
+import { hasTemplatePreview, TemplatePreviewMedia } from "@/components/TemplatePreviewMedia";
 import { api, Template } from "@/lib/api";
 import { staggerDelay } from "@/lib/cms";
-
-function TemplateMockup() {
-  return (
-    <div className="tmpl-mockup">
-      <div className="tmpl-top-bar"></div>
-      <div className="tmpl-avatar-row">
-        <div className="tmpl-avatar"></div>
-        <div className="tmpl-name-block">
-          <div className="tmpl-line" style={{ width: "70%" }}></div>
-          <div className="tmpl-line" style={{ width: "50%" }}></div>
-        </div>
-      </div>
-      <div className="tmpl-two-col">
-        <div className="tmpl-col">
-          <div className="tmpl-section-label"></div>
-          <div className="tmpl-line" style={{ width: "100%" }}></div>
-          <div className="tmpl-line" style={{ width: "85%" }}></div>
-          <div className="tmpl-line" style={{ width: "90%" }}></div>
-          <div className="tmpl-section-label"></div>
-          <div className="tmpl-line" style={{ width: "100%" }}></div>
-          <div className="tmpl-line" style={{ width: "70%" }}></div>
-        </div>
-        <div className="tmpl-sidebar">
-          <div className="tmpl-line" style={{ width: "80%" }}></div>
-          <div className="tmpl-line" style={{ width: "65%" }}></div>
-          <div className="tmpl-line" style={{ width: "75%" }}></div>
-        </div>
-      </div>
-    </div>
-  );
-}
 
 function TemplateCard({ template, index }: { template: Template; index: number }) {
   const formats = template.formats.split(",").map((f) => f.trim()).filter(Boolean);
   const categoryLabel = template.category.charAt(0).toUpperCase() + template.category.slice(1);
+  const hasPreview = hasTemplatePreview(template);
 
   return (
     <div
@@ -46,8 +17,8 @@ function TemplateCard({ template, index }: { template: Template; index: number }
       data-cat={template.category}
       key={template.id}
     >
-      <div className="template-preview">
-        <TemplateMockup />
+      <div className={`template-preview ${hasPreview ? "has-media" : ""}`}>
+        <TemplatePreviewMedia template={template} />
         <span className="template-badge" style={{ background: template.badgeColor || "#0d1b21" }}>
           {template.featured ? "★ Most Popular" : categoryLabel}
         </span>
