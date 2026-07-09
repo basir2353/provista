@@ -16,8 +16,9 @@ export default function AdminFaqsPage() {
   useEffect(() => { load(); }, []);
 
   const handleSave = async () => {
-    if (editing) await api.faqs.update(editing.id, form);
-    else await api.faqs.create(form);
+    const payload = { ...form, sortOrder: parseInt(form.sortOrder, 10) || 0 };
+    if (editing) await api.faqs.update(editing.id, payload);
+    else await api.faqs.create(payload);
     setModalOpen(false); load();
   };
 
