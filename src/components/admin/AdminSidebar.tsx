@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { clearToken } from "@/lib/api";
+import { settingImageUrl, useSiteSettings } from "@/context/SiteSettingsContext";
 
 const navItems = [
   { href: "/admin", label: "Dashboard", icon: "📊" },
@@ -28,6 +29,9 @@ interface AdminSidebarProps {
 
 export default function AdminSidebar({ open = false, onClose }: AdminSidebarProps) {
   const pathname = usePathname();
+  const settings = useSiteSettings();
+  const siteName = settings.site_name || "ProCareerVista";
+  const logoSrc = settingImageUrl(settings.site_logo, "");
 
   const handleLogout = () => {
     clearToken();
@@ -38,9 +42,14 @@ export default function AdminSidebar({ open = false, onClose }: AdminSidebarProp
     <aside className={`admin-sidebar ${open ? "open" : ""}`}>
       <div className="admin-sidebar-header">
         <Link href="/admin" className="admin-logo">
-          <span className="admin-logo-icon">✦</span>
+          {logoSrc ? (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img src={logoSrc} alt={siteName} style={{ height: 36, width: "auto", borderRadius: 6 }} />
+          ) : (
+            <span className="admin-logo-icon">✦</span>
+          )}
           <div>
-            <div className="admin-logo-text">ProCareerVista</div>
+            <div className="admin-logo-text">{siteName}</div>
             <div className="admin-logo-sub">Admin Panel</div>
           </div>
         </Link>

@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { useRouter, usePathname } from "next/navigation";
 import { isLoggedIn } from "@/lib/api";
 import AdminSidebar from "@/components/admin/AdminSidebar";
+import { SiteSettingsProvider } from "@/context/SiteSettingsContext";
 import "./admin.css";
 
 export default function AdminLayoutClient({ children }: { children: React.ReactNode }) {
@@ -30,10 +31,11 @@ export default function AdminLayoutClient({ children }: { children: React.ReactN
   }, [sidebarOpen]);
 
   if (isLoginPage) {
-    return <>{children}</>;
+    return <SiteSettingsProvider>{children}</SiteSettingsProvider>;
   }
 
   return (
+    <SiteSettingsProvider>
     <div className="admin-layout">
       <div
         className={`admin-sidebar-overlay ${sidebarOpen ? "open" : ""}`}
@@ -57,5 +59,6 @@ export default function AdminLayoutClient({ children }: { children: React.ReactN
       <AdminSidebar open={sidebarOpen} onClose={() => setSidebarOpen(false)} />
       <main className="admin-main">{children}</main>
     </div>
+    </SiteSettingsProvider>
   );
 }

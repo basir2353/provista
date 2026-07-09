@@ -1,5 +1,7 @@
-import Image from "next/image";
+"use client";
+
 import Link from "next/link";
+import { settingImageUrl, useSiteSettings } from "@/context/SiteSettingsContext";
 
 type LogoProps = {
   variant?: "header" | "footer";
@@ -7,22 +9,20 @@ type LogoProps = {
 };
 
 export default function Logo({ variant = "header", onClick }: LogoProps) {
+  const settings = useSiteSettings();
+  const siteName = settings.site_name || "ProCareerVista";
+  const logoSrc = settingImageUrl(settings.site_logo, "/logo1.jpg");
+
   return (
     <Link
       href="/"
       className={`logo logo-${variant}`}
       prefetch
       onClick={onClick}
-      aria-label="ProCareerVista home"
+      aria-label={`${siteName} home`}
     >
-      <Image
-        src="/logo1.jpg"
-        alt="ProCareerVista"
-        width={192}
-        height={192}
-        className="logo-image"
-        priority
-      />
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img src={logoSrc} alt={siteName} className="logo-image" />
     </Link>
   );
 }

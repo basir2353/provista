@@ -285,10 +285,16 @@ export const api = {
   },
 
   settings: {
-    list: () => request<SiteSetting[]>("/api/settings"),
+    getMap: () => request<Record<string, string>>("/api/settings"),
     listAdmin: () => request<SiteSetting[]>("/api/settings/admin/all"),
     updateBulk: (updates: { key: string; value: string; group?: string }[]) =>
       request<{ message: string }>("/api/settings/admin/bulk", { method: "PUT", body: JSON.stringify(updates) }),
+    uploadFile: (key: "site_logo" | "favicon", file: File) => {
+      const fd = new FormData();
+      fd.append("key", key);
+      fd.append("file", file);
+      return request<SiteSetting>("/api/settings/admin/upload", { method: "POST", body: fd });
+    },
   },
 };
 

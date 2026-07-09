@@ -3,9 +3,13 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { auth, setToken } from "@/lib/api";
+import { settingImageUrl, useSiteSettings } from "@/context/SiteSettingsContext";
 
 export default function AdminLoginPage() {
   const router = useRouter();
+  const settings = useSiteSettings();
+  const siteName = settings.site_name || "ProCareerVista";
+  const logoSrc = settingImageUrl(settings.site_logo, "");
   const [email, setEmail] = useState("admin@procareervista.com");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
@@ -30,9 +34,14 @@ export default function AdminLoginPage() {
     <div className="admin-login-page">
       <div className="admin-login-card">
         <div className="admin-login-logo">
-          <div className="admin-login-logo-icon">✦</div>
+          {logoSrc ? (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img src={logoSrc} alt={siteName} style={{ height: 56, width: "auto", marginBottom: 12 }} />
+          ) : (
+            <div className="admin-login-logo-icon">✦</div>
+          )}
           <h1 className="admin-login-title">Admin Panel</h1>
-          <p className="admin-login-subtitle">ProCareerVista Content Management</p>
+          <p className="admin-login-subtitle">{siteName} Content Management</p>
         </div>
 
         {error && <div className="admin-login-error">{error}</div>}
