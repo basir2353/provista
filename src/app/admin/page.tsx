@@ -3,21 +3,33 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import AdminHeader from "@/components/admin/AdminHeader";
+import AdminAlert from "@/components/admin/AdminAlert";
 import { dashboard, DashboardData } from "@/lib/api";
+import { getErrorMessage } from "@/lib/errors";
 
 export default function AdminDashboard() {
   const [data, setData] = useState<DashboardData | null>(null);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
 
   useEffect(() => {
     dashboard.get()
       .then(setData)
-      .catch(console.error)
+      .catch((err) => setError(getErrorMessage(err)))
       .finally(() => setLoading(false));
   }, []);
 
   if (loading) {
     return <div className="admin-loading"><div className="admin-spinner" /> Loading dashboard...</div>;
+  }
+
+  if (error) {
+    return (
+      <>
+        <AdminHeader title="Dashboard" description="Overview of your site activity." />
+        <AdminAlert message={error} onClose={() => setError("")} />
+      </>
+    );
   }
 
   const stats = data?.stats;
