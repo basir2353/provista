@@ -36,6 +36,27 @@ const SETTING_GROUPS: { group: string; label: string; fields: SettingField[] }[]
     ],
   },
   {
+    group: "contact_page",
+    label: "Contact Page & Calendly",
+    fields: [
+      { key: "contact_hero_title", label: "Hero Title (before highlight)" },
+      { key: "contact_hero_highlight", label: "Hero Highlight Text" },
+      { key: "contact_hero_description", label: "Hero Description", type: "textarea" },
+      { key: "contact_form_title", label: "Form Title" },
+      { key: "contact_form_subtitle", label: "Form Subtitle", type: "textarea" },
+      { key: "contact_form_button", label: "Form Submit Button Text" },
+      { key: "contact_label_first_name", label: "First Name Label" },
+      { key: "contact_label_last_name", label: "Last Name Label" },
+      { key: "contact_label_email", label: "Email Label" },
+      { key: "contact_label_subject", label: "Subject Label" },
+      { key: "contact_label_message", label: "Message Label" },
+      { key: "calendly_url", label: "Calendly Booking URL", hint: "e.g. https://calendly.com/your-name/30min" },
+      { key: "calendly_title", label: "Book a Call Section Title" },
+      { key: "calendly_description", label: "Book a Call Description", type: "textarea" },
+      { key: "calendly_button_text", label: "Book a Call Button Text" },
+    ],
+  },
+  {
     group: "social",
     label: "Social Media",
     fields: [
