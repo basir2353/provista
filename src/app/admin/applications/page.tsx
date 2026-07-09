@@ -31,7 +31,7 @@ export default function AdminApplicationsPage() {
                   <td><strong>{a.name}</strong><br /><span style={{ fontSize: 12, color: "#94a3b8" }}>{a.email}</span></td>
                   <td>{a.position}</td>
                   <td>{a.experience || "—"}</td>
-                  <td>{a.resumeFile ? <a href={`${process.env.NEXT_PUBLIC_API_URL || "http://localhost:4000"}/uploads/${a.resumeFile}`} target="_blank" className="admin-btn admin-btn-secondary admin-btn-sm">View</a> : "—"}</td>
+                  <td>{a.resumeFile ? <a href={`${process.env.NEXT_PUBLIC_API_URL || "https://backend-provista-production.up.railway.app"}/uploads/${a.resumeFile}`} target="_blank" className="admin-btn admin-btn-secondary admin-btn-sm">View</a> : "—"}</td>
                   <td><span className={`admin-badge ${a.status === "new" ? "yellow" : a.status === "accepted" ? "green" : a.status === "rejected" ? "red" : "blue"}`}>{a.status}</span></td>
                   <td>{new Date(a.createdAt).toLocaleDateString()}</td>
                   <td style={{ display: "flex", gap: 4, flexWrap: "wrap" }}>

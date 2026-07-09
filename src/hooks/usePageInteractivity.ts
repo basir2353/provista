@@ -177,7 +177,7 @@ export function useGetStartedForm() {
       if (fileInput?.files?.[0]) fd.append("resume", fileInput.files[0]);
 
       try {
-        const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:4000";
+        const API_URL = process.env.NEXT_PUBLIC_API_URL || "https://backend-provista-production.up.railway.app";
         const res = await fetch(`${API_URL}/api/orders`, { method: "POST", body: fd });
         if (!res.ok) throw new Error("Order submission failed");
         const main = document.getElementById("mainContent");
@@ -253,7 +253,7 @@ export function useContactForm() {
       };
 
       try {
-        const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:4000";
+        const API_URL = process.env.NEXT_PUBLIC_API_URL || "https://backend-provista-production.up.railway.app";
         const res = await fetch(`${API_URL}/api/contacts`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -332,7 +332,7 @@ export function useTeamForm() {
       };
 
       try {
-        const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:4000";
+        const API_URL = process.env.NEXT_PUBLIC_API_URL || "https://backend-provista-production.up.railway.app";
         const res = await fetch(`${API_URL}/api/applications`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
