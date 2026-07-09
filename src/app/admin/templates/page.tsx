@@ -2,8 +2,10 @@
 
 import { useEffect, useState } from "react";
 import AdminHeader from "@/components/admin/AdminHeader";
+import AdminAlert from "@/components/admin/AdminAlert";
 import Modal from "@/components/admin/Modal";
 import { api, Template, uploadUrl } from "@/lib/api";
+import { getErrorMessage } from "@/lib/errors";
 
 const emptyForm = {
   name: "", category: "professional", description: "", tags: "",
@@ -22,9 +24,12 @@ export default function AdminTemplatesPage() {
   const [previewImage, setPreviewImage] = useState<File | null>(null);
   const [saving, setSaving] = useState(false);
   const [alert, setAlert] = useState("");
+  const [alertType, setAlertType] = useState<"success" | "error">("error");
+  const [loadError, setLoadError] = useState("");
 
   const load = () => {
-    api.templates.listAdmin().then(setItems).catch(console.error).finally(() => setLoading(false));
+    setLoadError("");
+    api.templates.listAdmin().then(setItems).catch((err) => setLoadError(getErrorMessage(err))).finally(() => setLoading(false));
   };
 
   useEffect(() => { load(); }, []);
@@ -60,15 +65,18 @@ export default function AdminTemplatesPage() {
 
       if (editing) {
         await api.templates.update(editing.id, fd);
+        setAlertType("success");
         setAlert("Template updated successfully");
       } else {
         await api.templates.create(fd);
+        setAlertType("success");
         setAlert("Template created successfully");
       }
       setModalOpen(false);
       load();
     } catch (err) {
-      setAlert(err instanceof Error ? err.message : "Save failed");
+      setAlertType("error");
+      setAlert(getErrorMessage(err));
     } finally {
       setSaving(false);
     }
@@ -88,7 +96,8 @@ export default function AdminTemplatesPage() {
         action={<button className="admin-btn admin-btn-primary" onClick={openCreate}>+ Add Template</button>}
       />
 
-      {alert && <div className="admin-alert success">{alert}</div>}
+      {loadError && <AdminAlert message={loadError} onClose={() => setLoadError("")} />}
+      {alert && <AdminAlert type={alertType} message={alert} onClose={() => setAlert("")} />}
 
       <div className="admin-card">
         {loading ? (

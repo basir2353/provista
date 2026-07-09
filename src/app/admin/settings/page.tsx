@@ -2,7 +2,9 @@
 
 import { useEffect, useState } from "react";
 import AdminHeader from "@/components/admin/AdminHeader";
+import AdminAlert from "@/components/admin/AdminAlert";
 import { api, SiteSetting, uploadUrl } from "@/lib/api";
+import { getErrorMessage } from "@/lib/errors";
 
 type SettingField = {
   key: string;
@@ -62,15 +64,18 @@ export default function AdminSettingsPage() {
   const [saving, setSaving] = useState(false);
   const [uploading, setUploading] = useState<string | null>(null);
   const [alert, setAlert] = useState("");
+  const [alertType, setAlertType] = useState<"success" | "error">("error");
+  const [loadError, setLoadError] = useState("");
 
   const load = () => {
+    setLoadError("");
     api.settings.listAdmin().then((data) => {
       setSettings(data);
       const map: Record<string, string> = {};
       ALL_KEYS.forEach((key) => { map[key] = ""; });
       data.forEach((s) => { map[s.key] = s.value; });
       setValues(map);
-    }).catch(console.error).finally(() => setLoading(false));
+    }).catch((err) => setLoadError(getErrorMessage(err))).finally(() => setLoading(false));
   };
 
   useEffect(() => { load(); }, []);
@@ -78,6 +83,7 @@ export default function AdminSettingsPage() {
   const handleSave = async () => {
     setSaving(true);
     setAlert("");
+    setAlertType("error");
     try {
       const updates = Object.entries(values).map(([key, value]) => {
           const setting = settings.find((s) => s.key === key);
@@ -85,10 +91,12 @@ export default function AdminSettingsPage() {
           return { key, value, group };
         });
       await api.settings.updateBulk(updates);
+      setAlertType("success");
       setAlert("Settings saved successfully!");
       load();
     } catch (err) {
-      setAlert(err instanceof Error ? err.message : "Save failed");
+      setAlertType("error");
+      setAlert(getErrorMessage(err));
     } finally {
       setSaving(false);
     }
@@ -97,13 +105,16 @@ export default function AdminSettingsPage() {
   const handleFileUpload = async (key: "site_logo" | "favicon", file: File) => {
     setUploading(key);
     setAlert("");
+    setAlertType("error");
     try {
       const setting = await api.settings.uploadFile(key, file);
       setValues((prev) => ({ ...prev, [key]: setting.value }));
+      setAlertType("success");
       setAlert(`${key === "site_logo" ? "Logo" : "Favicon"} uploaded successfully!`);
       load();
     } catch (err) {
-      setAlert(err instanceof Error ? err.message : "Upload failed");
+      setAlertType("error");
+      setAlert(getErrorMessage(err));
     } finally {
       setUploading(null);
     }
@@ -119,7 +130,8 @@ export default function AdminSettingsPage() {
         action={<button className="admin-btn admin-btn-primary" onClick={handleSave} disabled={saving}>{saving ? "Saving..." : "Save All Settings"}</button>}
       />
 
-      {alert && <div className={`admin-alert ${alert.includes("success") || alert.includes("uploaded") ? "success" : "error"}`}>{alert}</div>}
+      {loadError && <AdminAlert message={loadError} onClose={() => setLoadError("")} />}
+      {alert && <AdminAlert type={alertType} message={alert} onClose={() => setAlert("")} />}
 
       {SETTING_GROUPS.map(({ group, label, fields }) => (
         <div className="admin-card" key={group} style={{ marginBottom: 20 }}>

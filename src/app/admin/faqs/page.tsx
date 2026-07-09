@@ -32,6 +32,7 @@ export default function AdminFaqsPage() {
     <>
       <AdminHeader title="FAQs" description="Manage frequently asked questions shown on the homepage and pricing page."
         action={<button className="admin-btn admin-btn-primary" onClick={() => { setEditing(null); setForm({ question: "", answer: "", category: "general", page: "home", sortOrder: "0", active: true }); setModalOpen(true); }}>+ Add FAQ</button>} />
+      {error && <AdminAlert message={error} onClose={() => setError("")} />}
       <div className="admin-card">
         {loading ? <div className="admin-loading"><div className="admin-spinner" /></div> : (
           <table className="admin-table">
