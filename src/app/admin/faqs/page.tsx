@@ -2,17 +2,23 @@
 
 import { useEffect, useState } from "react";
 import AdminHeader from "@/components/admin/AdminHeader";
+import AdminAlert from "@/components/admin/AdminAlert";
 import Modal from "@/components/admin/Modal";
 import { api, FAQ } from "@/lib/api";
+import { getErrorMessage } from "@/lib/errors";
 
 export default function AdminFaqsPage() {
   const [items, setItems] = useState<FAQ[]>([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
   const [modalOpen, setModalOpen] = useState(false);
   const [editing, setEditing] = useState<FAQ | null>(null);
   const [form, setForm] = useState({ question: "", answer: "", category: "general", page: "home", sortOrder: "0", active: true });
 
-  const load = () => api.faqs.listAdmin().then(setItems).catch(console.error).finally(() => setLoading(false));
+  const load = () => {
+    setError("");
+    api.faqs.listAdmin().then(setItems).catch((err) => setError(getErrorMessage(err))).finally(() => setLoading(false));
+  };
   useEffect(() => { load(); }, []);
 
   const handleSave = async () => {
