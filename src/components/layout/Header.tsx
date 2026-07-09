@@ -73,6 +73,9 @@ export default function Header() {
             </ul>
 
             <div className="nav-cta">
+              <Link href="/admin/login" className="btn btn-outline nav-btn admin-nav-btn" prefetch>
+                Admin
+              </Link>
               <Link href="/pricing" className="btn btn-outline nav-btn" prefetch>
                 See Plans
               </Link>

@@ -2297,6 +2297,17 @@ body {
   font-size: 14px;
 }
 
+.admin-nav-btn {
+  padding: 8px 16px;
+  font-size: 13px;
+  border-color: rgba(0, 184, 169, 0.45);
+}
+
+.admin-footer-btn {
+  padding: 8px 18px;
+  font-size: 12px;
+}
+
 .nav-links a.active {
   color: var(--teal);
 }
