@@ -1,3 +1,5 @@
+import { parseApiErrorBody } from "@/lib/errors";
+
 const API_URL = process.env.NEXT_PUBLIC_API_URL || "https://backend-provista-production.up.railway.app";
 
 function getToken(): string | null {
@@ -50,15 +52,7 @@ async function request<T>(
   const text = await res.text();
 
   if (!res.ok) {
-    let err: { error?: string } = { error: res.statusText };
-    if (text) {
-      try {
-        err = JSON.parse(text);
-      } catch {
-        err = { error: text || res.statusText };
-      }
-    }
-    throw new Error(err.error || "Request failed");
+    throw new Error(parseApiErrorBody(text, res.status));
   }
 
   if (!text) return {} as T;
