@@ -16,8 +16,9 @@ export default function AdminIndustriesPage() {
   useEffect(() => { load(); }, []);
 
   const handleSave = async () => {
-    if (editing) await api.industries.update(editing.id, form);
-    else await api.industries.create(form);
+    const payload = { ...form, sortOrder: parseInt(form.sortOrder, 10) || 0 };
+    if (editing) await api.industries.update(editing.id, payload);
+    else await api.industries.create(payload);
     setModalOpen(false); load();
   };
 
