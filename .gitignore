@@ -31,6 +31,9 @@ yarn-error.log*
 # env files
 .env*
 
+# separate backend repo (pushed to github.com/basir2353/backend-provista)
+/backend-provista/
+
 # typescript
 *.tsbuildinfo
 next-env.d.ts

@@ -148,12 +148,46 @@ export function useGetStartedForm() {
     uploadArea?.addEventListener("click", () => fileInput?.click());
 
     const submitBtn = document.querySelector(".btn-submit");
-    submitBtn?.addEventListener("click", () => {
-      const main = document.getElementById("mainContent");
-      const success = document.getElementById("successScreen");
-      if (main) main.style.display = "none";
-      if (success) success.style.display = "block";
-      window.scrollTo({ top: 0, behavior: "smooth" });
+    submitBtn?.addEventListener("click", async () => {
+      const form = document.getElementById("mainContent");
+      if (!form) return;
+
+      const inputs = form.querySelectorAll("input[type='text'], input[type='email'], input[type='tel']");
+      const textareas = form.querySelectorAll("textarea");
+      const p = planData[currentPlan];
+
+      const addons: { name: string; price: number }[] = [];
+      document.querySelectorAll(".addon-check input:checked").forEach((cb) => {
+        const input = cb as HTMLInputElement;
+        const name = input.closest(".addon-check")?.querySelector(".addon-check-name")?.textContent || "Add-on";
+        addons.push({ name, price: Number(input.getAttribute("data-addon") || 0) });
+      });
+
+      const fd = new FormData();
+      fd.append("planSlug", currentPlan);
+      fd.append("planName", p.name);
+      fd.append("planPrice", String(p.price));
+      fd.append("addons", JSON.stringify(addons));
+      fd.append("firstName", (inputs[0] as HTMLInputElement)?.value || "");
+      fd.append("lastName", (inputs[1] as HTMLInputElement)?.value || "");
+      fd.append("email", (inputs[2] as HTMLInputElement)?.value || "");
+      fd.append("phone", (inputs[3] as HTMLInputElement)?.value || "");
+      fd.append("targetRole", (inputs[4] as HTMLInputElement)?.value || "");
+      fd.append("notes", (textareas[1] as HTMLTextAreaElement)?.value || "");
+      if (fileInput?.files?.[0]) fd.append("resume", fileInput.files[0]);
+
+      try {
+        const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:4000";
+        const res = await fetch(`${API_URL}/api/orders`, { method: "POST", body: fd });
+        if (!res.ok) throw new Error("Order submission failed");
+        const main = document.getElementById("mainContent");
+        const success = document.getElementById("successScreen");
+        if (main) main.style.display = "none";
+        if (success) success.style.display = "block";
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      } catch {
+        alert("Failed to submit order. Please ensure the backend is running and try again.");
+      }
     });
 
     const params = new URLSearchParams(window.location.search);
@@ -205,12 +239,35 @@ export function useContactForm() {
     });
 
     const submitBtn = document.querySelector(".btn-submit-contact");
-    submitBtn?.addEventListener("click", () => {
-      const success = document.getElementById("successMsg");
-      if (success) success.style.display = "block";
-      if (submitBtn instanceof HTMLButtonElement) {
-        submitBtn.textContent = "✓ Sent!";
-        submitBtn.style.background = "var(--teal-dark)";
+    submitBtn?.addEventListener("click", async () => {
+      const form = submitBtn.closest("form") || submitBtn.closest(".contact-form") || document;
+      const textarea = form.querySelector("textarea") as HTMLTextAreaElement | null;
+      const activeChip = document.querySelector(".subject-chip.active");
+      const allInputs = Array.from(form.querySelectorAll("input")) as HTMLInputElement[];
+
+      const contactData = {
+        name: `${allInputs[0]?.value || ""} ${allInputs[1]?.value || ""}`.trim(),
+        email: allInputs[2]?.value || "",
+        subject: allInputs[3]?.value || activeChip?.textContent?.trim() || "General Inquiry",
+        message: textarea?.value || "",
+      };
+
+      try {
+        const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:4000";
+        const res = await fetch(`${API_URL}/api/contacts`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(contactData),
+        });
+        if (!res.ok) throw new Error("Failed");
+        const success = document.getElementById("successMsg");
+        if (success) success.style.display = "block";
+        if (submitBtn instanceof HTMLButtonElement) {
+          submitBtn.textContent = "✓ Sent!";
+          submitBtn.style.background = "var(--teal-dark)";
+        }
+      } catch {
+        alert("Failed to send message. Please ensure the backend is running.");
       }
     });
   }, []);
@@ -260,10 +317,34 @@ export function useBlogFilter() {
 export function useTeamForm() {
   useEffect(() => {
     const submitBtn = document.querySelector(".btn-submit-team");
-    submitBtn?.addEventListener("click", () => {
-      if (submitBtn instanceof HTMLButtonElement) {
-        submitBtn.textContent = "✓ Application Submitted!";
-        submitBtn.style.background = "var(--teal-dark)";
+    submitBtn?.addEventListener("click", async () => {
+      const form = submitBtn.closest("form") || submitBtn.closest(".apply-form") || document;
+      const inputs = form.querySelectorAll("input");
+      const textarea = form.querySelector("textarea") as HTMLTextAreaElement | null;
+      const select = form.querySelector("select") as HTMLSelectElement | null;
+
+      const data = {
+        name: (inputs[0] as HTMLInputElement)?.value || "",
+        email: (inputs[1] as HTMLInputElement)?.value || "",
+        position: select?.value || "Resume Writer",
+        experience: (inputs[2] as HTMLInputElement)?.value || "",
+        coverLetter: textarea?.value || "",
+      };
+
+      try {
+        const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:4000";
+        const res = await fetch(`${API_URL}/api/applications`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(data),
+        });
+        if (!res.ok) throw new Error("Failed");
+        if (submitBtn instanceof HTMLButtonElement) {
+          submitBtn.textContent = "✓ Application Submitted!";
+          submitBtn.style.background = "var(--teal-dark)";
+        }
+      } catch {
+        alert("Failed to submit application. Please ensure the backend is running.");
       }
     });
   }, []);

@@ -1,9 +1,7 @@
 import type { Metadata } from "next";
 import { DM_Sans, Playfair_Display, Space_Mono } from "next/font/google";
-import Footer from "@/components/layout/Footer";
-import Header from "@/components/layout/Header";
+import SiteShell from "@/components/layout/SiteShell";
 import NavigationProgress from "@/components/NavigationProgress";
-import PageTransition from "@/components/PageTransition";
 import ScrollReveal from "@/components/ScrollReveal";
 import SmoothScroll from "@/components/SmoothScroll";
 import "./globals.css";
@@ -44,11 +42,7 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${playfair.variable} ${dmSans.variable} ${spaceMono.variable}`}>
         <NavigationProgress />
-        <Header />
-        <main>
-          <PageTransition>{children}</PageTransition>
-        </main>
-        <Footer />
+        <SiteShell>{children}</SiteShell>
         <ScrollReveal />
         <SmoothScroll />
       </body>
