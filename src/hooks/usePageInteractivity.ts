@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
+import { api, PricingPlan } from "@/lib/api";
 
 export function useHomeInteractivity() {
   useEffect(() => {
@@ -49,50 +50,57 @@ export function useHomeInteractivity() {
   }, []);
 }
 
-const planData: Record<
-  string,
-  {
-    name: string;
-    price: number;
-    cover: string;
-    linkedin: string;
-    delivery: string;
-    revisions: string;
-  }
-> = {
-  starter: {
-    name: "Starter",
-    price: 99,
-    cover: "Add-on +$49",
-    linkedin: "Add-on +$79",
-    delivery: "72 Hours",
-    revisions: "3 Rounds",
-  },
-  professional: {
-    name: "Professional",
-    price: 199,
-    cover: "✓ Included",
-    linkedin: "✓ Included",
-    delivery: "48 Hours",
-    revisions: "Unlimited",
-  },
-  executive: {
-    name: "Executive",
-    price: 349,
-    cover: "✓ Included",
-    linkedin: "✓ Included",
-    delivery: "24 Hours",
-    revisions: "Unlimited",
-  },
+const fallbackPlanData: Record<string, { name: string; price: number; cover: string; linkedin: string; delivery: string; revisions: string }> = {
+  starter: { name: "Starter", price: 99, cover: "Add-on +$49", linkedin: "Add-on +$79", delivery: "72 Hours", revisions: "3 Rounds" },
+  professional: { name: "Professional", price: 199, cover: "✓ Included", linkedin: "✓ Included", delivery: "48 Hours", revisions: "Unlimited" },
+  executive: { name: "Executive", price: 349, cover: "✓ Included", linkedin: "✓ Included", delivery: "24 Hours", revisions: "Unlimited" },
 };
 
-export function useGetStartedForm() {
+function plansToRecord(plans: PricingPlan[]) {
+  const record: Record<string, { name: string; price: number; cover: string; linkedin: string; delivery: string; revisions: string }> = { ...fallbackPlanData };
+  for (const plan of plans) {
+    record[plan.slug] = {
+      name: plan.name,
+      price: plan.price,
+      cover: plan.coverLetter,
+      linkedin: plan.linkedin,
+      delivery: plan.delivery,
+      revisions: plan.revisions,
+    };
+  }
+  return record;
+}
+
+export function useGetStartedForm(ready = true) {
   useEffect(() => {
+    if (!ready) return;
     let currentPlan = "professional";
     let addonTotal = 0;
+    let planData = { ...fallbackPlanData };
+
+    const init = async () => {
+      try {
+        const plans = await api.pricing.plans.list();
+        planData = plansToRecord(plans);
+      } catch {
+        planData = { ...fallbackPlanData };
+      }
+
+      const params = new URLSearchParams(window.location.search);
+      const planParam = params.get("plan");
+      if (planParam && planData[planParam]) {
+        document.querySelectorAll(".plan-option").forEach((o) => {
+          o.classList.remove("selected");
+          if (o.getAttribute("data-plan") === planParam) o.classList.add("selected");
+        });
+        currentPlan = planParam;
+      }
+
+      updateSummary();
+    };
 
     const updateSummary = () => {
-      const p = planData[currentPlan];
+      const p = planData[currentPlan] || planData.professional;
       const setText = (id: string, text: string) => {
         const el = document.getElementById(id);
         if (el) el.textContent = text;
@@ -154,7 +162,7 @@ export function useGetStartedForm() {
 
       const inputs = form.querySelectorAll("input[type='text'], input[type='email'], input[type='tel']");
       const textareas = form.querySelectorAll("textarea");
-      const p = planData[currentPlan];
+      const p = planData[currentPlan] || planData.professional;
 
       const addons: { name: string; price: number }[] = [];
       document.querySelectorAll(".addon-check input:checked").forEach((cb) => {
@@ -200,25 +208,21 @@ export function useGetStartedForm() {
       currentPlan = planParam;
     }
 
-    updateSummary();
-  }, []);
+    void init();
+  }, [ready]);
 }
 
 export function usePricingToggle() {
   useEffect(() => {
-    const prices: Record<string, [number, number]> = {
-      starter: [99, 79],
-      professional: [199, 159],
-      executive: [349, 279],
-    };
-
     const toggle = document.getElementById("billingToggle") as HTMLInputElement | null;
     const onToggle = () => {
       const on = toggle?.checked ?? false;
-      const keys = Object.keys(prices);
-      document.querySelectorAll(".price-val").forEach((el, i) => {
-        const key = keys[i];
-        if (key) el.textContent = String(on ? prices[key][1] : prices[key][0]);
+      document.querySelectorAll(".pricing-card[data-price]").forEach((card) => {
+        const price = card.getAttribute("data-price");
+        const bundlePrice = card.getAttribute("data-bundle-price");
+        const val = on ? bundlePrice : price;
+        const el = card.querySelector(".price-val");
+        if (el && val) el.textContent = val;
       });
     };
 
@@ -297,14 +301,13 @@ export function useServiceNav() {
 export function useBlogFilter() {
   useEffect(() => {
     const chips = document.querySelectorAll(".filter-chip");
-    const cards = document.querySelectorAll(".post-card");
 
     chips.forEach((chip) => {
       chip.addEventListener("click", () => {
         const cat = chip.getAttribute("data-cat") || "all";
         chips.forEach((c) => c.classList.remove("active"));
         chip.classList.add("active");
-        cards.forEach((card) => {
+        document.querySelectorAll(".post-card").forEach((card) => {
           const htmlCard = card as HTMLElement;
           const match = cat === "all" || card.getAttribute("data-cat") === cat;
           htmlCard.style.display = match ? "" : "none";
@@ -353,17 +356,15 @@ export function useTeamForm() {
 export function useTemplatesFilter() {
   useEffect(() => {
     const tabs = document.querySelectorAll(".filter-tab");
-    const cards = document.querySelectorAll(".template-card");
 
     tabs.forEach((tab) => {
       tab.addEventListener("click", () => {
         const cat = tab.getAttribute("data-cat") || "all";
         tabs.forEach((t) => t.classList.remove("active"));
         tab.classList.add("active");
-        cards.forEach((card) => {
+        document.querySelectorAll(".template-card").forEach((card) => {
           const htmlCard = card as HTMLElement;
-          const match =
-            cat === "all" || card.getAttribute("data-cat") === cat;
+          const match = cat === "all" || card.getAttribute("data-cat") === cat;
           htmlCard.style.display = match ? "" : "none";
           htmlCard.style.opacity = match ? "1" : "0";
           htmlCard.style.transform = match ? "translateY(0)" : "translateY(12px)";

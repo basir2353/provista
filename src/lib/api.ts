@@ -34,6 +34,7 @@ async function request<T>(
   }
 
   const res = await fetch(`${API_URL}${path}`, {
+    cache: "no-store",
     ...options,
     headers: { ...headers, ...(options.headers as Record<string, string>) },
   });
@@ -46,12 +47,27 @@ async function request<T>(
     throw new Error("Unauthorized");
   }
 
+  const text = await res.text();
+
   if (!res.ok) {
-    const err = await res.json().catch(() => ({ error: res.statusText }));
+    let err: { error?: string } = { error: res.statusText };
+    if (text) {
+      try {
+        err = JSON.parse(text);
+      } catch {
+        err = { error: text || res.statusText };
+      }
+    }
     throw new Error(err.error || "Request failed");
   }
 
-  return res.json();
+  if (!text) return {} as T;
+
+  try {
+    return JSON.parse(text) as T;
+  } catch {
+    throw new Error("Invalid response from server");
+  }
 }
 
 // Auth
@@ -208,6 +224,7 @@ export const api = {
 
   pricing: {
     plans: {
+      list: () => request<PricingPlan[]>("/api/pricing/plans"),
       listAdmin: () => request<PricingPlan[]>("/api/pricing/plans/admin/all"),
       create: (data: Partial<PricingPlan>) =>
         request<PricingPlan>("/api/pricing/plans/admin", { method: "POST", body: JSON.stringify(data) }),
@@ -217,6 +234,7 @@ export const api = {
         request<{ message: string }>(`/api/pricing/plans/admin/${id}`, { method: "DELETE" }),
     },
     addons: {
+      list: () => request<Addon[]>("/api/pricing/addons"),
       listAdmin: () => request<Addon[]>("/api/pricing/addons/admin/all"),
       create: (data: Partial<Addon>) =>
         request<Addon>("/api/pricing/addons/admin", { method: "POST", body: JSON.stringify(data) }),
@@ -267,6 +285,7 @@ export const api = {
   },
 
   settings: {
+    list: () => request<SiteSetting[]>("/api/settings"),
     listAdmin: () => request<SiteSetting[]>("/api/settings/admin/all"),
     updateBulk: (updates: { key: string; value: string; group?: string }[]) =>
       request<{ message: string }>("/api/settings/admin/bulk", { method: "PUT", body: JSON.stringify(updates) }),

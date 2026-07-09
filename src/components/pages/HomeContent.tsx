@@ -1,9 +1,19 @@
 "use client";
 
 import { useHomeInteractivity } from "@/hooks/usePageInteractivity";
+import { useCmsData } from "@/hooks/useCmsData";
+import { api } from "@/lib/api";
+import { revealDelay } from "@/lib/cms";
 
 export default function HomeContent() {
+  const { data: industries } = useCmsData(() => api.industries.list(), [], []);
+  const { data: testimonials } = useCmsData(() => api.testimonials.list(), [], []);
+  const { data: faqs } = useCmsData(() => api.faqs.list(), [], []);
+  const { data: teamMembers } = useCmsData(() => api.team.list(), [], []);
   useHomeInteractivity();
+
+  const homeFaqs = faqs.filter((f) => f.page === "home" || f.page === "general").slice(0, 8);
+  const homeTeam = teamMembers.slice(0, 4);
 
   return (
     <>
@@ -207,66 +217,13 @@ export default function HomeContent() {
             <p className="section-sub reveal">Our writers have deep domain expertise across 20+ industries, ensuring your resume speaks the language of your target field.</p>
           </div>
           <div className="industries-grid">
-            <div className="industry-card reveal reveal-delay-1">
-              <span className="industry-icon">💻</span>
-              <div className="industry-name">Technology & IT</div>
-              <div className="industry-count">3,200+ resumes</div>
-            </div>
-            <div className="industry-card reveal reveal-delay-2">
-              <span className="industry-icon">🏦</span>
-              <div className="industry-name">Finance & Banking</div>
-              <div className="industry-count">1,800+ resumes</div>
-            </div>
-            <div className="industry-card reveal reveal-delay-3">
-              <span className="industry-icon">🏥</span>
-              <div className="industry-name">Healthcare</div>
-              <div className="industry-count">1,500+ resumes</div>
-            </div>
-            <div className="industry-card reveal reveal-delay-4">
-              <span className="industry-icon">⚙️</span>
-              <div className="industry-name">Engineering</div>
-              <div className="industry-count">2,100+ resumes</div>
-            </div>
-            <div className="industry-card reveal reveal-delay-1">
-              <span className="industry-icon">📊</span>
-              <div className="industry-name">Marketing & Sales</div>
-              <div className="industry-count">1,400+ resumes</div>
-            </div>
-            <div className="industry-card reveal reveal-delay-2">
-              <span className="industry-icon">⚖️</span>
-              <div className="industry-name">Legal</div>
-              <div className="industry-count">600+ resumes</div>
-            </div>
-            <div className="industry-card reveal reveal-delay-3">
-              <span className="industry-icon">🎓</span>
-              <div className="industry-name">Education</div>
-              <div className="industry-count">900+ resumes</div>
-            </div>
-            <div className="industry-card reveal reveal-delay-4">
-              <span className="industry-icon">🏗️</span>
-              <div className="industry-name">Construction</div>
-              <div className="industry-count">700+ resumes</div>
-            </div>
-            <div className="industry-card reveal reveal-delay-1">
-              <span className="industry-icon">🎨</span>
-              <div className="industry-name">Creative & Design</div>
-              <div className="industry-count">850+ resumes</div>
-            </div>
-            <div className="industry-card reveal reveal-delay-2">
-              <span className="industry-icon">🚀</span>
-              <div className="industry-name">Startups & Venture</div>
-              <div className="industry-count">550+ resumes</div>
-            </div>
-            <div className="industry-card reveal reveal-delay-3">
-              <span className="industry-icon">🌐</span>
-              <div className="industry-name">Non-Profit & NGO</div>
-              <div className="industry-count">400+ resumes</div>
-            </div>
-            <div className="industry-card reveal reveal-delay-4">
-              <span className="industry-icon">✈️</span>
-              <div className="industry-name">Hospitality & Travel</div>
-              <div className="industry-count">480+ resumes</div>
-            </div>
+            {industries.map((industry, i) => (
+              <div className={`industry-card reveal ${revealDelay(i + 1)}`} key={industry.id}>
+                <span className="industry-icon">{industry.icon || "✦"}</span>
+                <div className="industry-name">{industry.name}</div>
+                {industry.resumeCount && <div className="industry-count">{industry.resumeCount}</div>}
+              </div>
+            ))}
           </div>
         </div>
       </section>
@@ -551,108 +508,31 @@ export default function HomeContent() {
             <p className="section-sub reveal">Over 12,000 professionals have trusted ProCareerVista to advance their careers. Here's what some of them have to say.</p>
           </div>
           <div className="testimonials-grid">
-            <div className="testimonial-card reveal reveal-delay-1">
-              <div className="stars">
-                <span className="star">★</span><span className="star">★</span><span className="star">★</span><span className="star">★</span><span className="star">★</span>
-              </div>
-              <p className="testimonial-text">"I was applying for six months with zero callbacks. Two weeks after ProCareerVista rewrote my resume, I had 4 interviews lined up — including Google. The investment paid for itself 100x over."</p>
-              <div className="testimonial-author">
-                <div className="author-avatar" style={{background: "linear-gradient(135deg, var(--teal), var(--aqua))"}}>AK</div>
-                <div>
-                  <div className="author-name">Ahmed Khan</div>
-                  <div className="author-title">Software Engineer → Google</div>
+            {testimonials.map((t, i) => (
+              <div className={`testimonial-card reveal ${revealDelay(i + 1)}`} key={t.id}>
+                <div className="stars">
+                  {Array.from({ length: t.rating || 5 }).map((_, si) => (
+                    <span className="star" key={si}>★</span>
+                  ))}
                 </div>
-                <div className="author-result">
-                  <div className="author-result-val">+40%</div>
-                  <div className="author-result-label">Salary increase</div>
-                </div>
-              </div>
-            </div>
-            <div className="testimonial-card reveal reveal-delay-2">
-              <div className="stars">
-                <span className="star">★</span><span className="star">★</span><span className="star">★</span><span className="star">★</span><span className="star">★</span>
-              </div>
-              <p className="testimonial-text">"The writer truly understood my industry. She transformed my boring job descriptions into compelling achievement stories. I landed my dream role at McKinsey within 3 weeks of delivery!"</p>
-              <div className="testimonial-author">
-                <div className="author-avatar" style={{background: "linear-gradient(135deg, #7c3aed, #4f46e5)"}}>SN</div>
-                <div>
-                  <div className="author-name">Sarah Nair</div>
-                  <div className="author-title">Consultant → McKinsey & Company</div>
-                </div>
-                <div className="author-result">
-                  <div className="author-result-val">3 wks</div>
-                  <div className="author-result-label">Time to offer</div>
+                <p className="testimonial-text">&quot;{t.quote}&quot;</p>
+                <div className="testimonial-author">
+                  <div className="author-avatar" style={{ background: t.gradient || "linear-gradient(135deg, var(--teal), var(--aqua))" }}>
+                    {t.initials || t.name.slice(0, 2).toUpperCase()}
+                  </div>
+                  <div>
+                    <div className="author-name">{t.name}</div>
+                    <div className="author-title">{t.role}{t.company ? ` · ${t.company}` : ""}</div>
+                  </div>
+                  {t.result && (
+                    <div className="author-result">
+                      <div className="author-result-val">{t.result}</div>
+                      <div className="author-result-label">Result</div>
+                    </div>
+                  )}
                 </div>
               </div>
-            </div>
-            <div className="testimonial-card reveal reveal-delay-3">
-              <div className="stars">
-                <span className="star">★</span><span className="star">★</span><span className="star">★</span><span className="star">★</span><span className="star">★</span>
-              </div>
-              <p className="testimonial-text">"As a career changer from teaching to UX Design, I had no idea how to position my skills. My ProCareerVista writer made the pivot feel seamless. Hired within 6 weeks!"</p>
-              <div className="testimonial-author">
-                <div className="author-avatar" style={{background: "linear-gradient(135deg, #ea580c, #f59e0b)"}}>JL</div>
-                <div>
-                  <div className="author-name">James Liu</div>
-                  <div className="author-title">Teacher → UX Designer at Airbnb</div>
-                </div>
-                <div className="author-result">
-                  <div className="author-result-val">6 wks</div>
-                  <div className="author-result-label">Career change</div>
-                </div>
-              </div>
-            </div>
-            <div className="testimonial-card reveal reveal-delay-1">
-              <div className="stars">
-                <span className="star">★</span><span className="star">★</span><span className="star">★</span><span className="star">★</span><span className="star">★</span>
-              </div>
-              <p className="testimonial-text">"I've used three resume services before and none compare to ProCareerVista. The attention to detail, the ATS scoring, the templates — everything is top notch. Highly recommend for serious professionals."</p>
-              <div className="testimonial-author">
-                <div className="author-avatar" style={{background: "linear-gradient(135deg, #0f766e, var(--teal))"}}>MA</div>
-                <div>
-                  <div className="author-name">Maria Alvarez</div>
-                  <div className="author-title">Finance Director → JP Morgan</div>
-                </div>
-                <div className="author-result">
-                  <div className="author-result-val">4.9★</div>
-                  <div className="author-result-label">Would recommend</div>
-                </div>
-              </div>
-            </div>
-            <div className="testimonial-card reveal reveal-delay-2">
-              <div className="stars">
-                <span className="star">★</span><span className="star">★</span><span className="star">★</span><span className="star">★</span><span className="star">★</span>
-              </div>
-              <p className="testimonial-text">"The 48-hour delivery seemed impossible, but they nailed it. My resume went from average to exceptional. The LinkedIn optimization was a game-changer — recruiters are reaching out to me now!"</p>
-              <div className="testimonial-author">
-                <div className="author-avatar" style={{background: "linear-gradient(135deg, #1d4ed8, #06b6d4)"}}>TR</div>
-                <div>
-                  <div className="author-name">Tom Rodriguez</div>
-                  <div className="author-title">Product Manager → Amazon</div>
-                </div>
-                <div className="author-result">
-                  <div className="author-result-val">8x</div>
-                  <div className="author-result-label">More recruiter views</div>
-                </div>
-              </div>
-            </div>
-            <div className="testimonial-card reveal reveal-delay-3">
-              <div className="stars">
-                <span className="star">★</span><span className="star">★</span><span className="star">★</span><span className="star">★</span><span className="star">★</span>
-              </div>
-              <p className="testimonial-text">"As a C-suite executive, I needed something truly elevated. The Executive Package delivered beyond expectations — a polished narrative that showcases my leadership story powerfully."</p>
-              <div className="testimonial-author">
-                <div className="author-avatar" style={{background: "linear-gradient(135deg, #374151, #1f2937)"}}>LP</div>
-                <div>
-                  <div className="author-name">Lisa Park</div>
-                  <div className="author-title">VP → Chief Strategy Officer</div>
-                </div>
-                <div className="author-result">
-                  <div className="author-result-val">$200K+</div>
-                  <div className="author-result-label">New compensation</div>
-                </div>
-              </div>
-            </div>
+            ))}
           </div>
         </div>
       </section>
@@ -666,62 +546,26 @@ export default function HomeContent() {
             <p className="section-sub reveal">Our certified resume writers have placed thousands of professionals at the world's best companies.</p>
           </div>
           <div className="team-grid">
-            <div className="team-card reveal reveal-delay-1">
-              <div className="team-card-header" style={{background: "linear-gradient(135deg, var(--navy), var(--navy-mid))"}}>
-                <div className="team-avatar" style={{background: "linear-gradient(135deg, var(--teal), var(--aqua))"}}>SR</div>
-              </div>
-              <div className="team-card-body">
-                <div className="team-name">Sarah Reynolds</div>
-                <div className="team-role">Chief Resume Writer</div>
-                <div className="team-exp">CPRW | 12 yrs experience | Tech & Finance specialist</div>
-                <div className="team-socials">
-                  <a className="team-social" title="LinkedIn">in</a>
-                  <a className="team-social" title="Email">✉</a>
+            {homeTeam.map((member, i) => (
+              <div className={`team-card reveal ${revealDelay(i + 1)}`} key={member.id}>
+                <div className="team-card-header" style={{ background: member.topBg || "linear-gradient(135deg, var(--navy), var(--navy-mid))" }}>
+                  <div className="team-avatar" style={{ background: member.avatarBg || member.gradient || "linear-gradient(135deg, var(--teal), var(--aqua))" }}>
+                    {member.initials}
+                  </div>
+                </div>
+                <div className="team-card-body">
+                  <div className="team-name">{member.name}</div>
+                  <div className="team-role">{member.role}</div>
+                  <div className="team-exp">
+                    {[member.badge, member.experience, member.speciality].filter(Boolean).join(" | ")}
+                  </div>
+                  <div className="team-socials">
+                    <a className="team-social" title="LinkedIn">in</a>
+                    <a className="team-social" title="Email">✉</a>
+                  </div>
                 </div>
               </div>
-            </div>
-            <div className="team-card reveal reveal-delay-2">
-              <div className="team-card-header" style={{background: "linear-gradient(135deg, #1d4ed8, #4f46e5)"}}>
-                <div className="team-avatar" style={{background: "linear-gradient(135deg, #7c3aed, #4f46e5)"}}>MK</div>
-              </div>
-              <div className="team-card-body">
-                <div className="team-name">Marcus Kim</div>
-                <div className="team-role">Senior Writer</div>
-                <div className="team-exp">CPRW | 8 yrs experience | Healthcare & Legal expert</div>
-                <div className="team-socials">
-                  <a className="team-social" title="LinkedIn">in</a>
-                  <a className="team-social" title="Email">✉</a>
-                </div>
-              </div>
-            </div>
-            <div className="team-card reveal reveal-delay-3">
-              <div className="team-card-header" style={{background: "linear-gradient(135deg, #7c2d12, #c2410c)"}}>
-                <div className="team-avatar" style={{background: "linear-gradient(135deg, #ea580c, #f59e0b)"}}>AP</div>
-              </div>
-              <div className="team-card-body">
-                <div className="team-name">Ananya Patel</div>
-                <div className="team-role">Career Coach & Writer</div>
-                <div className="team-exp">CPCC | 9 yrs experience | Executive & Leadership roles</div>
-                <div className="team-socials">
-                  <a className="team-social" title="LinkedIn">in</a>
-                  <a className="team-social" title="Email">✉</a>
-                </div>
-              </div>
-            </div>
-            <div className="team-card reveal reveal-delay-4">
-              <div className="team-card-header" style={{background: "linear-gradient(135deg, #064e3b, #065f46)"}}>
-                <div className="team-avatar" style={{background: "linear-gradient(135deg, #059669, var(--teal))"}}>JW</div>
-              </div>
-              <div className="team-card-body">
-                <div className="team-name">James Webb</div>
-                <div className="team-role">ATS Optimization Lead</div>
-                <div className="team-exp">CPRW | 7 yrs experience | Engineering & IT expert</div>
-                <div className="team-socials">
-                  <a className="team-social" title="LinkedIn">in</a>
-                  <a className="team-social" title="Email">✉</a>
-                </div>
-              </div>
-            </div>
+            ))}
           </div>
         </div>
       </section>
@@ -748,69 +592,17 @@ export default function HomeContent() {
               </div>
             </div>
             <div className="faq-list" id="faqList">
-              <div className="faq-item open">
-                <div className="faq-question" >
-                  <span className="faq-q-text">How long does it take to receive my resume?</span>
-                  <span className="faq-toggle">+</span>
+              {homeFaqs.map((faq, i) => (
+                <div className={`faq-item ${i === 0 ? "open" : ""}`} key={faq.id}>
+                  <div className="faq-question">
+                    <span className="faq-q-text">{faq.question}</span>
+                    <span className="faq-toggle">+</span>
+                  </div>
+                  <div className="faq-answer">
+                    <div className="faq-answer-inner">{faq.answer}</div>
+                  </div>
                 </div>
-                <div className="faq-answer">
-                  <div className="faq-answer-inner">Our standard turnaround is 48 hours from when you submit your intake form. Rush orders (24 hours) are available on the Professional and Executive plans. All timelines are business day based. Once your resume is ready, you'll receive it via email in both Word and PDF formats.</div>
-                </div>
-              </div>
-              <div className="faq-item">
-                <div className="faq-question" >
-                  <span className="faq-q-text">What if I'm not satisfied with my resume?</span>
-                  <span className="faq-toggle">+</span>
-                </div>
-                <div className="faq-answer">
-                  <div className="faq-answer-inner">Your satisfaction is our guarantee. We offer unlimited revisions on all plans until you're completely happy. If after the revision process you're still not satisfied, we offer a full refund within 30 days of purchase — no questions asked.</div>
-                </div>
-              </div>
-              <div className="faq-item">
-                <div className="faq-question" >
-                  <span className="faq-q-text">Who writes my resume — a human or AI?</span>
-                  <span className="faq-toggle">+</span>
-                </div>
-                <div className="faq-answer">
-                  <div className="faq-answer-inner">Every resume is written by a certified, human resume writer (CPRW). We do use AI-assisted tools for ATS scoring and keyword analysis, but all writing, strategy, and content is crafted by your dedicated human writer who specializes in your industry.</div>
-                </div>
-              </div>
-              <div className="faq-item">
-                <div className="faq-question" >
-                  <span className="faq-q-text">Is my resume guaranteed to be ATS-compatible?</span>
-                  <span className="faq-toggle">+</span>
-                </div>
-                <div className="faq-answer">
-                  <div className="faq-answer-inner">Absolutely. Every resume we write is tested against leading ATS platforms including Workday, Taleo, iCIMS, and Greenhouse. We achieve an average ATS score of 96+/100 and optimize keyword density based on your target role and industry.</div>
-                </div>
-              </div>
-              <div className="faq-item">
-                <div className="faq-question" >
-                  <span className="faq-q-text">Can you help with career changers?</span>
-                  <span className="faq-toggle">+</span>
-                </div>
-                <div className="faq-answer">
-                  <div className="faq-answer-inner">Yes! Career transitions are one of our specialties. Our writers are skilled at identifying transferable skills and reframing your experience to align with your new target industry. We've helped hundreds of professionals successfully pivot their careers.</div>
-                </div>
-              </div>
-              <div className="faq-item">
-                <div className="faq-question" >
-                  <span className="faq-q-text">Do you offer LinkedIn profile optimization?</span>
-                  <span className="faq-toggle">+</span>
-                </div>
-                <div className="faq-answer">
-                  <div className="faq-answer-inner">Yes — LinkedIn optimization is included in the Professional and Executive plans, and available as a standalone add-on ($79) for Starter plan clients. We optimize your headline, summary, experience sections, skills, and recommendations strategy to maximize recruiter visibility.</div>
-                </div>
-              </div>
-              <div className="faq-item">
-                <div className="faq-question" >
-                  <span className="faq-q-text">What information do I need to provide?</span>
-                  <span className="faq-toggle">+</span>
-                </div>
-                <div className="faq-answer">
-                  <div className="faq-answer-inner">Simply complete our intake questionnaire, which takes about 15 minutes. You'll share your current resume (if any), your career goals, target roles, and key accomplishments. Your writer may follow up with clarifying questions via email before beginning your document.</div>
-                </div>
-              </div>
+              ))}
             </div>
           </div>
         </div>
