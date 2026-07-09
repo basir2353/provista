@@ -21,7 +21,12 @@ const navItems = [
   { href: "/admin/settings", label: "Settings", icon: "⚙️" },
 ];
 
-export default function AdminSidebar() {
+interface AdminSidebarProps {
+  open?: boolean;
+  onClose?: () => void;
+}
+
+export default function AdminSidebar({ open = false, onClose }: AdminSidebarProps) {
   const pathname = usePathname();
 
   const handleLogout = () => {
@@ -30,7 +35,7 @@ export default function AdminSidebar() {
   };
 
   return (
-    <aside className="admin-sidebar">
+    <aside className={`admin-sidebar ${open ? "open" : ""}`}>
       <div className="admin-sidebar-header">
         <Link href="/admin" className="admin-logo">
           <span className="admin-logo-icon">✦</span>
@@ -47,6 +52,7 @@ export default function AdminSidebar() {
             key={item.href}
             href={item.href}
             className={`admin-nav-item ${pathname === item.href ? "active" : ""}`}
+            onClick={onClose}
           >
             <span className="admin-nav-icon">{item.icon}</span>
             {item.label}

@@ -70,6 +70,32 @@ export default function Header() {
                   </Link>
                 </li>
               ))}
+              <li className="mobile-nav-cta">
+                <Link
+                  href="/admin/login"
+                  className="btn btn-outline nav-btn admin-nav-btn"
+                  prefetch
+                  onClick={() => setMenuOpen(false)}
+                >
+                  Admin
+                </Link>
+                <Link
+                  href="/pricing"
+                  className="btn btn-outline nav-btn"
+                  prefetch
+                  onClick={() => setMenuOpen(false)}
+                >
+                  See Plans
+                </Link>
+                <Link
+                  href="/get-started"
+                  className="btn btn-primary nav-btn"
+                  prefetch
+                  onClick={() => setMenuOpen(false)}
+                >
+                  Get Started
+                </Link>
+              </li>
             </ul>
 
             <div className="nav-cta">
