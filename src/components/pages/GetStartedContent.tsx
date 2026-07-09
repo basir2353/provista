@@ -5,8 +5,8 @@ import { useCmsData } from "@/hooks/useCmsData";
 import { api } from "@/lib/api";
 
 export default function GetStartedContent() {
-  const { data: plans = [], loading: plansLoading } = useCmsData(() => api.pricing.plans.list(), []);
-  const { data: addons = [], loading: addonsLoading } = useCmsData(() => api.pricing.addons.list(), []);
+  const { data: plans, loading: plansLoading } = useCmsData(() => api.pricing.plans.list(), [], []);
+  const { data: addons, loading: addonsLoading } = useCmsData(() => api.pricing.addons.list(), [], []);
   useGetStartedForm(!plansLoading && plans.length > 0);
 
   const defaultPlan = plans.find((p) => p.popular)?.slug || plans[1]?.slug || "professional";
