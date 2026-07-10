@@ -76,14 +76,12 @@ export default function Footer() {
               <li><Link href="/#testimonials" prefetch>Reviews</Link></li>
               <li><Link href="/pricing" prefetch>Pricing</Link></li>
               <li><Link href="/contact" prefetch>Contact</Link></li>
-              <li><Link href="/admin/login" prefetch>Admin Login</Link></li>
             </ul>
           </div>
         </div>
         <div className="footer-bottom">
           <span>© {year} {siteName}. All rights reserved.</span>
           <div className="footer-bottom-links">
-            <Link href="/admin/login" className="btn btn-outline admin-footer-btn" prefetch>Admin Login</Link>
             <Link href="#">Privacy Policy</Link>
             <Link href="#">Terms of Service</Link>
             <Link href="#">Cookie Policy</Link>

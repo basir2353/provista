@@ -35,6 +35,21 @@ export default function Header() {
     };
   }, [menuOpen]);
 
+  useEffect(() => {
+    setMenuOpen(false);
+  }, [pathname]);
+
+  useEffect(() => {
+    if (!menuOpen) return;
+
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") setMenuOpen(false);
+    };
+
+    window.addEventListener("keydown", onKeyDown);
+    return () => window.removeEventListener("keydown", onKeyDown);
+  }, [menuOpen]);
+
   const isActive = (href: string) => {
     if (href === "/") return pathname === "/";
     if (href.startsWith("/#")) return pathname === "/";
@@ -72,14 +87,6 @@ export default function Header() {
               ))}
               <li className="mobile-nav-cta">
                 <Link
-                  href="/admin/login"
-                  className="btn btn-outline nav-btn admin-nav-btn"
-                  prefetch
-                  onClick={() => setMenuOpen(false)}
-                >
-                  Admin
-                </Link>
-                <Link
                   href="/pricing"
                   className="btn btn-outline nav-btn"
                   prefetch
@@ -99,9 +106,6 @@ export default function Header() {
             </ul>
 
             <div className="nav-cta">
-              <Link href="/admin/login" className="btn btn-outline nav-btn admin-nav-btn" prefetch>
-                Admin
-              </Link>
               <Link href="/pricing" className="btn btn-outline nav-btn" prefetch>
                 See Plans
               </Link>

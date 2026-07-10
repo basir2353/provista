@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { api } from "@/lib/api";
 
 type CalendlyEmbedProps = {
@@ -26,6 +26,17 @@ type CalendlyMessage = {
 
 export default function CalendlyEmbed({ url, height = 680 }: CalendlyEmbedProps) {
   const containerRef = useRef<HTMLDivElement>(null);
+  const [embedHeight, setEmbedHeight] = useState(height);
+
+  useEffect(() => {
+    const updateHeight = () => {
+      setEmbedHeight(window.innerWidth < 600 ? 700 : window.innerWidth < 900 ? 660 : height);
+    };
+
+    updateHeight();
+    window.addEventListener("resize", updateHeight);
+    return () => window.removeEventListener("resize", updateHeight);
+  }, [height]);
 
   useEffect(() => {
     if (!url) return;
@@ -87,7 +98,7 @@ export default function CalendlyEmbed({ url, height = 680 }: CalendlyEmbedProps)
     <div
       ref={containerRef}
       className="calendly-inline-widget"
-      style={{ minWidth: "280px", height: `${height}px` }}
+      style={{ minWidth: "280px", height: `${embedHeight}px` }}
     />
   );
 }
