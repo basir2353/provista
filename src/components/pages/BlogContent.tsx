@@ -3,6 +3,7 @@
 import { useBlogFilter } from "@/hooks/usePageInteractivity";
 import { useCmsData } from "@/hooks/useCmsData";
 import { useSiteSettings } from "@/context/SiteSettingsContext";
+import { BlogCover } from "@/components/BlogCover";
 import { api, BlogPost } from "@/lib/api";
 import { formatBlogDate, staggerDelay } from "@/lib/cms";
 
@@ -84,13 +85,13 @@ export default function BlogContent() {
             <div>
               {featured && (
                 <div className="featured-post reveal" data-cat={featured.category}>
-                  <div className="featured-post-image" style={{ background: featured.coverGradient || "linear-gradient(135deg,var(--navy),var(--navy-soft))" }}>
+                  <BlogCover post={featured} className="featured-post-image">
                     <span className="fp-category">{featured.categoryLabel}</span>
                     <div style={{ position: "relative", zIndex: 2 }}>
-                      <div style={{ fontSize: "4rem", marginBottom: "12px" }}>📄</div>
+                      {!featured.coverImage && <div style={{ fontSize: "4rem", marginBottom: "12px" }}>📄</div>}
                       <div className="fp-title">{featured.title}</div>
                     </div>
-                  </div>
+                  </BlogCover>
                   <div className="featured-post-body">
                     <p className="fp-excerpt">{featured.excerpt}</p>
                     <div className="fp-meta">
@@ -115,10 +116,10 @@ export default function BlogContent() {
                 )}
                 {gridPosts.map((post: BlogPost, i) => (
                   <div className={`post-card reveal ${staggerDelay(i)}`} data-cat={post.category} key={post.id}>
-                    <div className="post-image" style={{ background: post.coverGradient || "linear-gradient(135deg,var(--teal-dark),var(--teal))" }}>
+                    <BlogCover post={post} className="post-image">
                       <span className="post-cat">{post.categoryLabel}</span>
                       <div className="post-title">{post.title}</div>
-                    </div>
+                    </BlogCover>
                     <div className="post-body">
                       <p className="post-excerpt">{post.excerpt}</p>
                       <div className="post-meta">

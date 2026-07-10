@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import AdminHeader from "@/components/admin/AdminHeader";
 import Modal from "@/components/admin/Modal";
-import { api, BlogPost } from "@/lib/api";
+import { api, BlogPost, uploadUrl } from "@/lib/api";
 
 const emptyForm = {
   title: "", excerpt: "", content: "", category: "resume",
@@ -18,12 +18,19 @@ export default function AdminBlogPage() {
   const [modalOpen, setModalOpen] = useState(false);
   const [editing, setEditing] = useState<BlogPost | null>(null);
   const [form, setForm] = useState(emptyForm);
+  const [coverImage, setCoverImage] = useState<File | null>(null);
   const [saving, setSaving] = useState(false);
 
   const load = () => api.blog.listAdmin().then(setItems).catch(console.error).finally(() => setLoading(false));
   useEffect(() => { load(); }, []);
 
-  const openCreate = () => { setEditing(null); setForm(emptyForm); setModalOpen(true); };
+  const openCreate = () => {
+    setEditing(null);
+    setForm(emptyForm);
+    setCoverImage(null);
+    setModalOpen(true);
+  };
+
   const openEdit = (item: BlogPost) => {
     setEditing(item);
     setForm({
@@ -33,14 +40,19 @@ export default function AdminBlogPage() {
       readTime: item.readTime, coverGradient: item.coverGradient,
       featured: item.featured, published: item.published,
     });
+    setCoverImage(null);
     setModalOpen(true);
   };
 
   const handleSave = async () => {
     setSaving(true);
     try {
-      if (editing) await api.blog.update(editing.id, form);
-      else await api.blog.create(form);
+      const fd = new FormData();
+      Object.entries(form).forEach(([k, v]) => fd.append(k, String(v)));
+      if (coverImage) fd.append("coverImage", coverImage);
+
+      if (editing) await api.blog.update(editing.id, fd);
+      else await api.blog.create(fd);
       setModalOpen(false);
       load();
     } catch (err) { alert(err instanceof Error ? err.message : "Save failed"); }
@@ -51,16 +63,24 @@ export default function AdminBlogPage() {
     <>
       <AdminHeader
         title="Blog Posts"
-        description="Create and manage career advice articles, tips, and guides for the blog page."
+        description="Create and manage career advice articles with cover photos, tips, and guides."
         action={<button className="admin-btn admin-btn-primary" onClick={openCreate}>+ New Post</button>}
       />
       <div className="admin-card">
         {loading ? <div className="admin-loading"><div className="admin-spinner" /></div> : (
           <table className="admin-table">
-            <thead><tr><th>Title</th><th>Category</th><th>Author</th><th>Views</th><th>Status</th><th>Date</th><th>Actions</th></tr></thead>
+            <thead><tr><th>Cover</th><th>Title</th><th>Category</th><th>Author</th><th>Views</th><th>Status</th><th>Date</th><th>Actions</th></tr></thead>
             <tbody>
               {items.map((p) => (
                 <tr key={p.id}>
+                  <td>
+                    {p.coverImage ? (
+                      // eslint-disable-next-line @next/next/no-img-element
+                      <img src={uploadUrl(p.coverImage)} alt="" style={{ width: 48, height: 36, objectFit: "cover", borderRadius: 6 }} />
+                    ) : (
+                      <span style={{ fontSize: 20 }}>📄</span>
+                    )}
+                  </td>
                   <td><strong>{p.title}</strong>{p.featured && <span className="admin-badge purple" style={{ marginLeft: 6 }}>Featured</span>}</td>
                   <td><span className="admin-badge blue">{p.categoryLabel}</span></td>
                   <td>{p.author}</td>
@@ -84,6 +104,15 @@ export default function AdminBlogPage() {
           <button className="admin-btn admin-btn-primary" onClick={handleSave} disabled={saving}>{saving ? "Saving..." : "Save Post"}</button></>}>
         <div className="admin-form">
           <div className="admin-form-grid">
+            <div className="admin-form-group full">
+              <label className="admin-label">Cover Photo</label>
+              {editing?.coverImage && !coverImage && (
+                // eslint-disable-next-line @next/next/no-img-element
+                <img src={uploadUrl(editing.coverImage)} alt="Current cover" style={{ maxHeight: 120, borderRadius: 8, marginBottom: 8, display: "block" }} />
+              )}
+              <input type="file" className="admin-input" accept="image/*" onChange={(e) => setCoverImage(e.target.files?.[0] || null)} />
+              <p className="admin-file-hint">Optional. Shown on blog cards instead of the gradient placeholder. PNG, JPG, or WebP.</p>
+            </div>
             <div className="admin-form-group full">
               <label className="admin-label">Title *</label>
               <input className="admin-input" value={form.title} onChange={(e) => setForm({ ...form, title: e.target.value })} />
@@ -115,6 +144,10 @@ export default function AdminBlogPage() {
             <div className="admin-form-group">
               <label className="admin-label">Read Time</label>
               <input className="admin-input" value={form.readTime} onChange={(e) => setForm({ ...form, readTime: e.target.value })} placeholder="7 min" />
+            </div>
+            <div className="admin-form-group full">
+              <label className="admin-label">Fallback Gradient (if no photo)</label>
+              <input className="admin-input" value={form.coverGradient} onChange={(e) => setForm({ ...form, coverGradient: e.target.value })} />
             </div>
             <div className="admin-form-group">
               <label className="admin-checkbox-row"><input type="checkbox" checked={form.featured} onChange={(e) => setForm({ ...form, featured: e.target.checked })} /> Featured</label>

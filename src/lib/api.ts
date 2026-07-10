@@ -131,7 +131,8 @@ export interface BlogPost {
   id: string; title: string; slug: string; excerpt: string;
   content?: string; category: string; categoryLabel: string;
   author: string; authorInitials?: string; readTime: string;
-  coverGradient: string; featured: boolean; published: boolean;
+  coverGradient: string; coverImage?: string;
+  featured: boolean; published: boolean;
   views: number; publishedAt: string;
 }
 
