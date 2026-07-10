@@ -17,6 +17,7 @@ const navItems = [
   { href: "/admin/testimonials", label: "Testimonials", icon: "⭐" },
   { href: "/admin/industries", label: "Industries", icon: "🏢" },
   { href: "/admin/contacts", label: "Messages", icon: "✉️" },
+  { href: "/admin/book-calls", label: "Book a Call", icon: "📅" },
   { href: "/admin/applications", label: "Applications", icon: "📋" },
   { href: "/admin/newsletter", label: "Newsletter", icon: "📧" },
   { href: "/admin/settings", label: "Settings", icon: "⚙️" },

@@ -95,6 +95,8 @@ export default function AdminOrdersPage() {
               <div className="admin-form-group"><label className="admin-label">Email</label><p>{selected.email}</p></div>
               <div className="admin-form-group"><label className="admin-label">Phone</label><p>{selected.phone || "—"}</p></div>
               <div className="admin-form-group"><label className="admin-label">Plan</label><p>{selected.planName} — ${selected.planPrice}</p></div>
+              <div className="admin-form-group"><label className="admin-label">Add-ons</label><p>{selected.addons || "—"}</p></div>
+              <div className="admin-form-group"><label className="admin-label">Total</label><p><strong>${selected.totalAmount}</strong></p></div>
               <div className="admin-form-group"><label className="admin-label">Current Role</label><p>{selected.currentRole || "—"}</p></div>
               <div className="admin-form-group"><label className="admin-label">Target Role</label><p>{selected.targetRole || "—"}</p></div>
               <div className="admin-form-group"><label className="admin-label">Industry</label><p>{selected.industry || "—"}</p></div>

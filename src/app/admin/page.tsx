@@ -37,6 +37,7 @@ export default function AdminDashboard() {
   const statCards = [
     { label: "Total Orders", value: stats?.orders.total ?? 0, badge: stats?.orders.new ? `${stats.orders.new} new` : null, badgeClass: "new", href: "/admin/orders" },
     { label: "Contact Messages", value: stats?.contacts.total ?? 0, badge: stats?.contacts.new ? `${stats.contacts.new} unread` : null, href: "/admin/contacts" },
+    { label: "Book a Call", value: stats?.bookCalls?.total ?? 0, badge: stats?.bookCalls?.new ? `${stats.bookCalls.new} new` : null, badgeClass: "new", href: "/admin/book-calls" },
     { label: "Job Applications", value: stats?.applications.total ?? 0, badge: stats?.applications.new ? `${stats.applications.new} new` : null, href: "/admin/applications" },
     { label: "Resume Templates", value: stats?.templates ?? 0, href: "/admin/templates" },
     { label: "Blog Posts", value: stats?.blogPosts ?? 0, href: "/admin/blog" },
@@ -73,11 +74,11 @@ export default function AdminDashboard() {
       <div className="admin-grid-2">
         <div className="admin-card">
           <div className="admin-card-header">
-            <h2 className="admin-card-title">Recent Orders</h2>
+            <h2 className="admin-card-title">Recent Orders (Get Started)</h2>
             <Link href="/admin/orders" className="admin-btn admin-btn-secondary admin-btn-sm">View All</Link>
           </div>
           <div className="admin-card-body">
-            {data?.recent.orders.length === 0 ? (
+            {!data?.recent.orders.length ? (
               <div className="admin-empty"><div className="admin-empty-icon">📦</div><div className="admin-empty-text">No orders yet</div></div>
             ) : (
               <table className="admin-table">
@@ -85,7 +86,7 @@ export default function AdminDashboard() {
                   <tr><th>Order</th><th>Customer</th><th>Plan</th><th>Status</th><th>Date</th></tr>
                 </thead>
                 <tbody>
-                  {data?.recent.orders.map((order) => (
+                  {data.recent.orders.map((order) => (
                     <tr key={order.id}>
                       <td><strong>{order.orderNumber}</strong></td>
                       <td>{order.firstName} {order.lastName}</td>
@@ -106,7 +107,7 @@ export default function AdminDashboard() {
             <Link href="/admin/contacts" className="admin-btn admin-btn-secondary admin-btn-sm">View All</Link>
           </div>
           <div className="admin-card-body">
-            {data?.recent.contacts.length === 0 ? (
+            {!data?.recent.contacts.length ? (
               <div className="admin-empty"><div className="admin-empty-icon">✉️</div><div className="admin-empty-text">No messages yet</div></div>
             ) : (
               <table className="admin-table">
@@ -114,7 +115,7 @@ export default function AdminDashboard() {
                   <tr><th>From</th><th>Subject</th><th>Status</th><th>Date</th></tr>
                 </thead>
                 <tbody>
-                  {data?.recent.contacts.map((msg) => (
+                  {data.recent.contacts.map((msg) => (
                     <tr key={msg.id}>
                       <td><strong>{msg.name}</strong><br /><span style={{ fontSize: 12, color: "#94a3b8" }}>{msg.email}</span></td>
                       <td>{msg.subject}</td>
@@ -126,6 +127,35 @@ export default function AdminDashboard() {
               </table>
             )}
           </div>
+        </div>
+      </div>
+
+      <div className="admin-card" style={{ marginTop: 20 }}>
+        <div className="admin-card-header">
+          <h2 className="admin-card-title">Recent Book a Call (Calendly)</h2>
+          <Link href="/admin/book-calls" className="admin-btn admin-btn-secondary admin-btn-sm">View All</Link>
+        </div>
+        <div className="admin-card-body">
+          {!data?.recent.bookCalls?.length ? (
+            <div className="admin-empty"><div className="admin-empty-icon">📅</div><div className="admin-empty-text">No call bookings yet</div></div>
+          ) : (
+            <table className="admin-table">
+              <thead>
+                <tr><th>Name</th><th>Event</th><th>Scheduled</th><th>Status</th><th>Date</th></tr>
+              </thead>
+              <tbody>
+                {data.recent.bookCalls.map((booking) => (
+                  <tr key={booking.id}>
+                    <td><strong>{booking.name}</strong><br /><span style={{ fontSize: 12, color: "#94a3b8" }}>{booking.email}</span></td>
+                    <td>{booking.eventName || "Consultation"}</td>
+                    <td>{booking.scheduledAt ? new Date(booking.scheduledAt).toLocaleString() : "—"}</td>
+                    <td><span className={`admin-badge ${statusBadge(booking.status)}`}>{booking.status}</span></td>
+                    <td>{new Date(booking.createdAt).toLocaleDateString()}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          )}
         </div>
       </div>
 

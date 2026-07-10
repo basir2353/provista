@@ -160,8 +160,7 @@ export function useGetStartedForm(ready = true) {
       const form = document.getElementById("mainContent");
       if (!form) return;
 
-      const inputs = form.querySelectorAll("input[type='text'], input[type='email'], input[type='tel']");
-      const textareas = form.querySelectorAll("textarea");
+      const val = (name: string) => (form.querySelector(`[name="${name}"]`) as HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement)?.value?.trim() || "";
       const p = planData[currentPlan] || planData.professional;
 
       const addons: { name: string; price: number }[] = [];
@@ -171,18 +170,42 @@ export function useGetStartedForm(ready = true) {
         addons.push({ name, price: Number(input.getAttribute("data-addon") || 0) });
       });
 
+      const achievements = val("achievements");
+      const writerNotes = val("writerNotes");
+      const targetCompanies = val("targetCompanies");
+      const noteParts = [
+        targetCompanies ? `Target companies: ${targetCompanies}` : "",
+        achievements ? `Achievements:\n${achievements}` : "",
+        writerNotes ? `Writer notes:\n${writerNotes}` : "",
+      ].filter(Boolean);
+
+      const params = new URLSearchParams(window.location.search);
+      const templateId = params.get("template") || "";
+
       const fd = new FormData();
       fd.append("planSlug", currentPlan);
       fd.append("planName", p.name);
       fd.append("planPrice", String(p.price));
       fd.append("addons", JSON.stringify(addons));
-      fd.append("firstName", (inputs[0] as HTMLInputElement)?.value || "");
-      fd.append("lastName", (inputs[1] as HTMLInputElement)?.value || "");
-      fd.append("email", (inputs[2] as HTMLInputElement)?.value || "");
-      fd.append("phone", (inputs[3] as HTMLInputElement)?.value || "");
-      fd.append("targetRole", (inputs[4] as HTMLInputElement)?.value || "");
-      fd.append("notes", (textareas[1] as HTMLTextAreaElement)?.value || "");
+      fd.append("firstName", val("firstName"));
+      fd.append("lastName", val("lastName"));
+      fd.append("email", val("email"));
+      fd.append("phone", val("phone"));
+      fd.append("industry", val("industry"));
+      fd.append("experience", val("experience"));
+      fd.append("targetRole", val("targetRole"));
+      fd.append("notes", noteParts.join("\n\n"));
+      if (templateId) {
+        fd.append("templateId", templateId);
+        fd.append("templateName", templateId);
+      }
+      const fileInput = document.getElementById("fileInput") as HTMLInputElement | null;
       if (fileInput?.files?.[0]) fd.append("resume", fileInput.files[0]);
+
+      if (!val("firstName") || !val("lastName") || !val("email")) {
+        alert("Please fill in your first name, last name, and email.");
+        return;
+      }
 
       try {
         const API_URL = process.env.NEXT_PUBLIC_API_URL || "https://backend-provista-production.up.railway.app";
@@ -244,26 +267,28 @@ export function useContactForm() {
 
     const submitBtn = document.querySelector(".btn-submit-contact");
     submitBtn?.addEventListener("click", async () => {
-      const form = submitBtn.closest("form") || submitBtn.closest(".contact-form") || document;
+      const form = submitBtn.closest(".contact-form-card");
+      if (!form) return;
+
+      const inputs = form.querySelectorAll("input");
       const textarea = form.querySelector("textarea") as HTMLTextAreaElement | null;
       const activeChip = document.querySelector(".subject-chip.active");
-      const allInputs = Array.from(form.querySelectorAll("input")) as HTMLInputElement[];
 
       const contactData = {
-        name: `${allInputs[0]?.value || ""} ${allInputs[1]?.value || ""}`.trim(),
-        email: allInputs[2]?.value || "",
-        subject: allInputs[3]?.value || activeChip?.textContent?.trim() || "General Inquiry",
+        name: `${(inputs[0] as HTMLInputElement)?.value || ""} ${(inputs[1] as HTMLInputElement)?.value || ""}`.trim(),
+        email: (inputs[2] as HTMLInputElement)?.value || "",
+        subject: (inputs[3] as HTMLInputElement)?.value || activeChip?.textContent?.trim() || "General Inquiry",
         message: textarea?.value || "",
+        source: "contact",
       };
 
+      if (!contactData.name || !contactData.email || !contactData.message) {
+        alert("Please fill in your name, email, and message.");
+        return;
+      }
+
       try {
-        const API_URL = process.env.NEXT_PUBLIC_API_URL || "https://backend-provista-production.up.railway.app";
-        const res = await fetch(`${API_URL}/api/contacts`, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(contactData),
-        });
-        if (!res.ok) throw new Error("Failed");
+        await api.contacts.submit(contactData);
         const success = document.getElementById("successMsg");
         if (success) success.style.display = "block";
         if (submitBtn instanceof HTMLButtonElement) {
@@ -271,7 +296,7 @@ export function useContactForm() {
           submitBtn.style.background = "var(--teal-dark)";
         }
       } catch {
-        alert("Failed to send message. Please ensure the backend is running.");
+        alert("Failed to send message. Please try again.");
       }
     });
   }, []);

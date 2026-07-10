@@ -54,16 +54,16 @@ export default function GetStartedContent() {
               <div className="form-section reveal">
                 <div className="form-section-title"><div className="form-section-icon">👤</div>Your Information</div>
                 <div className="form-row">
-                  <div className="form-group"><label>First Name *</label><input type="text" placeholder="e.g. Sarah" /></div>
-                  <div className="form-group"><label>Last Name *</label><input type="text" placeholder="e.g. Johnson" /></div>
+                  <div className="form-group"><label>First Name *</label><input type="text" name="firstName" placeholder="e.g. Sarah" /></div>
+                  <div className="form-group"><label>Last Name *</label><input type="text" name="lastName" placeholder="e.g. Johnson" /></div>
                 </div>
                 <div className="form-row">
-                  <div className="form-group"><label>Email Address *</label><input type="email" placeholder="you@email.com" /></div>
-                  <div className="form-group"><label>Phone Number</label><input type="tel" placeholder="+1 (555) 000-0000" /></div>
+                  <div className="form-group"><label>Email Address *</label><input type="email" name="email" placeholder="you@email.com" /></div>
+                  <div className="form-group"><label>Phone Number</label><input type="tel" name="phone" placeholder="+1 (555) 000-0000" /></div>
                 </div>
                 <div className="form-row">
                   <div className="form-group"><label>Industry / Field *</label>
-                    <select>
+                    <select name="industry">
                       <option value="">Select your industry...</option>
                       <option>Technology & IT</option>
                       <option>Finance & Banking</option>
@@ -78,7 +78,7 @@ export default function GetStartedContent() {
                     </select>
                   </div>
                   <div className="form-group"><label>Career Level *</label>
-                    <select>
+                    <select name="experience">
                       <option value="">Select level...</option>
                       <option>Entry Level / Graduate</option>
                       <option>Mid-Level (2-5 years)</option>
@@ -92,10 +92,10 @@ export default function GetStartedContent() {
 
               <div className="form-section reveal">
                 <div className="form-section-title"><div className="form-section-icon">🎯</div>Your Career Goals</div>
-                <div className="form-group"><label>Target Job Title *</label><input type="text" placeholder="e.g. Senior Product Manager, Software Engineer" /></div>
-                <div className="form-group"><label>Target Companies (optional)</label><input type="text" placeholder="e.g. Google, Amazon, McKinsey" /></div>
-                <div className="form-group"><label>Key Achievements & Highlights</label><textarea placeholder="Share 3-5 key accomplishments from your career that you'd like highlighted (e.g. grew revenue by 40%, led team of 20, launched product used by 1M+ users)..."></textarea></div>
-                <div className="form-group"><label>Anything specific you&apos;d like your writer to focus on?</label><textarea placeholder="e.g. Career change, employment gap, promotion to leadership, relocation..." style={{ minHeight: "80px" }}></textarea></div>
+                <div className="form-group"><label>Target Job Title *</label><input type="text" name="targetRole" placeholder="e.g. Senior Product Manager, Software Engineer" /></div>
+                <div className="form-group"><label>Target Companies (optional)</label><input type="text" name="targetCompanies" placeholder="e.g. Google, Amazon, McKinsey" /></div>
+                <div className="form-group"><label>Key Achievements & Highlights</label><textarea name="achievements" placeholder="Share 3-5 key accomplishments from your career that you'd like highlighted (e.g. grew revenue by 40%, led team of 20, launched product used by 1M+ users)..."></textarea></div>
+                <div className="form-group"><label>Anything specific you&apos;d like your writer to focus on?</label><textarea name="writerNotes" placeholder="e.g. Career change, employment gap, promotion to leadership, relocation..." style={{ minHeight: "80px" }}></textarea></div>
               </div>
 
               <div className="form-section reveal">

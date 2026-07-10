@@ -84,6 +84,7 @@ export interface DashboardData {
     orders: { total: number; new: number };
     contacts: { total: number; new: number };
     applications: { total: number; new: number };
+    bookCalls: { total: number; new: number };
     templates: number;
     blogPosts: number;
     teamMembers: number;
@@ -92,6 +93,7 @@ export interface DashboardData {
   recent: {
     orders: Order[];
     contacts: ContactMessage[];
+    bookCalls: BookCall[];
   };
 }
 
@@ -169,7 +171,13 @@ export interface Order {
 
 export interface ContactMessage {
   id: string; name: string; email: string; phone?: string;
-  subject: string; message: string; status: string; createdAt: string;
+  subject: string; message: string; source?: string; status: string; createdAt: string;
+}
+
+export interface BookCall {
+  id: string; name: string; email: string; phone?: string;
+  eventName?: string; scheduledAt?: string; timezone?: string;
+  calendlyUri?: string; status: string; notes?: string; createdAt: string;
 }
 
 export interface TeamApplication {
@@ -259,8 +267,19 @@ export const api = {
       request<ContactMessage>(`/api/contacts/admin/${id}`, { method: "PUT", body: JSON.stringify(data) }),
     delete: (id: string) =>
       request<{ message: string }>(`/api/contacts/admin/${id}`, { method: "DELETE" }),
-    submit: (data: { name: string; email: string; phone?: string; subject: string; message: string }) =>
+    submit: (data: { name: string; email: string; phone?: string; subject: string; message: string; source?: string }) =>
       request<{ message: string }>("/api/contacts", { method: "POST", body: JSON.stringify(data) }),
+  },
+
+  bookCalls: {
+    listAdmin: (status?: string) =>
+      request<BookCall[]>(`/api/book-calls/admin/all${status ? `?status=${status}` : ""}`),
+    update: (id: string, data: { status: string }) =>
+      request<BookCall>(`/api/book-calls/admin/${id}`, { method: "PUT", body: JSON.stringify(data) }),
+    delete: (id: string) =>
+      request<{ message: string }>(`/api/book-calls/admin/${id}`, { method: "DELETE" }),
+    submit: (data: Partial<BookCall>) =>
+      request<{ message: string }>("/api/book-calls", { method: "POST", body: JSON.stringify(data) }),
   },
 
   applications: {

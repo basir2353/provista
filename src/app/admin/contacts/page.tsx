@@ -5,6 +5,11 @@ import AdminHeader from "@/components/admin/AdminHeader";
 import Modal from "@/components/admin/Modal";
 import { api, ContactMessage } from "@/lib/api";
 
+const SOURCE_LABELS: Record<string, string> = {
+  contact: "Contact Form",
+  book_call: "Book a Call",
+};
+
 export default function AdminContactsPage() {
   const [items, setItems] = useState<ContactMessage[]>([]);
   const [loading, setLoading] = useState(true);
@@ -25,8 +30,8 @@ export default function AdminContactsPage() {
 
   return (
     <>
-      <AdminHeader title="Contact Messages" description="Inbox for all contact form submissions from the website contact page." />
-      <div style={{ marginBottom: 16, display: "flex", gap: 8 }}>
+      <AdminHeader title="Contact Messages" description="Inbox for contact form submissions from the website." />
+      <div style={{ marginBottom: 16, display: "flex", gap: 8, flexWrap: "wrap" }}>
         {["", "new", "read", "replied", "archived"].map((s) => (
           <button key={s} className={`admin-btn admin-btn-sm ${filter === s ? "admin-btn-primary" : "admin-btn-secondary"}`} onClick={() => setFilter(s)}>
             {s === "" ? "All" : s}
@@ -34,14 +39,17 @@ export default function AdminContactsPage() {
         ))}
       </div>
       <div className="admin-card">
-        {loading ? <div className="admin-loading"><div className="admin-spinner" /></div> : (
+        {loading ? <div className="admin-loading"><div className="admin-spinner" /></div> : items.length === 0 ? (
+          <div className="admin-empty"><div className="admin-empty-icon">✉️</div><div className="admin-empty-text">No messages yet</div></div>
+        ) : (
           <table className="admin-table">
-            <thead><tr><th>From</th><th>Subject</th><th>Status</th><th>Date</th><th>Actions</th></tr></thead>
+            <thead><tr><th>From</th><th>Subject</th><th>Source</th><th>Status</th><th>Date</th><th>Actions</th></tr></thead>
             <tbody>
               {items.map((m) => (
                 <tr key={m.id}>
                   <td><strong>{m.name}</strong><br /><span style={{ fontSize: 12, color: "#94a3b8" }}>{m.email}</span></td>
                   <td>{m.subject}</td>
+                  <td><span className="admin-badge blue">{SOURCE_LABELS[m.source || "contact"] || m.source}</span></td>
                   <td><span className={`admin-badge ${m.status === "new" ? "yellow" : m.status === "replied" ? "green" : "gray"}`}>{m.status}</span></td>
                   <td>{new Date(m.createdAt).toLocaleString()}</td>
                   <td><button className="admin-btn admin-btn-secondary admin-btn-sm" onClick={() => setSelected(m)}>Read</button></td>
@@ -61,6 +69,7 @@ export default function AdminContactsPage() {
             <p><strong>From:</strong> {selected.name} ({selected.email})</p>
             {selected.phone && <p><strong>Phone:</strong> {selected.phone}</p>}
             <p><strong>Subject:</strong> {selected.subject}</p>
+            <p><strong>Source:</strong> {SOURCE_LABELS[selected.source || "contact"] || selected.source}</p>
             <div style={{ marginTop: 16, padding: 16, background: "#f8fafc", borderRadius: 8, whiteSpace: "pre-wrap" }}>{selected.message}</div>
           </div>
         )}
