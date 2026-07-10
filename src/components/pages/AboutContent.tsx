@@ -31,9 +31,27 @@ export default function AboutContent() {
                   <div><div className="mission-name">Sarah Reynolds</div><div className="mission-role">Founder & Chief Resume Writer</div></div>
                 </div>
                 <div className="hero-stats-row">
-                  <div className="hero-stat-box"><div className="hero-stat-num">12K+</div><div className="hero-stat-label">Resumes Written</div></div>
-                  <div className="hero-stat-box"><div className="hero-stat-num">98%</div><div className="hero-stat-label">Interview Rate</div></div>
-                  <div className="hero-stat-box"><div className="hero-stat-num">4.9★</div><div className="hero-stat-label">Client Rating</div></div>
+                  <div className="hero-stat-box">
+                    <div className="hero-stat-num">
+                      {settings.home_stat_2_value || "12"}
+                      {settings.home_stat_2_suffix || "K+"}
+                    </div>
+                    <div className="hero-stat-label">{settings.home_stat_2_label || "Resumes Written"}</div>
+                  </div>
+                  <div className="hero-stat-box">
+                    <div className="hero-stat-num">
+                      {settings.home_stat_1_value || "98"}
+                      {settings.home_stat_1_suffix || "%"}
+                    </div>
+                    <div className="hero-stat-label">{settings.home_stat_1_label || "Interview Rate"}</div>
+                  </div>
+                  <div className="hero-stat-box">
+                    <div className="hero-stat-num">
+                      {settings.home_stat_3_value || "4.9"}
+                      {settings.home_stat_3_suffix || "★"}
+                    </div>
+                    <div className="hero-stat-label">{settings.home_stat_3_label || "Client Rating"}</div>
+                  </div>
                 </div>
               </div>
             </div>

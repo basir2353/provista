@@ -43,16 +43,36 @@ export default function HomeContent() {
               </div>
               <div className="hero-stats">
                 <div>
-                  <div className="hero-stat-num" data-count="98" data-suffix="%">0%</div>
-                  <div className="hero-stat-label">Interview Rate</div>
+                  <div
+                    className="hero-stat-num"
+                    data-count={settings.home_stat_1_value || "98"}
+                    data-suffix={settings.home_stat_1_suffix || "%"}
+                  >
+                    0{settings.home_stat_1_suffix || "%"}
+                  </div>
+                  <div className="hero-stat-label">{settings.home_stat_1_label || "Interview Rate"}</div>
                 </div>
                 <div>
-                  <div className="hero-stat-num" data-count="12" data-suffix="K+">0K+</div>
-                  <div className="hero-stat-label">Resumes Written</div>
+                  <div
+                    className="hero-stat-num"
+                    data-count={settings.home_stat_2_value || "12"}
+                    data-suffix={settings.home_stat_2_suffix || "K+"}
+                  >
+                    0{settings.home_stat_2_suffix || "K+"}
+                  </div>
+                  <div className="hero-stat-label">{settings.home_stat_2_label || "Resumes Written"}</div>
                 </div>
                 <div>
-                  <div className="hero-stat-num" data-count="49" data-format="rating">4.9★</div>
-                  <div className="hero-stat-label">Client Rating</div>
+                  <div
+                    className="hero-stat-num"
+                    data-count={settings.home_stat_3_value || "4.9"}
+                    data-suffix={settings.home_stat_3_suffix || "★"}
+                    data-format="rating"
+                  >
+                    {settings.home_stat_3_value || "4.9"}
+                    {settings.home_stat_3_suffix || "★"}
+                  </div>
+                  <div className="hero-stat-label">{settings.home_stat_3_label || "Client Rating"}</div>
                 </div>
               </div>
             </div>

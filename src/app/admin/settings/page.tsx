@@ -200,11 +200,14 @@ export default function AdminSettingsPage() {
                       onChange={(e) => setValues({ ...values, [field.key]: e.target.value })}
                     />
                   ) : (
-                    <input
-                      className="admin-input"
-                      value={values[field.key] || ""}
-                      onChange={(e) => setValues({ ...values, [field.key]: e.target.value })}
-                    />
+                    <>
+                      <input
+                        className="admin-input"
+                        value={values[field.key] || ""}
+                        onChange={(e) => setValues({ ...values, [field.key]: e.target.value })}
+                      />
+                      {field.hint && <p className="admin-file-hint">{field.hint}</p>}
+                    </>
                   )}
                 </div>
               ))}

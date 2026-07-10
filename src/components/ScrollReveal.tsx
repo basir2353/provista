@@ -8,12 +8,14 @@ function animateCounter(el: HTMLElement) {
   el.dataset.animated = "true";
 
   if (el.dataset.format === "rating") {
+    const target = Number(el.dataset.count) || 4.9;
+    const suffix = el.dataset.suffix || "★";
     const start = performance.now();
     const duration = 1400;
     const tick = (now: number) => {
       const progress = Math.min((now - start) / duration, 1);
       const eased = 1 - Math.pow(1 - progress, 3);
-      el.textContent = `${(4.9 * eased).toFixed(1)}★`;
+      el.textContent = `${(target * eased).toFixed(1)}${suffix}`;
       if (progress < 1) requestAnimationFrame(tick);
     };
     requestAnimationFrame(tick);
