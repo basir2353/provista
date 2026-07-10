@@ -2,6 +2,8 @@
 
 import { useTeamForm } from "@/hooks/usePageInteractivity";
 import { useCmsData } from "@/hooks/useCmsData";
+import { useSiteSettings } from "@/context/SiteSettingsContext";
+import { TeamAvatar, TeamMemberSocials } from "@/components/TeamMemberCard";
 import { api, TeamMember } from "@/lib/api";
 import { parseJsonArray, splitCsv, staggerDelay } from "@/lib/cms";
 
@@ -13,9 +15,11 @@ function LeaderCard({ leader, delay }: { leader: TeamMember; delay: string }) {
   return (
     <div className={`leader-card reveal ${delay}`} key={leader.id}>
       <div style={{ position: "relative" }}>
-        <div className="leader-avatar" style={{ background: leader.gradient || "linear-gradient(135deg,var(--teal),var(--aqua))" }}>
-          {leader.initials}
-        </div>
+        <TeamAvatar
+          member={leader}
+          className="leader-avatar"
+          style={{ background: leader.gradient || "linear-gradient(135deg,var(--teal),var(--aqua))" }}
+        />
         {leader.badge && <span className="leader-badge">{leader.badge}</span>}
       </div>
       <div className="leader-info">
@@ -39,7 +43,7 @@ function LeaderCard({ leader, delay }: { leader: TeamMember; delay: string }) {
             {industries.map((tag) => <span className="industry-tag" key={tag}>{tag}</span>)}
           </div>
         )}
-        <div className="leader-socials"><a className="leader-social" href="#">in</a><a className="leader-social" href="#">𝕏</a><a className="leader-social" href="#">✉</a></div>
+        <TeamMemberSocials member={leader} />
       </div>
     </div>
   );
@@ -49,9 +53,11 @@ function MemberCard({ member, delay }: { member: TeamMember; delay: string }) {
   return (
     <div className={`team-card reveal ${delay}`} key={member.id}>
       <div className="team-card-top" style={{ background: member.topBg || "linear-gradient(135deg,var(--navy),var(--navy-mid))" }}>
-        <div className="team-avatar" style={{ background: member.avatarBg || "linear-gradient(135deg,var(--teal),var(--aqua))" }}>
-          {member.initials}
-        </div>
+        <TeamAvatar
+          member={member}
+          className="team-avatar"
+          style={{ background: member.avatarBg || "linear-gradient(135deg,var(--teal),var(--aqua))" }}
+        />
       </div>
       <div className="team-card-body">
         <div className="team-name">{member.name}</div>
@@ -65,13 +71,14 @@ function MemberCard({ member, delay }: { member: TeamMember; delay: string }) {
             <div className="mini-stat"><div className="mini-stat-num">{member.written}</div><div className="mini-stat-label">{member.writtenLabel || "Written"}</div></div>
           )}
         </div>
-        <div className="team-socials"><a className="team-social" href="#">in</a><a className="team-social" href="#">✉</a></div>
+        <TeamMemberSocials member={member} className="team-socials" />
       </div>
     </div>
   );
 }
 
 export default function TeamContent() {
+  const settings = useSiteSettings();
   const { data: members, loading } = useCmsData(() => api.team.list(), [], []);
   useTeamForm();
 
@@ -83,18 +90,26 @@ export default function TeamContent() {
       <section className="page-hero">
         <div className="blob b1"></div><div className="blob b2"></div>
         <div className="container">
-          <span className="section-label">Meet the Experts</span>
-          <h1>The People Behind <span>Your Success</span></h1>
-          <p>Our team of certified resume writers, career coaches, and ATS specialists are dedicated to one mission: getting you hired.</p>
-          <a href="/get-started" className="btn btn-primary" style={{ position: "relative", zIndex: 2 }}>✦ Work With Our Team</a>
+          <span className="section-label">{settings.team_hero_label}</span>
+          <h1>
+            {settings.team_hero_title}{" "}
+            <span>{settings.team_hero_highlight}</span>
+          </h1>
+          <p>{settings.team_hero_description}</p>
+          <a href="/get-started" className="btn btn-primary" style={{ position: "relative", zIndex: 2 }}>
+            {settings.team_hero_cta_primary}
+          </a>
         </div>
       </section>
 
       <section className="leadership-section">
         <div className="container">
           <div style={{ textAlign: "center", maxWidth: "560px", margin: "0 auto" }}>
-            <span className="section-label">Leadership</span>
-            <h2 style={{ fontFamily: "var(--font-display)", fontSize: "clamp(2rem,3.5vw,2.8rem)", fontWeight: 700, color: "var(--navy)" }} className="reveal">Our <span style={{ color: "var(--teal)" }}>Founding Team</span></h2>
+            <span className="section-label">{settings.team_leadership_label}</span>
+            <h2 style={{ fontFamily: "var(--font-display)", fontSize: "clamp(2rem,3.5vw,2.8rem)", fontWeight: 700, color: "var(--navy)" }} className="reveal">
+              {settings.team_leadership_title}{" "}
+              <span style={{ color: "var(--teal)" }}>{settings.team_leadership_highlight}</span>
+            </h2>
           </div>
           <div className="leadership-grid">
             {loading && <p style={{ color: "var(--gray-500)" }}>Loading team...</p>}
@@ -108,9 +123,12 @@ export default function TeamContent() {
       <section className="team-section">
         <div className="container">
           <div style={{ textAlign: "center", maxWidth: "560px", margin: "0 auto" }}>
-            <span className="section-label">Our Writers & Specialists</span>
-            <h2 style={{ fontFamily: "var(--font-display)", fontSize: "clamp(2rem,3.5vw,2.8rem)", fontWeight: 700, color: "var(--navy)" }} className="reveal">Our Full <span style={{ color: "var(--teal)" }}>Team of Experts</span></h2>
-            <p className="reveal" style={{ color: "var(--gray-500)", marginTop: "14px", fontSize: "15px", lineHeight: 1.7 }}>Every ProCareerVista writer holds active CPRW certification and specializes in specific industry verticals.</p>
+            <span className="section-label">{settings.team_writers_label}</span>
+            <h2 style={{ fontFamily: "var(--font-display)", fontSize: "clamp(2rem,3.5vw,2.8rem)", fontWeight: 700, color: "var(--navy)" }} className="reveal">
+              {settings.team_writers_title}{" "}
+              <span style={{ color: "var(--teal)" }}>{settings.team_writers_highlight}</span>
+            </h2>
+            <p className="reveal" style={{ color: "var(--gray-500)", marginTop: "14px", fontSize: "15px", lineHeight: 1.7 }}>{settings.team_writers_description}</p>
           </div>
           <div className="team-grid">
             {teamMembers.map((member, i) => (

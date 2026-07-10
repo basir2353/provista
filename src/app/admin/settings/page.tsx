@@ -5,6 +5,7 @@ import AdminHeader from "@/components/admin/AdminHeader";
 import AdminAlert from "@/components/admin/AdminAlert";
 import { api, SiteSetting, uploadUrl } from "@/lib/api";
 import { getErrorMessage } from "@/lib/errors";
+import { IMAGE_SETTING_KEYS, PAGE_SETTING_GROUPS } from "@/lib/pageContentFields";
 
 type SettingField = {
   key: string;
@@ -74,6 +75,7 @@ const SETTING_GROUPS: { group: string; label: string; fields: SettingField[] }[]
       { key: "meta_description", label: "Meta Description", type: "textarea" },
     ],
   },
+  ...PAGE_SETTING_GROUPS,
 ];
 
 const ALL_KEYS = SETTING_GROUPS.flatMap((g) => g.fields.map((f) => f.key));
@@ -123,7 +125,7 @@ export default function AdminSettingsPage() {
     }
   };
 
-  const handleFileUpload = async (key: "site_logo" | "favicon", file: File) => {
+  const handleFileUpload = async (key: string, file: File) => {
     setUploading(key);
     setAlert("");
     setAlertType("error");
@@ -131,7 +133,7 @@ export default function AdminSettingsPage() {
       const setting = await api.settings.uploadFile(key, file);
       setValues((prev) => ({ ...prev, [key]: setting.value }));
       setAlertType("success");
-      setAlert(`${key === "site_logo" ? "Logo" : "Favicon"} uploaded successfully!`);
+      setAlert("Image uploaded successfully!");
       load();
     } catch (err) {
       setAlertType("error");
@@ -147,7 +149,7 @@ export default function AdminSettingsPage() {
     <>
       <AdminHeader
         title="Site Settings"
-        description="Update logo, favicon, site name, contact info, social links, and SEO settings."
+        description="Update branding, contact info, page content, social links, images, and SEO."
         action={<button className="admin-btn admin-btn-primary" onClick={handleSave} disabled={saving}>{saving ? "Saving..." : "Save All Settings"}</button>}
       />
 
@@ -183,7 +185,7 @@ export default function AdminSettingsPage() {
                         disabled={uploading === field.key}
                         onChange={(e) => {
                           const file = e.target.files?.[0];
-                          if (file && (field.key === "site_logo" || field.key === "favicon")) {
+                          if (file && IMAGE_SETTING_KEYS.has(field.key)) {
                             void handleFileUpload(field.key, file);
                           }
                         }}

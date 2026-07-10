@@ -2,9 +2,11 @@
 
 import { useGetStartedForm } from "@/hooks/usePageInteractivity";
 import { useCmsData } from "@/hooks/useCmsData";
+import { useSiteSettings } from "@/context/SiteSettingsContext";
 import { api } from "@/lib/api";
 
 export default function GetStartedContent() {
+  const settings = useSiteSettings();
   const { data: plans, loading: plansLoading } = useCmsData(() => api.pricing.plans.list(), [], []);
   const { data: addons, loading: addonsLoading } = useCmsData(() => api.pricing.addons.list(), [], []);
   useGetStartedForm(!plansLoading && plans.length > 0);
@@ -19,9 +21,12 @@ export default function GetStartedContent() {
 
             <div>
               <div className="steps-header">
-                <span className="section-label">Start Your Order</span>
-                <h1>Let&apos;s Build Your <span>Winning Resume</span></h1>
-                <p>Complete the form below — it takes about 5 minutes. Your assigned writer will be in touch within 2 hours.</p>
+                <span className="section-label">{settings.get_started_label}</span>
+                <h1>
+                  {settings.get_started_title}{" "}
+                  <span>{settings.get_started_highlight}</span>
+                </h1>
+                <p>{settings.get_started_description}</p>
               </div>
 
               <div className="form-section reveal">

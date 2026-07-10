@@ -2,6 +2,7 @@
 
 import { useTemplatesFilter } from "@/hooks/usePageInteractivity";
 import { useCmsData } from "@/hooks/useCmsData";
+import { useSiteSettings } from "@/context/SiteSettingsContext";
 import { hasTemplatePreview, TemplatePreviewMedia } from "@/components/TemplatePreviewMedia";
 import { api, Template } from "@/lib/api";
 import { staggerDelay } from "@/lib/cms";
@@ -45,6 +46,7 @@ function TemplateCard({ template, index }: { template: Template; index: number }
 }
 
 export default function TemplatesContent() {
+  const settings = useSiteSettings();
   const { data: templates, loading } = useCmsData(() => api.templates.list(), [], []);
   useTemplatesFilter();
 
@@ -56,11 +58,14 @@ export default function TemplatesContent() {
         <div className="blob b1"></div>
         <div className="blob b2"></div>
         <div className="container">
-          <span className="section-label">Resume Templates</span>
-          <h1>Designs That <span>Get You Hired</span></h1>
-          <p>Professionally designed, ATS-optimized templates included with every package. Available in Word & PDF formats.</p>
-          <a href="/get-started" className="btn btn-primary" style={{ marginRight: "12px" }}>✦ Get All Templates</a>
-          <a href="/pricing" className="btn btn-outline" style={{ color: "white", borderColor: "rgba(255,255,255,0.4)" }}>View Pricing</a>
+          <span className="section-label">{settings.templates_hero_label}</span>
+          <h1>
+            {settings.templates_hero_title}{" "}
+            <span>{settings.templates_hero_highlight}</span>
+          </h1>
+          <p>{settings.templates_hero_description}</p>
+          <a href="/get-started" className="btn btn-primary" style={{ marginRight: "12px" }}>{settings.templates_hero_cta_primary}</a>
+          <a href="/pricing" className="btn btn-outline" style={{ color: "white", borderColor: "rgba(255,255,255,0.4)" }}>{settings.templates_hero_cta_secondary}</a>
         </div>
       </section>
 

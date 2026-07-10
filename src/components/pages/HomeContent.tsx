@@ -2,10 +2,13 @@
 
 import { useHomeInteractivity } from "@/hooks/usePageInteractivity";
 import { useCmsData } from "@/hooks/useCmsData";
+import { useSiteSettings } from "@/context/SiteSettingsContext";
+import { TeamAvatar, TeamMemberSocials } from "@/components/TeamMemberCard";
 import { api } from "@/lib/api";
 import { revealDelay } from "@/lib/cms";
 
 export default function HomeContent() {
+  const settings = useSiteSettings();
   const { data: industries } = useCmsData(() => api.industries.list(), [], []);
   const { data: testimonials } = useCmsData(() => api.testimonials.list(), [], []);
   const { data: faqs } = useCmsData(() => api.faqs.list(), [], []);
@@ -26,20 +29,17 @@ export default function HomeContent() {
             <div className="hero-content">
               <div className="hero-badge">
                 <span className="hero-badge-dot"></span>
-                <span>✦ ATS-Optimized Resumes</span>
+                <span>{settings.home_hero_badge}</span>
               </div>
               <h1 className="hero-headline">
-                Land Your <span className="line-teal">Dream Job</span><br />
-                with a <span className="line-accent">Winning</span><br />
-                Resume
+                {settings.home_hero_line1} <span className="line-teal">{settings.home_hero_line1_highlight}</span><br />
+                {settings.home_hero_line2} <span className="line-accent">{settings.home_hero_line2_highlight}</span><br />
+                {settings.home_hero_line3}
               </h1>
-              <p className="hero-desc">
-                Professional resume writers crafting career stories that get noticed. 
-                ATS-optimized, industry-tailored, and designed to get you interviews.
-              </p>
+              <p className="hero-desc">{settings.home_hero_description}</p>
               <div className="hero-actions">
-                <a href="/get-started" className="btn btn-primary">✦ Get My Resume Written</a>
-                <a href="/templates" className="btn btn-outline" style={{color: "white", borderColor: "rgba(255,255,255,0.3)"}}>View Samples</a>
+                <a href="/get-started" className="btn btn-primary">{settings.home_hero_cta_primary}</a>
+                <a href="/templates" className="btn btn-outline" style={{color: "white", borderColor: "rgba(255,255,255,0.3)"}}>{settings.home_hero_cta_secondary}</a>
               </div>
               <div className="hero-stats">
                 <div>
@@ -176,8 +176,8 @@ export default function HomeContent() {
               </div>
             </div>
             <div className="about-content">
-              <span className="section-label">About ProCareerVista</span>
-              <h2 className="section-title reveal">We Don't Just Write<br /><span>Resumes — We Build</span><br />Career Stories</h2>
+              <span className="section-label">{settings.home_about_label}</span>
+              <h2 className="section-title reveal">{settings.home_about_title} <span>{settings.home_about_highlight}</span></h2>
               <p className="about-intro reveal">ProCareerVista was founded with one mission: to ensure that talented professionals are never overlooked because of a poorly written resume. Our certified writers bring deep industry knowledge and a passion for storytelling to every document we create.</p>
               <ul className="about-features">
                 <li className="about-feature-item reveal reveal-delay-1">
@@ -212,8 +212,8 @@ export default function HomeContent() {
       <section id="industries">
         <div className="container">
           <div className="section-header">
-            <span className="section-label">Industries We Serve</span>
-            <h2 className="section-title reveal">Specialists Across <span>Every Sector</span></h2>
+            <span className="section-label">{settings.home_industries_label}</span>
+            <h2 className="section-title reveal">{settings.home_industries_title} <span>{settings.home_industries_highlight}</span></h2>
             <p className="section-sub reveal">Our writers have deep domain expertise across 20+ industries, ensuring your resume speaks the language of your target field.</p>
           </div>
           <div className="industries-grid">
@@ -235,8 +235,8 @@ export default function HomeContent() {
         <div className="container">
           <div className="start-inner">
             <div className="start-left">
-              <span className="section-label">How It Works</span>
-              <h2 className="section-title reveal">Start Your Journey<br /><span>in 3 Simple Steps</span></h2>
+              <span className="section-label">{settings.home_how_label}</span>
+              <h2 className="section-title reveal">{settings.home_how_title} <span>{settings.home_how_highlight}</span></h2>
               <p className="start-desc reveal">From first consultation to final delivery — our streamlined process gets you an interview-winning resume fast.</p>
               <div className="start-actions reveal">
                 <a href="/get-started" className="btn btn-primary">✦ Get Started Now</a>
@@ -285,8 +285,8 @@ export default function HomeContent() {
         <div className="container">
           <div className="templates-header">
             <div>
-              <span className="section-label">Resume Templates</span>
-              <h2 className="section-title reveal">Designs That <span>Get Noticed</span></h2>
+              <span className="section-label">{settings.home_templates_label}</span>
+              <h2 className="section-title reveal">{settings.home_templates_title} <span>{settings.home_templates_highlight}</span></h2>
               <p style={{color: "var(--gray-500)", marginTop: "10px", fontSize: "15px", maxWidth: "480px"}} className="reveal">All templates are fully ATS-compatible and available in Word & PDF formats with your order.</p>
             </div>
             <a href="/pricing" className="btn btn-primary reveal" style={{flexShrink: "0"}}>Get All Templates</a>
@@ -438,8 +438,8 @@ export default function HomeContent() {
       <section id="pricing">
         <div className="container">
           <div className="section-header">
-            <span className="section-label">Transparent Pricing</span>
-            <h2 className="section-title reveal">Choose Your <span>Career Plan</span></h2>
+            <span className="section-label">{settings.home_pricing_label}</span>
+            <h2 className="section-title reveal">{settings.home_pricing_title} <span>{settings.home_pricing_highlight}</span></h2>
             <p className="section-sub reveal">No hidden fees. One-time payment. Unlimited revisions until you're 100% satisfied.</p>
           </div>
           <div className="pricing-grid">
@@ -503,8 +503,8 @@ export default function HomeContent() {
       <section id="testimonials">
         <div className="container">
           <div className="section-header">
-            <span className="section-label">Client Reviews</span>
-            <h2 className="section-title reveal">What Our Clients <span>Are Saying</span></h2>
+            <span className="section-label">{settings.home_testimonials_label}</span>
+            <h2 className="section-title reveal">{settings.home_testimonials_title} <span>{settings.home_testimonials_highlight}</span></h2>
             <p className="section-sub reveal">Over 12,000 professionals have trusted ProCareerVista to advance their careers. Here's what some of them have to say.</p>
           </div>
           <div className="testimonials-grid">
@@ -541,17 +541,19 @@ export default function HomeContent() {
       <section id="team">
         <div className="container">
           <div className="section-header">
-            <span className="section-label">Meet the Team</span>
-            <h2 className="section-title reveal">The <span>Experts</span> Behind<br />Your Success</h2>
+            <span className="section-label">{settings.home_team_label}</span>
+            <h2 className="section-title reveal">{settings.home_team_title} <span>{settings.home_team_highlight}</span></h2>
             <p className="section-sub reveal">Our certified resume writers have placed thousands of professionals at the world's best companies.</p>
           </div>
           <div className="team-grid">
             {homeTeam.map((member, i) => (
               <div className={`team-card reveal ${revealDelay(i + 1)}`} key={member.id}>
                 <div className="team-card-header" style={{ background: member.topBg || "linear-gradient(135deg, var(--navy), var(--navy-mid))" }}>
-                  <div className="team-avatar" style={{ background: member.avatarBg || member.gradient || "linear-gradient(135deg, var(--teal), var(--aqua))" }}>
-                    {member.initials}
-                  </div>
+                  <TeamAvatar
+                    member={member}
+                    className="team-avatar"
+                    style={{ background: member.avatarBg || member.gradient || "linear-gradient(135deg, var(--teal), var(--aqua))" }}
+                  />
                 </div>
                 <div className="team-card-body">
                   <div className="team-name">{member.name}</div>
@@ -559,10 +561,7 @@ export default function HomeContent() {
                   <div className="team-exp">
                     {[member.badge, member.experience, member.speciality].filter(Boolean).join(" | ")}
                   </div>
-                  <div className="team-socials">
-                    <a className="team-social" title="LinkedIn">in</a>
-                    <a className="team-social" title="Email">✉</a>
-                  </div>
+                  <TeamMemberSocials member={member} className="team-socials" />
                 </div>
               </div>
             ))}
@@ -574,8 +573,8 @@ export default function HomeContent() {
       <section id="faq">
         <div className="container">
           <div className="section-header">
-            <span className="section-label">Frequently Asked</span>
-            <h2 className="section-title reveal">Got <span>Questions?</span><br />We Have Answers</h2>
+            <span className="section-label">{settings.home_faq_label}</span>
+            <h2 className="section-title reveal">{settings.home_faq_title} <span>{settings.home_faq_highlight}</span></h2>
           </div>
           <div className="faq-layout">
             <div className="faq-left reveal">

@@ -139,7 +139,9 @@ export interface TeamMember {
   certs?: string; stats?: string; industries?: string;
   speciality?: string; experience?: string; written?: string;
   writtenLabel?: string; gradient?: string; topBg?: string;
-  avatarBg?: string; photoUrl?: string; sortOrder: number; active: boolean;
+  avatarBg?: string; photoUrl?: string;
+  linkedinUrl?: string; twitterUrl?: string; email?: string;
+  sortOrder: number; active: boolean;
 }
 
 export interface PricingPlan {
@@ -283,7 +285,7 @@ export const api = {
     listAdmin: () => request<SiteSetting[]>("/api/settings/admin/all"),
     updateBulk: (updates: { key: string; value: string; group?: string }[]) =>
       request<{ message: string }>("/api/settings/admin/bulk", { method: "PUT", body: JSON.stringify(updates) }),
-    uploadFile: (key: "site_logo" | "favicon", file: File) => {
+    uploadFile: (key: string, file: File) => {
       const fd = new FormData();
       fd.append("key", key);
       fd.append("file", file);

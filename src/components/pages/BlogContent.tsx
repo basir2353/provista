@@ -2,6 +2,7 @@
 
 import { useBlogFilter } from "@/hooks/usePageInteractivity";
 import { useCmsData } from "@/hooks/useCmsData";
+import { useSiteSettings } from "@/context/SiteSettingsContext";
 import { api, BlogPost } from "@/lib/api";
 import { formatBlogDate, staggerDelay } from "@/lib/cms";
 
@@ -18,6 +19,7 @@ const filters = [
 const topics = ["Resume Writing", "ATS Tips", "LinkedIn", "Job Search", "Interviews", "Salary", "Career Change", "Executive", "Cover Letter", "Networking", "Remote Work", "Personal Brand"];
 
 export default function BlogContent() {
+  const settings = useSiteSettings();
   const { data: posts, loading } = useCmsData(() => api.blog.list(), [], []);
   useBlogFilter();
 
@@ -34,11 +36,14 @@ export default function BlogContent() {
         <div className="container">
           <div className="hero-inner">
             <div>
-              <span className="section-label">Career Insights</span>
-              <h2 className="hero-title">The ProCareerVista <span>Career Blog</span></h2>
-              <p className="hero-desc">Expert advice on resume writing, job searching, LinkedIn strategy, and career growth — published weekly by our certified writers and career coaches.</p>
+              <span className="section-label">{settings.blog_hero_label}</span>
+              <h2 className="hero-title">
+                {settings.blog_hero_title}{" "}
+                <span>{settings.blog_hero_highlight}</span>
+              </h2>
+              <p className="hero-desc">{settings.blog_hero_description}</p>
               <div className="search-bar">
-                <input className="search-input" type="text" placeholder="Search articles, tips, guides..." />
+                <input className="search-input" type="text" placeholder={settings.blog_search_placeholder} />
                 <button className="search-btn">Search →</button>
               </div>
             </div>

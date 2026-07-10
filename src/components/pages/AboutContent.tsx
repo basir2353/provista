@@ -1,6 +1,10 @@
 "use client";
 
+import { useSiteSettings } from "@/context/SiteSettingsContext";
+
 export default function AboutContent() {
+  const settings = useSiteSettings();
+
   return (
     <>
       <section className="page-hero">
@@ -8,12 +12,15 @@ export default function AboutContent() {
         <div className="container">
           <div className="hero-grid">
             <div>
-              <div className="hero-tag"><span className="hero-tag-dot"></span><span>Our Story</span></div>
-              <h1 className="hero-title">We Believe Every <span>Professional Deserves</span> to Be Seen</h1>
-              <p className="hero-desc">Founded in 2015, ProCareerVista has helped over 12,000 professionals across 45 countries land their dream jobs through the power of strategic career storytelling.</p>
+              <div className="hero-tag"><span className="hero-tag-dot"></span><span>{settings.about_hero_label}</span></div>
+              <h1 className="hero-title">
+                {settings.about_hero_title}{" "}
+                <span>{settings.about_hero_highlight}</span>
+              </h1>
+              <p className="hero-desc">{settings.about_hero_description}</p>
               <div className="hero-actions">
-                <a href="/get-started" className="btn btn-primary">✦ Start Your Journey</a>
-                <a href="/team" className="btn btn-outline" style={{color: "white", borderColor: "rgba(255,255,255,0.4)"}}>Meet Our Team</a>
+                <a href="/get-started" className="btn btn-primary">{settings.about_hero_cta_primary}</a>
+                <a href="/team" className="btn btn-outline" style={{color: "white", borderColor: "rgba(255,255,255,0.4)"}}>{settings.about_hero_cta_secondary}</a>
               </div>
             </div>
             <div className="reveal">
@@ -39,9 +46,12 @@ export default function AboutContent() {
         <div className="container">
           <div className="story-grid">
             <div>
-              <span className="section-label">Our Journey</span>
-              <h2 className="section-title reveal">A Decade of <span>Transforming Careers</span></h2>
-              <p className="story-intro reveal">What started as a small freelance operation in a home office has grown into a full-service career consultancy trusted by professionals across the globe.</p>
+              <span className="section-label">{settings.about_story_label}</span>
+              <h2 className="section-title reveal">
+                {settings.about_story_title}{" "}
+                <span>{settings.about_story_highlight}</span>
+              </h2>
+              <p className="story-intro reveal">{settings.about_story_intro}</p>
               <div className="story-highlight reveal">"I started ProCareerVista after watching brilliant colleagues get passed over for jobs because their resumes didn't reflect their true capabilities. That injustice became my mission."</div>
               <p className="story-intro reveal" style={{fontSize: "15px"}}>Today, our team of 15 certified writers serves clients from entry-level graduates to Fortune 500 executives, spanning over 20 industries and 45 countries. We combine human expertise with cutting-edge ATS technology to give every client the best possible chance at the job they deserve.</p>
               <div className="reveal" style={{marginTop: "28px"}}><a href="/team" className="btn btn-primary">Meet Our Full Team →</a></div>

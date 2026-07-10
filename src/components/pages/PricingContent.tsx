@@ -2,6 +2,7 @@
 
 import { usePricingToggle } from "@/hooks/usePageInteractivity";
 import { useCmsData } from "@/hooks/useCmsData";
+import { useSiteSettings } from "@/context/SiteSettingsContext";
 import { api, Addon, PricingPlan } from "@/lib/api";
 import { isIncluded, parseJsonArray, revealDelay } from "@/lib/cms";
 
@@ -82,18 +83,25 @@ function AddonCard({ addon, index }: { addon: Addon; index: number }) {
 }
 
 export default function PricingContent() {
+  const settings = useSiteSettings();
   const { data: plans, loading: plansLoading } = useCmsData(() => api.pricing.plans.list(), [], []);
   const { data: addons, loading: addonsLoading } = useCmsData(() => api.pricing.addons.list(), [], []);
+  const { data: faqs } = useCmsData(() => api.faqs.list(), [], []);
   usePricingToggle();
+
+  const pricingFaqs = faqs.filter((f) => f.page === "pricing").slice(0, 8);
 
   return (
     <>
       <section className="page-hero">
         <div className="blob b1"></div><div className="blob b2"></div>
         <div className="container">
-          <span className="section-label">Transparent Pricing</span>
-          <h1>Simple Pricing, <span>Big Results</span></h1>
-          <p>One-time payment. No subscriptions. Unlimited revisions until you&apos;re 100% satisfied. 30-day money-back guarantee.</p>
+          <span className="section-label">{settings.pricing_hero_label}</span>
+          <h1>
+            {settings.pricing_hero_title}{" "}
+            <span>{settings.pricing_hero_highlight}</span>
+          </h1>
+          <p>{settings.pricing_hero_description}</p>
         </div>
       </section>
 
@@ -206,14 +214,19 @@ export default function PricingContent() {
       <section className="faq-mini">
         <div className="container">
           <div style={{ textAlign: "center", maxWidth: "500px", margin: "0 auto 0" }}>
-            <span className="section-label">Quick Answers</span>
-            <h2 style={{ fontFamily: "var(--font-display)", fontSize: "clamp(1.8rem,3vw,2.4rem)", fontWeight: "700", color: "var(--navy)" }}>Pricing <span style={{ color: "var(--teal)" }}>FAQs</span></h2>
+            <span className="section-label">{settings.pricing_faq_label}</span>
+            <h2 style={{ fontFamily: "var(--font-display)", fontSize: "clamp(1.8rem,3vw,2.4rem)", fontWeight: "700", color: "var(--navy)" }}>
+              {settings.pricing_faq_title}{" "}
+              <span style={{ color: "var(--teal)" }}>{settings.pricing_faq_highlight}</span>
+            </h2>
           </div>
           <div className="faq-mini-grid">
-            <div className="faq-mini-item reveal"><div className="faq-mini-q">Is there a subscription or recurring charge?</div><div className="faq-mini-a">No — all plans are one-time payments. You pay once and own your resume forever with no ongoing fees.</div></div>
-            <div className="faq-mini-item reveal reveal-delay-1"><div className="faq-mini-q">Can I upgrade my plan later?</div><div className="faq-mini-a">Yes! You can upgrade at any time and only pay the difference between your current and new plan.</div></div>
-            <div className="faq-mini-item reveal reveal-delay-2"><div className="faq-mini-q">What payment methods do you accept?</div><div className="faq-mini-a">We accept all major credit cards, PayPal, and bank transfers. All payments are secured via SSL encryption.</div></div>
-            <div className="faq-mini-item reveal reveal-delay-3"><div className="faq-mini-q">How does the money-back guarantee work?</div><div className="faq-mini-a">If you&apos;re not satisfied after revisions within 30 days of delivery, contact us and we&apos;ll issue a full refund immediately.</div></div>
+            {pricingFaqs.map((faq, i) => (
+              <div className={`faq-mini-item reveal ${revealDelay(i)}`} key={faq.id}>
+                <div className="faq-mini-q">{faq.question}</div>
+                <div className="faq-mini-a">{faq.answer}</div>
+              </div>
+            ))}
           </div>
         </div>
       </section>

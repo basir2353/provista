@@ -4,6 +4,8 @@ import { createContext, useContext, useMemo } from "react";
 import { useCmsData } from "@/hooks/useCmsData";
 import { api, uploadUrl } from "@/lib/api";
 
+import { PAGE_CONTENT_DEFAULTS } from "@/lib/pageContentFields";
+
 export type SiteSettingsMap = Record<string, string>;
 
 const DEFAULTS: SiteSettingsMap = {
@@ -29,6 +31,7 @@ const DEFAULTS: SiteSettingsMap = {
   calendly_url: "",
   meta_description:
     "Professional resume writers crafting career stories that get noticed. ATS-optimized, industry-tailored, and designed to get you interviews.",
+  ...PAGE_CONTENT_DEFAULTS,
 };
 
 const SiteSettingsContext = createContext<SiteSettingsMap>(DEFAULTS);
