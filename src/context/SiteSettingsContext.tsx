@@ -8,7 +8,7 @@ import { PAGE_CONTENT_DEFAULTS } from "@/lib/pageContentFields";
 
 export type SiteSettingsMap = Record<string, string>;
 
-const DEFAULTS: SiteSettingsMap = {
+export const SITE_SETTINGS_DEFAULTS: SiteSettingsMap = {
   site_name: "ProCareerVista",
   site_tagline: "Transforming careers through expert resume writing, ATS optimization, and professional storytelling since 2015.",
   contact_email: "hello@procareervista.com",
@@ -34,12 +34,12 @@ const DEFAULTS: SiteSettingsMap = {
   ...PAGE_CONTENT_DEFAULTS,
 };
 
-const SiteSettingsContext = createContext<SiteSettingsMap>(DEFAULTS);
+const SiteSettingsContext = createContext<SiteSettingsMap>(SITE_SETTINGS_DEFAULTS);
 
 export function SiteSettingsProvider({ children }: { children: React.ReactNode }) {
-  const { data } = useCmsData(() => api.settings.getMap(), [], DEFAULTS);
+  const { data } = useCmsData(() => api.settings.getMap(), [], SITE_SETTINGS_DEFAULTS);
 
-  const settings = useMemo(() => ({ ...DEFAULTS, ...data }), [data]);
+  const settings = useMemo(() => ({ ...SITE_SETTINGS_DEFAULTS, ...data }), [data]);
 
   return (
     <SiteSettingsContext.Provider value={settings}>

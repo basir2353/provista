@@ -6,6 +6,7 @@ import AdminAlert from "@/components/admin/AdminAlert";
 import { api, SiteSetting, uploadUrl } from "@/lib/api";
 import { getErrorMessage } from "@/lib/errors";
 import { IMAGE_SETTING_KEYS, PAGE_SETTING_GROUPS } from "@/lib/pageContentFields";
+import { SITE_SETTINGS_DEFAULTS } from "@/context/SiteSettingsContext";
 
 type SettingField = {
   key: string;
@@ -94,9 +95,13 @@ export default function AdminSettingsPage() {
     setLoadError("");
     api.settings.listAdmin().then((data) => {
       setSettings(data);
-      const map: Record<string, string> = {};
-      ALL_KEYS.forEach((key) => { map[key] = ""; });
-      data.forEach((s) => { map[s.key] = s.value; });
+      const map: Record<string, string> = { ...SITE_SETTINGS_DEFAULTS };
+      ALL_KEYS.forEach((key) => {
+        if (!(key in map)) map[key] = "";
+      });
+      data.forEach((s) => {
+        map[s.key] = s.value ?? "";
+      });
       setValues(map);
     }).catch((err) => setLoadError(getErrorMessage(err))).finally(() => setLoading(false));
   };
@@ -196,15 +201,15 @@ export default function AdminSettingsPage() {
                   ) : field.type === "textarea" ? (
                     <textarea
                       className="admin-textarea"
-                      value={values[field.key] || ""}
-                      onChange={(e) => setValues({ ...values, [field.key]: e.target.value })}
+                      value={values[field.key] ?? ""}
+                      onChange={(e) => setValues((prev) => ({ ...prev, [field.key]: e.target.value }))}
                     />
                   ) : (
                     <>
                       <input
                         className="admin-input"
-                        value={values[field.key] || ""}
-                        onChange={(e) => setValues({ ...values, [field.key]: e.target.value })}
+                        value={values[field.key] ?? ""}
+                        onChange={(e) => setValues((prev) => ({ ...prev, [field.key]: e.target.value }))}
                       />
                       {field.hint && <p className="admin-file-hint">{field.hint}</p>}
                     </>
