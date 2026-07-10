@@ -7,6 +7,7 @@ import { api, SiteSetting, uploadUrl } from "@/lib/api";
 import { getErrorMessage } from "@/lib/errors";
 import { IMAGE_SETTING_KEYS, PAGE_SETTING_GROUPS } from "@/lib/pageContentFields";
 import { SITE_SETTINGS_DEFAULTS } from "@/context/SiteSettingsContext";
+import { mergeSiteSettings } from "@/lib/siteSettingsMerge";
 
 type SettingField = {
   key: string;
@@ -95,12 +96,13 @@ export default function AdminSettingsPage() {
     setLoadError("");
     api.settings.listAdmin().then((data) => {
       setSettings(data);
-      const map: Record<string, string> = { ...SITE_SETTINGS_DEFAULTS };
+      const apiMap: Record<string, string> = {};
+      data.forEach((s) => {
+        apiMap[s.key] = s.value ?? "";
+      });
+      const map = mergeSiteSettings(SITE_SETTINGS_DEFAULTS, apiMap);
       ALL_KEYS.forEach((key) => {
         if (!(key in map)) map[key] = "";
-      });
-      data.forEach((s) => {
-        map[s.key] = s.value ?? "";
       });
       setValues(map);
     }).catch((err) => setLoadError(getErrorMessage(err))).finally(() => setLoading(false));

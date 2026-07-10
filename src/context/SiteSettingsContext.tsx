@@ -5,6 +5,7 @@ import { useCmsData } from "@/hooks/useCmsData";
 import { api, uploadUrl } from "@/lib/api";
 
 import { PAGE_CONTENT_DEFAULTS } from "@/lib/pageContentFields";
+import { mergeSiteSettings } from "@/lib/siteSettingsMerge";
 
 export type SiteSettingsMap = Record<string, string>;
 
@@ -39,7 +40,7 @@ const SiteSettingsContext = createContext<SiteSettingsMap>(SITE_SETTINGS_DEFAULT
 export function SiteSettingsProvider({ children }: { children: React.ReactNode }) {
   const { data } = useCmsData(() => api.settings.getMap(), [], SITE_SETTINGS_DEFAULTS);
 
-  const settings = useMemo(() => ({ ...SITE_SETTINGS_DEFAULTS, ...data }), [data]);
+  const settings = useMemo(() => mergeSiteSettings(SITE_SETTINGS_DEFAULTS, data ?? {}), [data]);
 
   return (
     <SiteSettingsContext.Provider value={settings}>
