@@ -28,7 +28,7 @@ export default function AboutContent() {
                 <p className="mission-quote">Great resumes don't just list experience — they tell the story of someone who's ready to change the world.</p>
                 <div className="mission-author">
                   <div className="mission-avatar">SR</div>
-                  <div><div className="mission-name">Sarah Reynolds</div><div className="mission-role">Founder & Chief Resume Writer</div></div>
+                  <div><div className="mission-name">Kaleem Ullah </div><div className="mission-role">Founder & Chief Resume Writer</div></div>
                 </div>
                 <div className="hero-stats-row">
                   <div className="hero-stat-box">
