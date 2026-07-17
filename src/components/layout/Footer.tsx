@@ -45,7 +45,7 @@ export default function Footer() {
               </div>
             )}
             <div style={{ marginTop: 20 }}>
-              <TrustpilotWidget variant="micro" theme="dark" height={20} width={140} />
+              <TrustpilotWidget variant="micro" theme="dark" height={20} width={140} linkColor="#ffffff" />
             </div>
           </div>
           <div>
