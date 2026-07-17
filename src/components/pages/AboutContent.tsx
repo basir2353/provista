@@ -77,9 +77,9 @@ export default function AboutContent() {
             <div className="story-timeline reveal">
               <div className="timeline-item">
                 <div className="timeline-dot"></div>
-                <div className="timeline-year">2015</div>
+                <div className="timeline-year"></div>
                 <div className="timeline-title">ProCareerVista Founded</div>
-                <div className="timeline-desc">Sarah Reynolds launches the company from her home office, serving her first 50 clients with a 100% interview success rate.</div>
+                <div className="timeline-desc">Kaleem Ullah launches the company from her home office, serving her first 50 clients with a 100% interview success rate.</div>
               </div>
               <div className="timeline-item">
                 <div className="timeline-dot"></div>
