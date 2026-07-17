@@ -115,7 +115,7 @@ export default function TrustpilotWidget({
       data-theme={theme}
       {...(token ? { "data-token": token } : {})}
     >
-      <a href={href} target="_blank" rel="noopener noreferrer">
+      <a href={href} target="_blank" rel="noopener noreferrer" style={{ color: "#ffffff" }}>
         Trustpilot
       </a>
     </div>
