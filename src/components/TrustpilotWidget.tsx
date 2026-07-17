@@ -27,6 +27,7 @@ type TrustpilotWidgetProps = {
   theme?: "light" | "dark";
   locale?: string;
   href?: string;
+  linkColor?: string;
 };
 
 declare global {
@@ -49,6 +50,7 @@ export default function TrustpilotWidget({
   theme = "light",
   locale = "en-US",
   href = "https://www.trustpilot.com/review/procareervista.com",
+  linkColor,
 }: TrustpilotWidgetProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const resolvedTemplateId = variant === "custom" ? templateId : TRUSTPILOT_TEMPLATE_IDS[variant];
@@ -115,7 +117,7 @@ export default function TrustpilotWidget({
       data-theme={theme}
       {...(token ? { "data-token": token } : {})}
     >
-      <a href={href} target="_blank" rel="noopener noreferrer" style={{ color: "#ffffff" }}>
+      <a href={href} target="_blank" rel="noopener noreferrer" style={linkColor ? { color: linkColor } : undefined}>
         Trustpilot
       </a>
     </div>
