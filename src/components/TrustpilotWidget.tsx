@@ -7,17 +7,21 @@ import { useEffect, useRef } from "react";
 // 2. Go to Widgets in your dashboard, copy your Business Unit ID
 // 3. Paste it below, replacing "YOUR_BUSINESS_UNIT_ID"
 // ─────────────────────────────────────────────────────────────────────
-export const TRUSTPILOT_BUSINESS_UNIT_ID = "YOUR_BUSINESS_UNIT_ID";
+export const TRUSTPILOT_BUSINESS_UNIT_ID = "6a5a0bb3cdddbcc488315e7b";
 
 export const TRUSTPILOT_TEMPLATE_IDS = {
   micro: "5419b6ffb0d04a076446a9af",
   carousel: "53aa8912dec7e10d38f59f36",
+  reviewCollector: "56278e9abfbbba0bdcd568bc",
 } as const;
+
+export const TRUSTPILOT_REVIEW_COLLECTOR_TOKEN = "da7f30d-0697-423b-8068-64eaaa436510";
 
 type TrustpilotWidgetProps = {
   variant?: keyof typeof TRUSTPILOT_TEMPLATE_IDS | "custom";
   templateId?: string;
   businessUnitId?: string;
+  token?: string;
   height?: number | string;
   width?: number | string;
   theme?: "light" | "dark";
@@ -39,11 +43,12 @@ export default function TrustpilotWidget({
   variant = "micro",
   templateId,
   businessUnitId = TRUSTPILOT_BUSINESS_UNIT_ID,
+  token = TRUSTPILOT_REVIEW_COLLECTOR_TOKEN,
   height = 24,
   width = "100%",
   theme = "light",
   locale = "en-US",
-  href = "https://www.trustpilot.com",
+  href = "https://www.trustpilot.com/review/procareervista.com",
 }: TrustpilotWidgetProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const resolvedTemplateId = variant === "custom" ? templateId : TRUSTPILOT_TEMPLATE_IDS[variant];
@@ -108,6 +113,7 @@ export default function TrustpilotWidget({
       data-style-height={typeof height === "number" ? `${height}px` : height}
       data-style-width={typeof width === "number" ? `${width}px` : width}
       data-theme={theme}
+      {...(token ? { "data-token": token } : {})}
     >
       <a href={href} target="_blank" rel="noopener noreferrer">
         Trustpilot
