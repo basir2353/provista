@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import Logo from "@/components/layout/Logo";
+import TrustpilotWidget from "@/components/TrustpilotWidget";
 import { useSiteSettings } from "@/context/SiteSettingsContext";
 
 const SOCIALS = [
@@ -43,6 +44,9 @@ export default function Footer() {
                 {settings.contact_phone && <div>{settings.contact_phone}</div>}
               </div>
             )}
+            <div style={{ marginTop: 20 }}>
+              <TrustpilotWidget variant="micro" theme="dark" height={20} width={140} />
+            </div>
           </div>
           <div>
             <div className="footer-col-title">Services</div>
