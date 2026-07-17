@@ -4,6 +4,7 @@ import { useHomeInteractivity } from "@/hooks/usePageInteractivity";
 import { useCmsData } from "@/hooks/useCmsData";
 import { useSiteSettings } from "@/context/SiteSettingsContext";
 import { TeamAvatar, TeamMemberSocials } from "@/components/TeamMemberCard";
+import TrustpilotWidget from "@/components/TrustpilotWidget";
 import { api } from "@/lib/api";
 import { revealDelay } from "@/lib/cms";
 
@@ -554,6 +555,16 @@ export default function HomeContent() {
               </div>
             ))}
           </div>
+        </div>
+      </section>
+      <section id="trustpilot-reviews">
+        <div className="container">
+          <div className="section-header">
+            <span className="section-label">Verified Reviews</span>
+            <h2 className="section-title reveal">What people say on <span>Trustpilot</span></h2>
+            <p className="section-sub reveal">Independently verified reviews from real clients.</p>
+          </div>
+          <TrustpilotWidget variant="carousel" height={140} />
         </div>
       </section>
       
