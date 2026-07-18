@@ -47,6 +47,9 @@ export default function Footer() {
             <div style={{ marginTop: 20 }}>
               <TrustpilotWidget variant="micro" theme="dark" height={20} width={140} linkColor="#ffffff" />
             </div>
+            <div style={{ marginTop: 12 }}>
+                <TrustpilotWidget variant="reviewCollector" theme="dark" height={52} width={200} />
+              </div>
           </div>
           <div>
             <div className="footer-col-title">Services</div>
