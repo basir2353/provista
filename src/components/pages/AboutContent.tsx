@@ -25,9 +25,9 @@ export default function AboutContent() {
             </div>
             <div className="reveal">
               <div className="hero-visual-card">
-                <p className="mission-quote">Great resumes don't just list experience — they tell the story of someone who's ready to change the world.</p>
+                <p className="mission-quote">Great resumes don't just list experience, they tell the story of someone who's ready to change the world.</p>
                 <div className="mission-author">
-                  <div className="mission-avatar">SR</div>
+                  <div className="mission-avatar">KU</div>
                   <div><div className="mission-name">Kaleem Ullah </div><div className="mission-role">Founder & Chief Resume Writer</div></div>
                 </div>
                 <div className="hero-stats-row">
