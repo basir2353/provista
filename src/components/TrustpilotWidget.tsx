@@ -49,7 +49,7 @@ export default function TrustpilotWidget({
   width = "100%",
   theme = "light",
   locale = "en-US",
-  href = "https://www.trustpilot.com/review/procareervista.com",
+  href = "https://www.trustpilot.com/evaluate/procareervista.com",
   linkColor,
 }: TrustpilotWidgetProps) {
   const containerRef = useRef<HTMLDivElement>(null);
