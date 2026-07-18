@@ -79,13 +79,13 @@ export default function AboutContent() {
                 <div className="timeline-dot"></div>
                 <div className="timeline-year"></div>
                 <div className="timeline-title">ProCareerVista Founded</div>
-                <div className="timeline-desc">Kaleem Ullah launches the company from her home office, serving her first 50 clients with a 100% interview success rate.</div>
+                <div className="timeline-desc">Kaleem Ullah launches the company from his home office, serving her first 50 clients with a 100% interview success rate.</div>
               </div>
               <div className="timeline-item">
                 <div className="timeline-dot"></div>
-                <div className="timeline-year">2017</div>
+                <div className="timeline-year"></div>
                 <div className="timeline-title">Team Expansion</div>
-                <div className="timeline-desc">Grew to a team of 5 certified writers, serving clients across North America and expanding into the UK market.</div>
+                <div className="timeline-desc">Grew to a team of certified writers, serving clients across North America and expanding into the UK market.</div>
               </div>
               <div className="timeline-item">
                 <div className="timeline-dot"></div>
