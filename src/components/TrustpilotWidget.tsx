@@ -8,26 +8,20 @@ import { useEffect, useRef } from "react";
 // 3. Paste it below, replacing "YOUR_BUSINESS_UNIT_ID"
 // ─────────────────────────────────────────────────────────────────────
 export const TRUSTPILOT_BUSINESS_UNIT_ID = "6a5a0bb3cdddbcc488315e7b";
+export const TRUSTPILOT_REVIEW_URL = "https://www.trustpilot.com/evaluate/procareervista.com";
 
 export const TRUSTPILOT_TEMPLATE_IDS = {
   micro: "5419b6ffb0d04a076446a9af",
-  carousel: "53aa8912dec7e10d38f59f36",
-  reviewCollector: "56278e9abfbbba0bdcd568bc",
 } as const;
-
-export const TRUSTPILOT_REVIEW_COLLECTOR_TOKEN = "da7f30d-0697-423b-8068-64eaaa436510";
 
 type TrustpilotWidgetProps = {
   variant?: keyof typeof TRUSTPILOT_TEMPLATE_IDS | "custom";
   templateId?: string;
   businessUnitId?: string;
-  token?: string;
   height?: number | string;
   width?: number | string;
   theme?: "light" | "dark";
   locale?: string;
-  href?: string;
-  linkColor?: string;
 };
 
 declare global {
@@ -40,17 +34,19 @@ declare global {
 
 const WIDGET_SCRIPT_SRC = "https://widget.trustpilot.com/bootstrap/v5/tp.widget.bootstrap.min.js";
 
+/**
+ * Live Trustpilot star-rating badge (pulls your real score once you have reviews).
+ * Note: Trustpilot's own script controls where clicks on this badge go
+ * (your public profile page) — this cannot be overridden.
+ */
 export default function TrustpilotWidget({
   variant = "micro",
   templateId,
   businessUnitId = TRUSTPILOT_BUSINESS_UNIT_ID,
-  token = TRUSTPILOT_REVIEW_COLLECTOR_TOKEN,
   height = 24,
   width = "100%",
   theme = "light",
   locale = "en-US",
-  href = "https://www.trustpilot.com/evaluate/procareervista.com",
-  linkColor,
 }: TrustpilotWidgetProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const resolvedTemplateId = variant === "custom" ? templateId : TRUSTPILOT_TEMPLATE_IDS[variant];
@@ -115,11 +111,45 @@ export default function TrustpilotWidget({
       data-style-height={typeof height === "number" ? `${height}px` : height}
       data-style-width={typeof width === "number" ? `${width}px` : width}
       data-theme={theme}
-      {...(token ? { "data-token": token } : {})}
     >
-      <a href={href} target="_blank" rel="noopener noreferrer" style={linkColor ? { color: linkColor } : undefined}>
+      <a href={TRUSTPILOT_REVIEW_URL} target="_blank" rel="noopener noreferrer">
         Trustpilot
       </a>
     </div>
+  );
+}
+
+/**
+ * Simple "Trustpilot" text link that always goes straight to the
+ * write-a-review page. Fully under our control (not a Trustpilot embed),
+ * so the click destination is guaranteed — no live star rating shown.
+ */
+export function TrustpilotReviewLink({
+  href = TRUSTPILOT_REVIEW_URL,
+  starColor = "#00b67a",
+  textColor,
+}: {
+  href?: string;
+  starColor?: string;
+  textColor?: string;
+}) {
+  return (
+    
+      href={href}
+      target="_blank"
+      rel="noopener noreferrer"
+      style={{
+        display: "inline-flex",
+        alignItems: "center",
+        gap: 6,
+        fontSize: 14,
+        fontWeight: 600,
+        textDecoration: "none",
+        color: textColor || "inherit",
+      }}
+    >
+      <span style={{ color: starColor, fontSize: 16 }}>★</span>
+      Trustpilot
+    </a>
   );
 }
