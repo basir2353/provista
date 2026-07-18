@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import Logo from "@/components/layout/Logo";
-import TrustpilotWidget from "@/components/TrustpilotWidget";
+import TrustpilotWidget, { TrustpilotReviewLink } from "@/components/TrustpilotWidget";
 import { useSiteSettings } from "@/context/SiteSettingsContext";
 
 const SOCIALS = [
@@ -39,18 +39,15 @@ export default function Footer() {
               })}
             </div>
             {(settings.contact_email || settings.contact_phone) && (
-              <div style={{ marginTop: 16, fontSize: 13, color: "var(--gray-400)", lineHeight: 1.7 }}>
-                {settings.contact_email && <div>{settings.contact_email}</div>}
-                {settings.contact_phone && <div>{settings.contact_phone}</div>}
+                <div style={{ marginTop: 16, fontSize: 13, color: "var(--gray-400)", lineHeight: 1.7 }}>
+                  {settings.contact_email && <div>{settings.contact_email}</div>}
+                  {settings.contact_phone && <div>{settings.contact_phone}</div>}
+                </div>
+              )}
+              <div style={{ marginTop: 20 }}>
+                <TrustpilotReviewLink textColor="#ffffff" />
               </div>
-            )}
-            <div style={{ marginTop: 20 }}>
-              <TrustpilotWidget variant="micro" theme="dark" height={20} width={140} linkColor="#ffffff" />
             </div>
-            <div style={{ marginTop: 12 }}>
-                <TrustpilotWidget variant="reviewCollector" theme="dark" height={52} width={200} />
-              </div>
-          </div>
           <div>
             <div className="footer-col-title">Services</div>
             <ul className="footer-links">
