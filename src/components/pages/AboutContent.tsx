@@ -71,7 +71,7 @@ export default function AboutContent() {
               </h2>
               <p className="story-intro reveal">{settings.about_story_intro}</p>
               <div className="story-highlight reveal">"I started ProCareerVista after watching brilliant colleagues get passed over for jobs because their resumes didn't reflect their true capabilities. That injustice became my mission."</div>
-              <p className="story-intro reveal" style={{fontSize: "15px"}}>Today, our team of certified writers serves clients from entry-level graduates to Fortune 500 executives, spanning over 20+ industries and 25+ countries. We combine human expertise with cutting-edge ATS technology to give every client the best possible chance at the job they deserve.</p>
+              <p className="story-intro reveal" style={{fontSize: "15px"}}>Today, our team of certified writers serves clients from entry level graduates to Fortune 500 executives, spanning over 20+ industries and 25+ countries. We combine human expertise with cutting edge ATS technology to give every client the best possible chance at the job they deserve.</p>
               <div className="reveal" style={{marginTop: "28px"}}><a href="/team" className="btn btn-primary">Meet Our Full Team →</a></div>
             </div>
             <div className="story-timeline reveal">
