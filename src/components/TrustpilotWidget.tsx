@@ -14,6 +14,7 @@ export const TRUSTPILOT_REVIEW_URL =
 
 export const TRUSTPILOT_TEMPLATE_IDS = {
   micro: "5419b6ffb0d04a076446a9af",
+  carousel: "53aa8912dec7e10d38f59f36",
 } as const;
 
 type TrustpilotWidgetProps = {
