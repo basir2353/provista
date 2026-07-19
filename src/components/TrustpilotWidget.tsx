@@ -6,9 +6,11 @@ import { useEffect, useRef } from "react";
 // 1. Create a free account at https://business.trustpilot.com
 // 2. Go to Widgets in your dashboard, copy your Business Unit ID
 // 3. Paste it below, replacing "YOUR_BUSINESS_UNIT_ID"
-// ─────────────────────────────────────────────────────────────────────
+// ──────────────────────────────────────────────────────────────────────
 export const TRUSTPILOT_BUSINESS_UNIT_ID = "6a5a0bb3cdddbcc488315e7b";
-export const TRUSTPILOT_REVIEW_URL = "https://www.trustpilot.com/evaluate/procareervista.com";
+
+export const TRUSTPILOT_REVIEW_URL =
+  "https://www.trustpilot.com/evaluate/procareervista.com";
 
 export const TRUSTPILOT_TEMPLATE_IDS = {
   micro: "5419b6ffb0d04a076446a9af",
@@ -27,17 +29,20 @@ type TrustpilotWidgetProps = {
 declare global {
   interface Window {
     Trustpilot?: {
-      loadFromElement: (element: Element, forceReload?: boolean) => void;
+      loadFromElement: (
+        element: Element,
+        forceReload?: boolean
+      ) => void;
     };
   }
 }
 
-const WIDGET_SCRIPT_SRC = "https://widget.trustpilot.com/bootstrap/v5/tp.widget.bootstrap.min.js";
+const WIDGET_SCRIPT_SRC =
+  "https://widget.trustpilot.com/bootstrap/v5/tp.widget.bootstrap.min.js";
 
 /**
- * Live Trustpilot star-rating badge (pulls your real score once you have reviews).
- * Note: Trustpilot's own script controls where clicks on this badge go
- * (your public profile page) — this cannot be overridden.
+ * Live Trustpilot star-rating badge.
+ * Note: Trustpilot controls where clicks on this widget go.
  */
 export default function TrustpilotWidget({
   variant = "micro",
@@ -49,23 +54,35 @@ export default function TrustpilotWidget({
   locale = "en-US",
 }: TrustpilotWidgetProps) {
   const containerRef = useRef<HTMLDivElement>(null);
-  const resolvedTemplateId = variant === "custom" ? templateId : TRUSTPILOT_TEMPLATE_IDS[variant];
+
+  const resolvedTemplateId =
+    variant === "custom"
+      ? templateId
+      : TRUSTPILOT_TEMPLATE_IDS[variant];
 
   useEffect(() => {
     if (!containerRef.current || !resolvedTemplateId) return;
 
     const loadWidget = () => {
       if (containerRef.current && window.Trustpilot) {
-        window.Trustpilot.loadFromElement(containerRef.current, true);
+        window.Trustpilot.loadFromElement(
+          containerRef.current,
+          true
+        );
       }
     };
 
-    const existing = document.querySelector(`script[src="${WIDGET_SCRIPT_SRC}"]`);
+    const existing = document.querySelector(
+      `script[src="${WIDGET_SCRIPT_SRC}"]`
+    ) as HTMLScriptElement | null;
+
     if (existing) {
       if (window.Trustpilot) {
         loadWidget();
       } else {
-        existing.addEventListener("load", loadWidget, { once: true });
+        existing.addEventListener("load", loadWidget, {
+          once: true,
+        });
       }
       return;
     }
@@ -74,12 +91,15 @@ export default function TrustpilotWidget({
     script.src = WIDGET_SCRIPT_SRC;
     script.async = true;
     script.onload = loadWidget;
+
     document.body.appendChild(script);
-  }, [resolvedTemplateId]);
+  }, [resolvedTemplateId, businessUnitId]);
 
   if (!resolvedTemplateId) return null;
 
-  const isPlaceholder = !businessUnitId || businessUnitId === "YOUR_BUSINESS_UNIT_ID";
+  const isPlaceholder =
+    !businessUnitId ||
+    businessUnitId === "YOUR_BUSINESS_UNIT_ID";
 
   if (isPlaceholder) {
     return (
@@ -108,11 +128,19 @@ export default function TrustpilotWidget({
       data-locale={locale}
       data-template-id={resolvedTemplateId}
       data-businessunit-id={businessUnitId}
-      data-style-height={typeof height === "number" ? `${height}px` : height}
-      data-style-width={typeof width === "number" ? `${width}px` : width}
+      data-style-height={
+        typeof height === "number" ? `${height}px` : height
+      }
+      data-style-width={
+        typeof width === "number" ? `${width}px` : width
+      }
       data-theme={theme}
     >
-      <a href={TRUSTPILOT_REVIEW_URL} target="_blank" rel="noopener noreferrer">
+      <a
+        href={TRUSTPILOT_REVIEW_URL}
+        target="_blank"
+        rel="noopener noreferrer"
+      >
         Trustpilot
       </a>
     </div>
@@ -120,9 +148,9 @@ export default function TrustpilotWidget({
 }
 
 /**
- * Simple "Trustpilot" text link that always goes straight to the
- * write-a-review page. Fully under our control (not a Trustpilot embed),
- * so the click destination is guaranteed — no live star rating shown.
+ * Simple Trustpilot review link.
+ * Unlike the embedded widget, this always links directly
+ * to your Trustpilot review page.
  */
 export function TrustpilotReviewLink({
   href = TRUSTPILOT_REVIEW_URL,
@@ -134,7 +162,7 @@ export function TrustpilotReviewLink({
   textColor?: string;
 }) {
   return (
-    
+    <a
       href={href}
       target="_blank"
       rel="noopener noreferrer"
@@ -148,7 +176,14 @@ export function TrustpilotReviewLink({
         color: textColor || "inherit",
       }}
     >
-      <span style={{ color: starColor, fontSize: 16 }}>★</span>
+      <span
+        style={{
+          color: starColor,
+          fontSize: 16,
+        }}
+      >
+        ★
+      </span>
       Trustpilot
     </a>
   );
