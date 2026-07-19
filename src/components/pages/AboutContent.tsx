@@ -126,11 +126,11 @@ export default function AboutContent() {
           </div>
           <div className="values-grid">
             <div className="value-card reveal"><div className="value-icon">🎯</div><h3 className="value-title">Excellence in Every Word</h3><p className="value-desc">We treat every resume as a masterpiece. No shortcuts, no templates that weren't crafted with deep care and expertise for the specific industry and role.</p></div>
-            <div className="value-card reveal rd1"><div className="value-icon">🤝</div><h3 className="value-title">Client Partnership</h3><p className="value-desc">We don't just write about you — we collaborate with you. Every project starts with deep listening to understand your story, goals, and unique strengths.</p></div>
-            <div className="value-card reveal rd2"><div className="value-icon">🔬</div><h3 className="value-title">Data-Driven Results</h3><p className="value-desc">Our work is backed by ATS technology, keyword research, and industry data. We don't guess what works — we know, and our results prove it.</p></div>
+            <div className="value-card reveal rd1"><div className="value-icon">🤝</div><h3 className="value-title">Client Partnership</h3><p className="value-desc">We don't just write about you. we collaborate with you. Every project starts with deep listening to understand your story, goals, and unique strengths.</p></div>
+            <div className="value-card reveal rd2"><div className="value-icon">🔬</div><h3 className="value-title">Data-Driven Results</h3><p className="value-desc">Our work is backed by ATS technology, keyword research, and industry data. We don't guess what works; we know, and our results prove it.</p></div>
             <div className="value-card reveal rd3"><div className="value-icon">💡</div><h3 className="value-title">Continuous Innovation</h3><p className="value-desc">The job market evolves constantly. We stay ahead of ATS updates, hiring trends, and industry shifts to ensure your resume always hits the mark.</p></div>
-            <div className="value-card reveal rd1"><div className="value-icon">🌍</div><h3 className="value-title">Accessibility for All</h3><p className="value-desc">Everyone deserves great career representation. We serve professionals at every level — from fresh graduates to seasoned executives across all industries.</p></div>
-            <div className="value-card reveal rd2"><div className="value-icon">🛡️</div><h3 className="value-title">Integrity Always</h3><p className="value-desc">We are honest about what we can deliver, transparent about our process, and fully committed to your satisfaction — guaranteed or your money back.</p></div>
+            <div className="value-card reveal rd1"><div className="value-icon">🌍</div><h3 className="value-title">Accessibility for All</h3><p className="value-desc">Everyone deserves great career representation. We serve professionals at every level, from fresh graduates to seasoned executives across all industries.</p></div>
+            <div className="value-card reveal rd2"><div className="value-icon">🛡️</div><h3 className="value-title">Integrity Always</h3><p className="value-desc">We are honest about what we can deliver, transparent about our process, and fully committed to your satisfaction, guaranteed or your money back.</p></div>
           </div>
         </div>
       </section>
@@ -139,8 +139,8 @@ export default function AboutContent() {
       <section className="stats-section">
         <div className="container">
           <div className="stats-grid">
-            <div className="stat-item reveal"><span className="stat-icon">📄</span><div className="stat-num">12,400<sup>+</sup></div><div className="stat-label">Resumes Successfully Delivered</div></div>
-            <div className="stat-item reveal rd1"><span className="stat-icon">🌍</span><div className="stat-num">45<sup>+</sup></div><div className="stat-label">Countries Served Worldwide</div></div>
+            <div className="stat-item reveal"><span className="stat-icon">📄</span><div className="stat-num">3000<sup>+</sup></div><div className="stat-label">Resumes Successfully Delivered</div></div>
+            <div className="stat-item reveal rd1"><span className="stat-icon">🌍</span><div className="stat-num">25<sup>+</sup></div><div className="stat-label">Countries Served Worldwide</div></div>
             <div className="stat-item reveal rd2"><span className="stat-icon">📈</span><div className="stat-num">98<sup>%</sup></div><div className="stat-label">Client Interview Success Rate</div></div>
             <div className="stat-item reveal rd3"><span className="stat-icon">⭐</span><div className="stat-num">4.9<sup>/5</sup></div><div className="stat-label">Average Client Satisfaction</div></div>
           </div>
@@ -156,10 +156,10 @@ export default function AboutContent() {
             <p className="reveal" style={{color: "var(--gray-500)", marginTop: "16px", fontSize: "15px", lineHeight: "1.7"}}>Our work has been recognized by leading career and business publications worldwide.</p>
           </div>
           <div className="awards-grid">
-            <div className="award-card reveal"><span className="award-icon">🏆</span><div className="award-name">#1 Resume Writing Service</div><div className="award-org">TopResume Awards</div><div className="award-year">2023, 2024, 2025</div></div>
-            <div className="award-card reveal rd1"><span className="award-icon">🥇</span><div className="award-name">Best Career Service</div><div className="award-org">Forbes Career Report</div><div className="award-year">2024</div></div>
-            <div className="award-card reveal rd2"><span className="award-icon">⭐</span><div className="award-name">Excellence in Client Service</div><div className="award-org">NRWA Certification Board</div><div className="award-year">2022 – 2025</div></div>
-            <div className="award-card reveal rd3"><span className="award-icon">🎖️</span><div className="award-name">Top 10 Career Companies</div><div className="award-org">Inc. Magazine</div><div className="award-year">2023</div></div>
+            <div className="award-card reveal"><span className="award-icon">🏆</span><div className="award-name">#1 Resume Writing Service</div><div className="award-org"></div><div className="award-year"></div></div>
+            <div className="award-card reveal rd1"><span className="award-icon">🥇</span><div className="award-name">Best Career Service</div><div className="award-org"></div><div className="award-year"></div></div>
+            <div className="award-card reveal rd2"><span className="award-icon">⭐</span><div className="award-name">Excellence in Client Service</div><div className="award-org"></div><div className="award-year"></div></div>
+            <div className="award-card reveal rd3"><span className="award-icon">🎖️</span><div className="award-name">Top 10 Career Companies</div><div className="award-org"></div><div className="award-year"></div></div>
           </div>
         </div>
       </section>
