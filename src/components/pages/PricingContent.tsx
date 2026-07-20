@@ -56,7 +56,7 @@ function PlanCard({ plan, index }: { plan: PricingPlan; index: number }) {
       <a href={`/get-started?plan=${plan.slug}`} className={`btn btn-plan ${plan.popular ? "btn-featured" : "btn-dark"}`}>
         Get Started — ${displayPrice}
       </a>
-      <p className="plan-guarantee" style={plan.popular ? { color: "rgba(255,255,255,0.4)" } : undefined}>🛡️ 30-day money-back guarantee</p>
+      <p className="plan-guarantee" style={plan.popular ? { color: "rgba(255,255,255,0.4)" } : undefined}>🛡️ 7-day money-back guarantee</p>
     </div>
   );
 }
@@ -206,7 +206,7 @@ export default function PricingContent() {
             <div className="guarantee-item reveal"><div className="guarantee-icon-wrap">🛡️</div><div className="guarantee-title">30-Day Refund</div><div className="guarantee-desc">Not satisfied? Full refund within 30 days, no questions asked.</div></div>
             <div className="guarantee-item reveal reveal-delay-1"><div className="guarantee-icon-wrap">♾️</div><div className="guarantee-title">Unlimited Revisions</div><div className="guarantee-desc">We revise until your resume is exactly how you want it.</div></div>
             <div className="guarantee-item reveal reveal-delay-2"><div className="guarantee-icon-wrap">🎯</div><div className="guarantee-title">ATS Certified</div><div className="guarantee-desc">Every resume scores 90+ on leading ATS platforms.</div></div>
-            <div className="guarantee-item reveal reveal-delay-3"><div className="guarantee-icon-wrap">👤</div><div className="guarantee-title">Human Written</div><div className="guarantee-desc">Real certified writers — no AI-generated content ever.</div></div>
+            <div className="guarantee-item reveal reveal-delay-3"><div className="guarantee-icon-wrap">👤</div><div className="guarantee-title">Human Written</div><div className="guarantee-desc">Real certified writers.</div></div>
           </div>
         </div>
       </section>
@@ -234,7 +234,7 @@ export default function PricingContent() {
       <section className="cta-banner">
         <div className="container">
           <h2>Ready to Invest in Your Career?</h2>
-          <p>Join 12,000+ professionals who landed better jobs with ProCareerVista.</p>
+          <p>Join 3000+ professionals who landed better jobs with ProCareerVista.</p>
           <a href="/get-started" className="btn btn-white">✦ Get Started Today</a>
         </div>
       </section>
