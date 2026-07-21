@@ -46,7 +46,7 @@ export default function HomeContent() {
                 <div>
                   <div
                     className="hero-stat-num"
-                    data-count={settings.home_stat_1_value || "98"}
+                    data-count={settings.home_stat_1_value || "90"}
                     data-suffix={settings.home_stat_1_suffix || "%"}
                   >
                     0{settings.home_stat_1_suffix || "%"}
@@ -56,7 +56,7 @@ export default function HomeContent() {
                 <div>
                   <div
                     className="hero-stat-num"
-                    data-count={settings.home_stat_2_value || "12"}
+                    data-count={settings.home_stat_2_value || "3"}
                     data-suffix={settings.home_stat_2_suffix || "K+"}
                   >
                     0{settings.home_stat_2_suffix || "K+"}
@@ -82,7 +82,7 @@ export default function HomeContent() {
                 <span className="badge-icon">🎯</span>
                 <div>
                   <div style={{fontSize: "11px", opacity: "0.7", fontFamily: "var(--font-mono)"}}>ATS SCORE</div>
-                  <div>98 / 100</div>
+                  <div>90+ / 100</div>
                 </div>
               </div>
               <div className="hero-resume-mockup">
