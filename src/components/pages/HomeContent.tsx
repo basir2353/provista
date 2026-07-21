@@ -466,7 +466,7 @@ export default function HomeContent() {
           <div className="pricing-grid">
             <div className="pricing-card reveal reveal-delay-1">
               <div className="pricing-plan-name">Starter</div>
-              <div className="pricing-price"><span className="pricing-price-currency">$</span>99</div>
+              <div className="pricing-price"><span className="pricing-price-currency">$</span>50</div>
               <div className="pricing-period">one-time payment</div>
               <div className="pricing-desc">Perfect for entry-level professionals and recent graduates entering the job market.</div>
               <div className="pricing-divider"></div>
@@ -483,7 +483,7 @@ export default function HomeContent() {
             <div className="pricing-card featured reveal reveal-delay-2">
               <div className="pricing-popular">Most Popular</div>
               <div className="pricing-plan-name">Professional</div>
-              <div className="pricing-price"><span className="pricing-price-currency">$</span>199</div>
+              <div className="pricing-price"><span className="pricing-price-currency">$</span>120</div>
               <div className="pricing-period">one-time payment</div>
               <div className="pricing-desc">For mid-career professionals targeting roles at leading companies and higher salaries.</div>
               <div className="pricing-divider"></div>
@@ -500,7 +500,7 @@ export default function HomeContent() {
             </div>
             <div className="pricing-card reveal reveal-delay-3">
               <div className="pricing-plan-name">Executive</div>
-              <div className="pricing-price"><span className="pricing-price-currency">$</span>349</div>
+              <div className="pricing-price"><span className="pricing-price-currency">$</span>180</div>
               <div className="pricing-period">one-time payment</div>
               <div className="pricing-desc">For senior leaders, C-suite executives, and those targeting six-figure positions.</div>
               <div className="pricing-divider"></div>
