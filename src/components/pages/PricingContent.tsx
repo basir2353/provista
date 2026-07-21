@@ -203,7 +203,7 @@ export default function PricingContent() {
           <span className="section-label" style={{ display: "block", textAlign: "center" }}>Our Promises</span>
           <h2 style={{ fontFamily: "var(--font-display)", fontSize: "clamp(1.8rem,3vw,2.6rem)", fontWeight: "700", color: "var(--navy)", textAlign: "center" }}>Your Success Is <span style={{ color: "var(--teal)" }}>Guaranteed</span></h2>
           <div className="guarantee-icons">
-            <div className="guarantee-item reveal"><div className="guarantee-icon-wrap">🛡️</div><div className="guarantee-title">30-Day Refund</div><div className="guarantee-desc">Not satisfied? Full refund within 30 days, no questions asked.</div></div>
+            <div className="guarantee-item reveal"><div className="guarantee-icon-wrap">🛡️</div><div className="guarantee-title">7-Day Refund</div><div className="guarantee-desc">Not satisfied? Full refund within 30 days, no questions asked.</div></div>
             <div className="guarantee-item reveal reveal-delay-1"><div className="guarantee-icon-wrap">♾️</div><div className="guarantee-title">Unlimited Revisions</div><div className="guarantee-desc">We revise until your resume is exactly how you want it.</div></div>
             <div className="guarantee-item reveal reveal-delay-2"><div className="guarantee-icon-wrap">🎯</div><div className="guarantee-title">ATS Certified</div><div className="guarantee-desc">Every resume scores 90+ on leading ATS platforms.</div></div>
             <div className="guarantee-item reveal reveal-delay-3"><div className="guarantee-icon-wrap">👤</div><div className="guarantee-title">Human Written</div><div className="guarantee-desc">Real certified writers.</div></div>
