@@ -343,8 +343,20 @@ export const api = {
 
 export function uploadUrl(path?: string | null): string {
   if (!path) return "";
-  if (path.startsWith("http://") || path.startsWith("https://") || path.startsWith("/")) {
-    return path;
+  const trimmed = path.trim();
+  if (!trimmed) return "";
+  if (trimmed.startsWith("http://") || trimmed.startsWith("https://")) {
+    return trimmed;
   }
-  return `${BACKEND_URL}/uploads/${path}`;
+  // Already an absolute uploads path on the backend
+  if (trimmed.startsWith("/uploads/")) {
+    return `${BACKEND_URL}${trimmed}`;
+  }
+  // Public asset on this Next app (e.g. /logo1.jpg)
+  if (trimmed.startsWith("/")) {
+    return trimmed;
+  }
+  // DB stores relative keys like "team/uuid.jpg" or "branding/uuid.png"
+  const relative = trimmed.replace(/^uploads\//, "");
+  return `${BACKEND_URL}/uploads/${relative}`;
 }
