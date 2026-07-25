@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useTemplatesFilter } from "@/hooks/usePageInteractivity";
 import { useCmsData } from "@/hooks/useCmsData";
 import { useSiteSettings } from "@/context/SiteSettingsContext";
@@ -70,8 +71,19 @@ export default function TemplatesContent({ initialTemplates }: { initialTemplate
             <span>{settings.templates_hero_highlight}</span>
           </h1>
           <p>{settings.templates_hero_description}</p>
-          <a href="/get-started" className="btn btn-primary" style={{ marginRight: "12px" }}>{settings.templates_hero_cta_primary}</a>
-          <a href="/pricing" className="btn btn-outline" style={{ color: "white", borderColor: "rgba(255,255,255,0.4)" }}>{settings.templates_hero_cta_secondary}</a>
+          <div className="page-hero-actions" style={{ position: "relative", zIndex: 2, marginTop: 8 }}>
+            <Link href="/get-started" className="btn btn-primary" style={{ marginRight: 12 }} prefetch>
+              {settings.templates_hero_cta_primary || "✦ Get Started"}
+            </Link>
+            <Link
+              href="/pricing"
+              className="btn btn-outline"
+              style={{ color: "white", borderColor: "rgba(255,255,255,0.4)" }}
+              prefetch
+            >
+              {settings.templates_hero_cta_secondary || "View Pricing"}
+            </Link>
+          </div>
         </div>
       </section>
 
