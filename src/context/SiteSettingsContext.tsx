@@ -54,7 +54,7 @@ export function useSiteSettings() {
 }
 
 export function settingImageUrl(path?: string | null, fallback = "/logo1.jpg") {
-  if (!path) return fallback;
+  if (!path || !path.trim()) return fallback;
   if (path.startsWith("http") || path.startsWith("/")) return path;
   return uploadUrl(path);
 }

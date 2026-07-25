@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import { Template, uploadUrl } from "@/lib/api";
 
 function TemplateMockup() {
@@ -34,23 +35,29 @@ function TemplateMockup() {
 }
 
 export function TemplatePreviewMedia({ template }: { template: Template }) {
-  if (template.previewImage) {
+  const [failed, setFailed] = useState(false);
+
+  if (template.previewImage && !failed) {
     return (
+      // eslint-disable-next-line @next/next/no-img-element
       <img
         src={uploadUrl(template.previewImage)}
         alt={`${template.name} preview`}
         className="template-preview-img"
         loading="lazy"
+        onError={() => setFailed(true)}
       />
     );
   }
 
-  if (template.pdfFile) {
+  // Prefer mockup over broken PDF iframes when files were wiped on Railway
+  if (template.pdfFile && !failed) {
     return (
       <iframe
         src={`${uploadUrl(template.pdfFile)}#toolbar=0&navpanes=0&scrollbar=0&view=FitH`}
         title={`${template.name} PDF preview`}
         className="template-preview-pdf"
+        onError={() => setFailed(true)}
       />
     );
   }
