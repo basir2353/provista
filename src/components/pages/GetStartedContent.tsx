@@ -470,17 +470,19 @@ function GetStartedForm({
               <div className="summary-item">
                 <span className="summary-item-label">Cover Letter</span>
                 <span className="summary-item-val" id="coverLetterStatus">
-                  {isIncluded(selectedPlan?.coverLetter)
+                  {isIncluded(selectedPlan?.coverLetter) ||
+                  selectedAddons.some((a) => /cover\s*letter/i.test(a.name))
                     ? "✓ Included"
-                    : selectedPlan?.coverLetter || "Add-on"}
+                    : "—"}
                 </span>
               </div>
               <div className="summary-item">
                 <span className="summary-item-label">LinkedIn Profile</span>
                 <span className="summary-item-val" id="linkedinStatus">
-                  {isIncluded(selectedPlan?.linkedin)
+                  {isIncluded(selectedPlan?.linkedin) ||
+                  selectedAddons.some((a) => /linkedin/i.test(a.name))
                     ? "✓ Included"
-                    : selectedPlan?.linkedin || "Add-on"}
+                    : "—"}
                 </span>
               </div>
               <div className="summary-item">
