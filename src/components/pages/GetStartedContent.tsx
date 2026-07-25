@@ -45,6 +45,8 @@ function GetStartedForm({
   const settings = useSiteSettings();
   const searchParams = useSearchParams();
   const planParam = searchParams.get("plan");
+  const billingParam = searchParams.get("billing");
+  const useBundlePrice = billingParam === "bundle";
   const templateId = searchParams.get("template") || "";
 
   const { data: plans, loading: plansLoading, error: plansError, retry: retryPlans } =
@@ -88,7 +90,10 @@ function GetStartedForm({
   );
 
   const addonTotal = selectedAddons.reduce((sum, a) => sum + a.price, 0);
-  const planPrice = selectedPlan?.price ?? 0;
+  const planPrice =
+    useBundlePrice && selectedPlan?.bundlePrice != null
+      ? selectedPlan.bundlePrice
+      : selectedPlan?.price ?? 0;
   const total = planPrice + addonTotal;
 
   const updateField = (name: keyof FormState, value: string) => {
@@ -123,7 +128,8 @@ function GetStartedForm({
     const fd = new FormData();
     fd.append("planSlug", selectedPlan.slug);
     fd.append("planName", selectedPlan.name);
-    fd.append("planPrice", String(selectedPlan.price));
+    fd.append("planPrice", String(planPrice));
+    fd.append("billing", useBundlePrice ? "bundle" : "one-time");
     fd.append(
       "addons",
       JSON.stringify(selectedAddons.map((a) => ({ name: a.name, price: a.price })))
@@ -225,7 +231,10 @@ function GetStartedForm({
                   variant="list"
                   count={3}
                 />
-                {!plansLoading && !plansError && plans.map((plan) => (
+                {!plansLoading && !plansError && plans.map((plan) => {
+                  const listedPrice =
+                    useBundlePrice && plan.bundlePrice != null ? plan.bundlePrice : plan.price;
+                  return (
                   <button
                     type="button"
                     className={`plan-option ${plan.slug === selectedPlan?.slug ? "selected" : ""}`}
@@ -240,10 +249,11 @@ function GetStartedForm({
                         {plan.description || `${plan.delivery} delivery · ${plan.revisions} revisions`}
                       </div>
                     </div>
-                    <div className="plan-info-price">${plan.price}</div>
+                    <div className="plan-info-price">${listedPrice}</div>
                     {plan.popular && <span className="plan-popular-tag">Popular</span>}
                   </button>
-                ))}
+                  );
+                })}
               </div>
             </div>
 
@@ -455,7 +465,7 @@ function GetStartedForm({
                 {selectedPlan?.name || "—"}
               </div>
               <div className="summary-plan-price" id="summaryPlanPrice">
-                {selectedPlan ? `$${selectedPlan.price}` : "—"}
+                {selectedPlan ? `$${planPrice}` : "—"}
               </div>
             </div>
             <div className="summary-items">

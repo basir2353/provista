@@ -1,22 +1,34 @@
 "use client";
 
-import { usePricingToggle } from "@/hooks/usePageInteractivity";
+import { useState } from "react";
 import { useCmsData } from "@/hooks/useCmsData";
 import { useSiteSettings } from "@/context/SiteSettingsContext";
 import CmsLoadState from "@/components/CmsLoadState";
 import { api, Addon, PricingPlan } from "@/lib/api";
 import { isIncluded, parseJsonArray, revealDelay } from "@/lib/cms";
 
-function PlanCard({ plan, index }: { plan: PricingPlan; index: number }) {
+function planDisplayPrice(plan: PricingPlan, bundleMode: boolean): number {
+  if (bundleMode && plan.bundlePrice != null) return plan.bundlePrice;
+  return plan.price;
+}
+
+function PlanCard({
+  plan,
+  index,
+  bundleMode,
+}: {
+  plan: PricingPlan;
+  index: number;
+  bundleMode: boolean;
+}) {
   const features = parseJsonArray<string>(plan.features);
-  const displayPrice = plan.price;
+  const displayPrice = planDisplayPrice(plan, bundleMode);
+  const billing = bundleMode ? "bundle" : "one-time";
 
   return (
     <div
       className={`pricing-card ${plan.popular ? "featured" : ""} reveal ${revealDelay(index)}`}
       data-slug={plan.slug}
-      data-price={plan.price}
-      data-bundle-price={plan.bundlePrice ?? plan.price}
     >
       {plan.popular && <div className="popular-badge">⭐ Most Popular</div>}
       <div className="plan-name">{plan.name}</div>
@@ -24,7 +36,9 @@ function PlanCard({ plan, index }: { plan: PricingPlan; index: number }) {
         <span className="price-currency">$</span>
         <span className="price-val">{displayPrice}</span>
       </div>
-      <div className="plan-period">one-time · no subscription</div>
+      <div className="plan-period">
+        {bundleMode ? "bundle · one-time payment" : "one-time · no subscription"}
+      </div>
       {plan.description && <div className="plan-desc">{plan.description}</div>}
       <div className="plan-divider"></div>
       <ul className="plan-features">
@@ -54,7 +68,10 @@ function PlanCard({ plan, index }: { plan: PricingPlan; index: number }) {
           </>
         )}
       </ul>
-      <a href={`/get-started?plan=${plan.slug}`} className={`btn btn-plan ${plan.popular ? "btn-featured" : "btn-dark"}`}>
+      <a
+        href={`/get-started?plan=${plan.slug}&billing=${billing}`}
+        className={`btn btn-plan ${plan.popular ? "btn-featured" : "btn-dark"}`}
+      >
         Get Started — ${displayPrice}
       </a>
       <p className="plan-guarantee" style={plan.popular ? { color: "rgba(255,255,255,0.4)" } : undefined}>🛡️ 7-day money-back guarantee</p>
@@ -104,7 +121,7 @@ export default function PricingContent({
     initialAddons
   );
   const { data: faqs } = useCmsData(() => api.faqs.list(), [], []);
-  usePricingToggle();
+  const [bundleMode, setBundleMode] = useState(false);
 
   const pricingFaqs = faqs.filter((f) => f.page === "pricing").slice(0, 8);
 
@@ -126,7 +143,12 @@ export default function PricingContent({
         <div className="toggle-wrap">
           <span className="toggle-label">One-Time</span>
           <label className="toggle-switch">
-            <input type="checkbox" id="billingToggle" />
+            <input
+              type="checkbox"
+              id="billingToggle"
+              checked={bundleMode}
+              onChange={(e) => setBundleMode(e.target.checked)}
+            />
             <div className="toggle-track"></div>
             <div className="toggle-thumb"></div>
           </label>
@@ -149,7 +171,7 @@ export default function PricingContent({
               count={3}
             />
             {!plansLoading && !plansError && plans.map((plan, i) => (
-              <PlanCard plan={plan} index={i} key={plan.id} />
+              <PlanCard plan={plan} index={i} bundleMode={bundleMode} key={plan.id} />
             ))}
           </div>
         </div>
