@@ -20,9 +20,14 @@ const filters = [
 
 const topics = ["Resume Writing", "ATS Tips", "LinkedIn", "Job Search", "Interviews", "Salary", "Career Change", "Executive", "Cover Letter", "Networking", "Remote Work", "Personal Brand"];
 
-export default function BlogContent() {
+export default function BlogContent({ initialPosts }: { initialPosts?: BlogPost[] } = {}) {
   const settings = useSiteSettings();
-  const { data: posts, loading, error, retry } = useCmsData(() => api.blog.list(), [], []);
+  const { data: posts, loading, error, retry } = useCmsData(
+    () => api.blog.list(),
+    [],
+    [],
+    initialPosts
+  );
   useBlogFilter();
 
   const featured = posts.find((p) => p.featured) || posts[0];
@@ -115,11 +120,13 @@ export default function BlogContent() {
                   loading={loading}
                   error={error}
                   empty={!loading && !error && posts.length === 0}
-                  loadingLabel="Loading articles..."
+                  loadingLabel="Loading articles…"
                   emptyLabel="No blog posts published yet."
                   onRetry={retry}
+                  variant="cards"
+                  count={4}
                 />
-                {gridPosts.map((post: BlogPost, i) => (
+                {!loading && !error && gridPosts.map((post: BlogPost, i) => (
                   <div className={`post-card reveal ${staggerDelay(i)}`} data-cat={post.category} key={post.id}>
                     <BlogCover post={post} className="post-image">
                       <span className="post-cat">{post.categoryLabel}</span>

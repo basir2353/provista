@@ -46,9 +46,14 @@ function TemplateCard({ template, index }: { template: Template; index: number }
   );
 }
 
-export default function TemplatesContent() {
+export default function TemplatesContent({ initialTemplates }: { initialTemplates?: Template[] } = {}) {
   const settings = useSiteSettings();
-  const { data: templates, loading, error, retry } = useCmsData(() => api.templates.list(), [], []);
+  const { data: templates, loading, error, retry } = useCmsData(
+    () => api.templates.list(),
+    [],
+    [],
+    initialTemplates
+  );
   useTemplatesFilter();
 
   const categories = ["all", ...Array.from(new Set(templates.map((t) => t.category)))];
@@ -89,11 +94,13 @@ export default function TemplatesContent() {
               loading={loading}
               error={error}
               empty={!loading && !error && templates.length === 0}
-              loadingLabel="Loading templates..."
+              loadingLabel="Loading templates…"
               emptyLabel="No templates available yet."
               onRetry={retry}
+              variant="cards"
+              count={6}
             />
-            {templates.map((template, i) => (
+            {!loading && !error && templates.map((template, i) => (
               <TemplateCard template={template} index={i} key={template.id} />
             ))}
           </div>

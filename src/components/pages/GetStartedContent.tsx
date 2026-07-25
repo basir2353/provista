@@ -5,6 +5,7 @@ import { useSearchParams } from "next/navigation";
 import { useCmsData } from "@/hooks/useCmsData";
 import { useSiteSettings } from "@/context/SiteSettingsContext";
 import CmsLoadState from "@/components/CmsLoadState";
+import PageLoader from "@/components/PageLoader";
 import { api, Addon, PricingPlan } from "@/lib/api";
 import { isIncluded } from "@/lib/cms";
 
@@ -34,16 +35,22 @@ const emptyForm: FormState = {
   writerNotes: "",
 };
 
-function GetStartedForm() {
+function GetStartedForm({
+  initialPlans,
+  initialAddons,
+}: {
+  initialPlans?: PricingPlan[];
+  initialAddons?: Addon[];
+}) {
   const settings = useSiteSettings();
   const searchParams = useSearchParams();
   const planParam = searchParams.get("plan");
   const templateId = searchParams.get("template") || "";
 
   const { data: plans, loading: plansLoading, error: plansError, retry: retryPlans } =
-    useCmsData(() => api.pricing.plans.list(), [], []);
+    useCmsData(() => api.pricing.plans.list(), [], [], initialPlans);
   const { data: addons, loading: addonsLoading, error: addonsError, retry: retryAddons } =
-    useCmsData(() => api.pricing.addons.list(), [], []);
+    useCmsData(() => api.pricing.addons.list(), [], [], initialAddons);
 
   const [selectedSlug, setSelectedSlug] = useState<string>("");
   const [selectedAddonIds, setSelectedAddonIds] = useState<Set<string>>(new Set());
@@ -212,11 +219,13 @@ function GetStartedForm() {
                   loading={plansLoading}
                   error={plansError}
                   empty={!plansLoading && !plansError && plans.length === 0}
-                  loadingLabel="Loading plans..."
+                  loadingLabel="Loading plans…"
                   emptyLabel="No plans available yet."
                   onRetry={retryPlans}
+                  variant="list"
+                  count={3}
                 />
-                {plans.map((plan) => (
+                {!plansLoading && !plansError && plans.map((plan) => (
                   <button
                     type="button"
                     className={`plan-option ${plan.slug === selectedPlan?.slug ? "selected" : ""}`}
@@ -415,11 +424,13 @@ function GetStartedForm() {
                   loading={addonsLoading}
                   error={addonsError}
                   empty={!addonsLoading && !addonsError && addons.length === 0}
-                  loadingLabel="Loading add-ons..."
+                  loadingLabel="Loading add-ons…"
                   emptyLabel="No add-ons available yet."
                   onRetry={retryAddons}
+                  variant="list"
+                  count={3}
                 />
-                {addons.map((addon) => (
+                {!addonsLoading && !addonsError && addons.map((addon) => (
                   <label className="addon-check" key={addon.id}>
                     <input
                       type="checkbox"
@@ -532,10 +543,16 @@ function GetStartedForm() {
   );
 }
 
-export default function GetStartedContent() {
+export default function GetStartedContent({
+  initialPlans,
+  initialAddons,
+}: {
+  initialPlans?: PricingPlan[];
+  initialAddons?: Addon[];
+} = {}) {
   return (
-    <Suspense fallback={<div className="page-wrapper"><div className="container" style={{ padding: "40px 0", color: "var(--gray-500)" }}>Loading...</div></div>}>
-      <GetStartedForm />
+    <Suspense fallback={<div className="page-wrapper"><div className="container" style={{ padding: "40px 0" }}><PageLoader label="Loading…" variant="spinner" /></div></div>}>
+      <GetStartedForm initialPlans={initialPlans} initialAddons={initialAddons} />
     </Suspense>
   );
 }

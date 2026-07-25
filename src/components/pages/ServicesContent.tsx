@@ -60,9 +60,14 @@ function ServiceBlock({ service, index }: { service: Service; index: number }) {
   );
 }
 
-export default function ServicesContent() {
+export default function ServicesContent({ initialServices }: { initialServices?: Service[] } = {}) {
   const settings = useSiteSettings();
-  const { data: services, loading, error, retry } = useCmsData(() => api.services.list(), [], []);
+  const { data: services, loading, error, retry } = useCmsData(
+    () => api.services.list(),
+    [],
+    [],
+    initialServices
+  );
   useServiceNav();
 
   useEffect(() => {
@@ -115,20 +120,22 @@ export default function ServicesContent() {
         </div>
       )}
 
-      {(loading || error || services.length === 0) && (
+      {(loading || error || (!loading && services.length === 0)) && (
         <div className="container" style={{ padding: "40px 0" }}>
           <CmsLoadState
             loading={loading}
             error={error}
             empty={!loading && !error && services.length === 0}
-            loadingLabel="Loading services..."
+            loadingLabel="Loading services…"
             emptyLabel="No services available yet."
             onRetry={retry}
+            variant="list"
+            count={4}
           />
         </div>
       )}
 
-      {services.map((service, index) => (
+      {!loading && !error && services.map((service, index) => (
         <ServiceBlock service={service} index={index} key={service.id} />
       ))}
     </>

@@ -1,20 +1,11 @@
 import { parseApiErrorBody } from "@/lib/errors";
 
-/** Absolute backend origin (uploads + server-side fallback). */
+/** Absolute backend origin — used for all API + upload requests. */
 export const BACKEND_URL =
   process.env.NEXT_PUBLIC_API_URL ||
   "https://backend-provista-production.up.railway.app";
 
-/**
- * Browser requests use same-origin `/api` (proxied via next.config rewrites)
- * to avoid CORS. Server-side calls hit the backend directly.
- */
-function getApiBase(): string {
-  if (typeof window !== "undefined") return "";
-  return BACKEND_URL;
-}
-
-const REQUEST_TIMEOUT_MS = 15_000;
+const REQUEST_TIMEOUT_MS = 12_000;
 
 function getToken(): string | null {
   if (typeof window === "undefined") return null;
@@ -52,12 +43,18 @@ async function request<T>(
   const controller = new AbortController();
   const timeoutId = setTimeout(() => controller.abort(), REQUEST_TIMEOUT_MS);
 
+  // Prefer caller signal; otherwise use timeout abort.
+  const signal = options.signal ?? controller.signal;
+  if (options.signal) {
+    clearTimeout(timeoutId);
+  }
+
   let res: Response;
   try {
-    res = await fetch(`${getApiBase()}${path}`, {
+    res = await fetch(`${BACKEND_URL}${path}`, {
       cache: "no-store",
       ...options,
-      signal: options.signal ?? controller.signal,
+      signal,
       headers: { ...headers, ...(options.headers as Record<string, string>) },
     });
   } catch (err) {
@@ -349,7 +346,5 @@ export function uploadUrl(path?: string | null): string {
   if (path.startsWith("http://") || path.startsWith("https://") || path.startsWith("/")) {
     return path;
   }
-  // Same-origin in browser (rewritten); absolute on server.
-  const base = typeof window !== "undefined" ? "" : BACKEND_URL;
-  return `${base}/uploads/${path}`;
+  return `${BACKEND_URL}/uploads/${path}`;
 }

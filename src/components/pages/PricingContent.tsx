@@ -83,10 +83,26 @@ function AddonCard({ addon, index }: { addon: Addon; index: number }) {
   );
 }
 
-export default function PricingContent() {
+export default function PricingContent({
+  initialPlans,
+  initialAddons,
+}: {
+  initialPlans?: PricingPlan[];
+  initialAddons?: Addon[];
+} = {}) {
   const settings = useSiteSettings();
-  const { data: plans, loading: plansLoading, error: plansError, retry: retryPlans } = useCmsData(() => api.pricing.plans.list(), [], []);
-  const { data: addons, loading: addonsLoading, error: addonsError, retry: retryAddons } = useCmsData(() => api.pricing.addons.list(), [], []);
+  const { data: plans, loading: plansLoading, error: plansError, retry: retryPlans } = useCmsData(
+    () => api.pricing.plans.list(),
+    [],
+    [],
+    initialPlans
+  );
+  const { data: addons, loading: addonsLoading, error: addonsError, retry: retryAddons } = useCmsData(
+    () => api.pricing.addons.list(),
+    [],
+    [],
+    initialAddons
+  );
   const { data: faqs } = useCmsData(() => api.faqs.list(), [], []);
   usePricingToggle();
 
@@ -126,11 +142,13 @@ export default function PricingContent() {
               loading={plansLoading}
               error={plansError}
               empty={!plansLoading && !plansError && plans.length === 0}
-              loadingLabel="Loading plans..."
+              loadingLabel="Loading plans…"
               emptyLabel="No plans available yet."
               onRetry={retryPlans}
+              variant="cards"
+              count={3}
             />
-            {plans.map((plan, i) => (
+            {!plansLoading && !plansError && plans.map((plan, i) => (
               <PlanCard plan={plan} index={i} key={plan.id} />
             ))}
           </div>
@@ -149,11 +167,13 @@ export default function PricingContent() {
               loading={addonsLoading}
               error={addonsError}
               empty={!addonsLoading && !addonsError && addons.length === 0}
-              loadingLabel="Loading add-ons..."
+              loadingLabel="Loading add-ons…"
               emptyLabel="No add-ons available yet."
               onRetry={retryAddons}
+              variant="cards"
+              count={3}
             />
-            {addons.map((addon, i) => (
+            {!addonsLoading && !addonsError && addons.map((addon, i) => (
               <AddonCard addon={addon} index={i} key={addon.id} />
             ))}
           </div>

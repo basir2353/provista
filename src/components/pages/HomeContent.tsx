@@ -89,14 +89,20 @@ function HomeTemplateCard({ template, index }: { template: Template; index: numb
   );
 }
 
-export default function HomeContent() {
+export default function HomeContent({
+  initialPlans,
+  initialTemplates,
+}: {
+  initialPlans?: PricingPlan[];
+  initialTemplates?: Template[];
+} = {}) {
   const settings = useSiteSettings();
   const { data: industries } = useCmsData(() => api.industries.list(), [], []);
   const { data: testimonials } = useCmsData(() => api.testimonials.list(), [], []);
   const { data: faqs } = useCmsData(() => api.faqs.list(), [], []);
   const { data: teamMembers } = useCmsData(() => api.team.list(), [], []);
-  const { data: plans } = useCmsData(() => api.pricing.plans.list(), [], []);
-  const { data: templates } = useCmsData(() => api.templates.list(), [], []);
+  const { data: plans } = useCmsData(() => api.pricing.plans.list(), [], [], initialPlans);
+  const { data: templates } = useCmsData(() => api.templates.list(), [], [], initialTemplates);
   useHomeInteractivity();
 
   const homeFaqs = faqs.filter((f) => f.page === "home" || f.page === "general").slice(0, 8);

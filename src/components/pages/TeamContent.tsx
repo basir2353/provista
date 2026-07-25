@@ -78,9 +78,14 @@ function MemberCard({ member, delay }: { member: TeamMember; delay: string }) {
   );
 }
 
-export default function TeamContent() {
+export default function TeamContent({ initialMembers }: { initialMembers?: TeamMember[] } = {}) {
   const settings = useSiteSettings();
-  const { data: members, loading, error, retry } = useCmsData(() => api.team.list(), [], []);
+  const { data: members, loading, error, retry } = useCmsData(
+    () => api.team.list(),
+    [],
+    [],
+    initialMembers
+  );
   useTeamForm();
 
   const leaders = members.filter((m) => m.type === "leader");
@@ -117,11 +122,13 @@ export default function TeamContent() {
               loading={loading}
               error={error}
               empty={!loading && !error && leaders.length === 0}
-              loadingLabel="Loading team..."
+              loadingLabel="Loading team…"
               emptyLabel="No team members available yet."
               onRetry={retry}
+              variant="cards"
+              count={2}
             />
-            {leaders.map((leader, i) => (
+            {!loading && !error && leaders.map((leader, i) => (
               <LeaderCard leader={leader} delay={staggerDelay(i)} key={leader.id} />
             ))}
           </div>
