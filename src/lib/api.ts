@@ -128,6 +128,8 @@ export interface DashboardData {
 function crud<T>(basePath: string) {
   return {
     list: () => request<T[]>(basePath),
+    get: (id: string) => request<T>(`${basePath}/${id}`),
+    getAdmin: (id: string) => request<T>(`${basePath}/admin/${id}`),
     listAdmin: () => request<T[]>(`${basePath}/admin/all`),
     create: (data: Partial<T> | FormData) =>
       request<T>(`${basePath}/admin`, {
