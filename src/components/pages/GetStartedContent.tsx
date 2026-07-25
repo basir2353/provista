@@ -467,24 +467,22 @@ function GetStartedForm({
                 <span className="summary-item-label">ATS Optimization</span>
                 <span className="summary-item-val">✓ Included</span>
               </div>
-              <div className="summary-item">
-                <span className="summary-item-label">Cover Letter</span>
-                <span className="summary-item-val" id="coverLetterStatus">
-                  {isIncluded(selectedPlan?.coverLetter) ||
-                  selectedAddons.some((a) => /cover\s*letter/i.test(a.name))
-                    ? "✓ Included"
-                    : "—"}
-                </span>
-              </div>
-              <div className="summary-item">
-                <span className="summary-item-label">LinkedIn Profile</span>
-                <span className="summary-item-val" id="linkedinStatus">
-                  {isIncluded(selectedPlan?.linkedin) ||
-                  selectedAddons.some((a) => /linkedin/i.test(a.name))
-                    ? "✓ Included"
-                    : "—"}
-                </span>
-              </div>
+              {isIncluded(selectedPlan?.coverLetter) && (
+                <div className="summary-item">
+                  <span className="summary-item-label">Cover Letter</span>
+                  <span className="summary-item-val" id="coverLetterStatus">
+                    ✓ Included
+                  </span>
+                </div>
+              )}
+              {isIncluded(selectedPlan?.linkedin) && (
+                <div className="summary-item">
+                  <span className="summary-item-label">LinkedIn Profile</span>
+                  <span className="summary-item-val" id="linkedinStatus">
+                    ✓ Included
+                  </span>
+                </div>
+              )}
               <div className="summary-item">
                 <span className="summary-item-label">Delivery Time</span>
                 <span className="summary-item-val" id="deliveryTime">
