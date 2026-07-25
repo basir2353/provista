@@ -1,7 +1,7 @@
 import HomeContent from "@/components/pages/HomeContent";
 import { api } from "@/lib/api";
 
-export const revalidate = 60;
+export const dynamic = "force-dynamic";
 
 export default async function HomePage() {
   const [plans, templates] = await Promise.all([

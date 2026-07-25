@@ -129,25 +129,31 @@ export default function AdminPricingPage() {
   };
 
   const savePlan = async () => {
-    const cleanedFeatures = planForm.features.map((f) => f.trim()).filter(Boolean);
-    const data = {
-      slug: planForm.slug,
-      name: planForm.name,
-      price: parseFloat(planForm.price),
-      bundlePrice: planForm.bundlePrice ? parseFloat(planForm.bundlePrice) : undefined,
-      description: planForm.description || undefined,
-      delivery: planForm.delivery,
-      revisions: planForm.revisions,
-      coverLetter: planForm.coverLetter,
-      linkedin: planForm.linkedin,
-      features: JSON.stringify(cleanedFeatures),
-      popular: planForm.popular,
-      active: planForm.active,
-    };
-    if (editingPlan) await api.pricing.plans.update(editingPlan.id, data);
-    else await api.pricing.plans.create(data);
-    setModalOpen(false);
-    load();
+    try {
+      const cleanedFeatures = planForm.features.map((f) => f.trim()).filter(Boolean);
+      const data = {
+        slug: planForm.slug,
+        name: planForm.name,
+        price: parseFloat(planForm.price),
+        bundlePrice: planForm.bundlePrice ? parseFloat(planForm.bundlePrice) : undefined,
+        description: planForm.description || undefined,
+        delivery: planForm.delivery,
+        revisions: planForm.revisions,
+        coverLetter: planForm.coverLetter,
+        linkedin: planForm.linkedin,
+        features: JSON.stringify(cleanedFeatures),
+        popular: planForm.popular,
+        active: planForm.active,
+      };
+      if (editingPlan) await api.pricing.plans.update(editingPlan.id, data);
+      else await api.pricing.plans.create(data);
+      setModalOpen(false);
+      await load();
+      const { revalidatePublicSite } = await import("@/lib/revalidatePublic");
+      void revalidatePublicSite(["/", "/pricing", "/get-started"]);
+    } catch (err) {
+      alert(err instanceof Error ? err.message : "Failed to save plan");
+    }
   };
 
   const deletePlan = async (id: string, name: string) => {

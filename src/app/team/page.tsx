@@ -7,7 +7,7 @@ export const metadata = {
     "Meet our team of 15 certified resume writers, career coaches, and ATS specialists dedicated to getting you hired.",
 };
 
-export const revalidate = 60;
+export const dynamic = "force-dynamic";
 
 export default async function TeamPage() {
   const members = await api.team.list().catch(() => []);

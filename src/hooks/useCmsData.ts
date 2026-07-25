@@ -25,7 +25,6 @@ export function useCmsData<T>(
     const id = ++requestId.current;
     let cancelled = false;
 
-    // Soft refresh when SSR already provided data; spinner only when empty.
     if (!usableInitial || retryCount > 0) {
       setLoading(true);
     }
@@ -38,10 +37,7 @@ export function useCmsData<T>(
       })
       .catch((err: unknown) => {
         if (cancelled || id !== requestId.current) return;
-        // Keep SSR data if client refresh fails.
-        if (!usableInitial || retryCount > 0) {
-          setError(err instanceof Error ? err.message : "Failed to load content");
-        }
+        setError(err instanceof Error ? err.message : "Failed to load content");
       })
       .finally(() => {
         if (cancelled || id !== requestId.current) return;
@@ -53,6 +49,22 @@ export function useCmsData<T>(
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [...deps, retryCount]);
+
+  // Refetch when user returns to the tab (throttled) so admin edits show up
+  useEffect(() => {
+    let hiddenAt = 0;
+    const onVisible = () => {
+      if (document.visibilityState === "hidden") {
+        hiddenAt = Date.now();
+        return;
+      }
+      if (hiddenAt && Date.now() - hiddenAt > 2000) {
+        setRetryCount((c) => c + 1);
+      }
+    };
+    document.addEventListener("visibilitychange", onVisible);
+    return () => document.removeEventListener("visibilitychange", onVisible);
+  }, []);
 
   const retry = useCallback(() => {
     setRetryCount((count) => count + 1);

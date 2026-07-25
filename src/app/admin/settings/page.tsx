@@ -7,7 +7,6 @@ import { api, SiteSetting, uploadUrl } from "@/lib/api";
 import { getErrorMessage } from "@/lib/errors";
 import { IMAGE_SETTING_KEYS, PAGE_SETTING_GROUPS } from "@/lib/pageContentFields";
 import { SITE_SETTINGS_DEFAULTS } from "@/context/SiteSettingsContext";
-import { mergeSiteSettings } from "@/lib/siteSettingsMerge";
 
 type SettingField = {
   key: string;
@@ -96,13 +95,13 @@ export default function AdminSettingsPage() {
     setLoadError("");
     api.settings.listAdmin().then((data) => {
       setSettings(data);
-      const apiMap: Record<string, string> = {};
-      data.forEach((s) => {
-        apiMap[s.key] = s.value ?? "";
-      });
-      const map = mergeSiteSettings(SITE_SETTINGS_DEFAULTS, apiMap);
+      const map: Record<string, string> = { ...SITE_SETTINGS_DEFAULTS };
       ALL_KEYS.forEach((key) => {
         if (!(key in map)) map[key] = "";
+      });
+      // Exact DB values win (including empty) so Save All doesn't rewrite defaults over clears
+      data.forEach((s) => {
+        map[s.key] = s.value ?? "";
       });
       setValues(map);
     }).catch((err) => setLoadError(getErrorMessage(err))).finally(() => setLoading(false));
@@ -124,6 +123,8 @@ export default function AdminSettingsPage() {
       setAlertType("success");
       setAlert("Settings saved successfully!");
       load();
+      const { revalidatePublicSite } = await import("@/lib/revalidatePublic");
+      void revalidatePublicSite();
     } catch (err) {
       setAlertType("error");
       setAlert(getErrorMessage(err));

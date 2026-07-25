@@ -7,7 +7,7 @@ export const metadata = {
     "From resume rewrites to interview coaching — a complete suite of career services to give you a decisive competitive edge.",
 };
 
-export const revalidate = 60;
+export const dynamic = "force-dynamic";
 
 export default async function ServicesPage() {
   const services = await api.services.list().catch(() => []);

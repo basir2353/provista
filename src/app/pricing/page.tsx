@@ -8,7 +8,7 @@ export const metadata: Metadata = {
     "Transparent one-time pricing for professional resume writing, LinkedIn optimization, and career packages. No subscriptions.",
 };
 
-export const revalidate = 60;
+export const dynamic = "force-dynamic";
 
 export default async function PricingPage() {
   const [plans, addons] = await Promise.all([

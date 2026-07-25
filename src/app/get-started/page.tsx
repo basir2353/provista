@@ -8,7 +8,7 @@ export const metadata: Metadata = {
     "Place your resume writing order with ProCareerVista. Choose a plan, share your goals, and get matched with a certified writer.",
 };
 
-export const revalidate = 60;
+export const dynamic = "force-dynamic";
 
 export default async function GetStartedPage() {
   const [plans, addons] = await Promise.all([

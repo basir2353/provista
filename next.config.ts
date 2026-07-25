@@ -17,11 +17,9 @@ const nextConfig: NextConfig = {
     cpus: 1,
   },
   async rewrites() {
+    // Only proxy uploads — API calls use BACKEND_URL directly so Next
+    // route handlers like /api/revalidate are not shadowed.
     return [
-      {
-        source: "/api/:path*",
-        destination: `${backendUrl}/api/:path*`,
-      },
       {
         source: "/uploads/:path*",
         destination: `${backendUrl}/uploads/:path*`,
