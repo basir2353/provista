@@ -3783,3 +3783,166 @@ iframe {
   position: relative;
   z-index: 2;
 }
+
+/* Footer social brand accents */
+.footer-social-instagram:hover {
+  background: linear-gradient(135deg, #f58529, #dd2a7b, #8134af) !important;
+  border-color: transparent !important;
+}
+.footer-social-whatsapp:hover {
+  background: #25d366 !important;
+  border-color: #25d366 !important;
+}
+
+/* Floating WhatsApp chat widget */
+.wa-chat {
+  position: fixed;
+  right: 22px;
+  bottom: 22px;
+  z-index: 1200;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 12px;
+  font-family: var(--font-body);
+}
+.wa-chat-fab {
+  width: 58px;
+  height: 58px;
+  border-radius: 50%;
+  border: none;
+  background: #25d366;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 10px 28px rgba(37, 211, 102, 0.45);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.wa-chat-fab:hover {
+  transform: scale(1.06);
+  box-shadow: 0 14px 32px rgba(37, 211, 102, 0.55);
+}
+.wa-chat-fab.is-open {
+  background: var(--navy);
+  box-shadow: 0 10px 24px rgba(13, 27, 42, 0.35);
+}
+.wa-chat-fab-x {
+  font-size: 30px;
+  line-height: 1;
+  margin-top: -2px;
+}
+.wa-chat-panel {
+  width: min(320px, calc(100vw - 32px));
+  background: #fff;
+  border-radius: 18px;
+  overflow: hidden;
+  box-shadow: 0 18px 48px rgba(13, 27, 42, 0.22);
+  border: 1px solid rgba(13, 27, 42, 0.06);
+  animation: wa-chat-in 0.22s ease;
+}
+@keyframes wa-chat-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px) scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+.wa-chat-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 14px 12px;
+  background: #075e54;
+  color: #fff;
+}
+.wa-chat-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: #25d366;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.wa-chat-header-text {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+  flex: 1;
+}
+.wa-chat-header-text strong {
+  font-size: 14px;
+  line-height: 1.2;
+}
+.wa-chat-header-text span {
+  font-size: 11px;
+  opacity: 0.8;
+}
+.wa-chat-close {
+  border: none;
+  background: transparent;
+  color: #fff;
+  font-size: 24px;
+  line-height: 1;
+  cursor: pointer;
+  padding: 0 2px;
+  opacity: 0.85;
+}
+.wa-chat-close:hover {
+  opacity: 1;
+}
+.wa-chat-body {
+  padding: 16px 14px;
+  background: #ece5dd;
+  min-height: 110px;
+}
+.wa-chat-bubble {
+  max-width: 92%;
+  background: #fff;
+  color: var(--navy);
+  font-size: 13.5px;
+  line-height: 1.55;
+  padding: 10px 12px;
+  border-radius: 12px 12px 12px 4px;
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.08);
+}
+.wa-chat-footer {
+  padding: 12px 14px 14px;
+  background: #fff;
+}
+.wa-chat-cta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  padding: 12px 14px;
+  border-radius: 999px;
+  background: #25d366;
+  color: #fff !important;
+  text-decoration: none !important;
+  font-size: 14px;
+  font-weight: 600;
+  transition: background 0.2s ease, transform 0.15s ease;
+}
+.wa-chat-cta:hover {
+  background: #1ebe57;
+  transform: translateY(-1px);
+}
+@media (max-width: 600px) {
+  .wa-chat {
+    right: 14px;
+    bottom: 14px;
+  }
+  .wa-chat-fab {
+    width: 54px;
+    height: 54px;
+  }
+}

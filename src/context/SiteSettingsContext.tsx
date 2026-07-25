@@ -30,6 +30,8 @@ export const SITE_SETTINGS_DEFAULTS: SiteSettingsMap = {
   calendly_description: "Schedule a 30-minute call with our career experts to discuss your resume goals, timeline, and the best package for you.",
   calendly_button_text: "Book a Call on Calendly",
   calendly_url: "",
+  whatsapp_number: "",
+  whatsapp_message: "Hi ProCareerVista! I'd like a quick chat about my resume.",
   meta_description:
     "Professional resume writers crafting career stories that get noticed. ATS-optimized, industry-tailored, and designed to get you interviews.",
   ...PAGE_CONTENT_DEFAULTS,

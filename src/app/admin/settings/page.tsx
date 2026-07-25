@@ -33,6 +33,8 @@ const SETTING_GROUPS: { group: string; label: string; fields: SettingField[] }[]
     fields: [
       { key: "contact_email", label: "Contact Email" },
       { key: "contact_phone", label: "Contact Phone" },
+      { key: "whatsapp_number", label: "WhatsApp Number", hint: "Digits with country code, e.g. 18005550199 — used for chat widget & footer" },
+      { key: "whatsapp_message", label: "WhatsApp Prefill Message", type: "textarea", hint: "Optional message that opens in WhatsApp when a visitor clicks chat" },
       { key: "contact_address", label: "Contact Address" },
       { key: "business_hours", label: "Business Hours" },
     ],
@@ -63,8 +65,8 @@ const SETTING_GROUPS: { group: string; label: string; fields: SettingField[] }[]
     label: "Social Media",
     fields: [
       { key: "social_linkedin", label: "LinkedIn URL" },
+      { key: "social_instagram", label: "Instagram URL", hint: "Shown in footer with Instagram icon" },
       { key: "social_twitter", label: "Twitter / X URL" },
-      { key: "social_instagram", label: "Instagram URL" },
       { key: "social_facebook", label: "Facebook URL" },
       { key: "social_youtube", label: "YouTube URL" },
     ],
