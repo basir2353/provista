@@ -3,6 +3,7 @@
 import { useBlogFilter } from "@/hooks/usePageInteractivity";
 import { useCmsData } from "@/hooks/useCmsData";
 import { useSiteSettings } from "@/context/SiteSettingsContext";
+import CmsLoadState from "@/components/CmsLoadState";
 import { BlogCover } from "@/components/BlogCover";
 import { api, BlogPost } from "@/lib/api";
 import { formatBlogDate, staggerDelay } from "@/lib/cms";
@@ -21,7 +22,7 @@ const topics = ["Resume Writing", "ATS Tips", "LinkedIn", "Job Search", "Intervi
 
 export default function BlogContent() {
   const settings = useSiteSettings();
-  const { data: posts, loading } = useCmsData(() => api.blog.list(), [], []);
+  const { data: posts, loading, error, retry } = useCmsData(() => api.blog.list(), [], []);
   useBlogFilter();
 
   const featured = posts.find((p) => p.featured) || posts[0];
@@ -110,10 +111,14 @@ export default function BlogContent() {
               )}
 
               <div className="posts-grid" id="postsGrid">
-                {loading && <p style={{ color: "var(--gray-500)" }}>Loading articles...</p>}
-                {!loading && gridPosts.length === 0 && (
-                  <p style={{ color: "var(--gray-500)" }}>No blog posts published yet.</p>
-                )}
+                <CmsLoadState
+                  loading={loading}
+                  error={error}
+                  empty={!loading && !error && posts.length === 0}
+                  loadingLabel="Loading articles..."
+                  emptyLabel="No blog posts published yet."
+                  onRetry={retry}
+                />
                 {gridPosts.map((post: BlogPost, i) => (
                   <div className={`post-card reveal ${staggerDelay(i)}`} data-cat={post.category} key={post.id}>
                     <BlogCover post={post} className="post-image">

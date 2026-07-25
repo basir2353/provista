@@ -12,7 +12,10 @@ export const viewport: Viewport = {
 };
 
 export const metadata: Metadata = {
-  title: "ProCareerVista — Professional Resume Writing Services",
+  title: {
+    default: "ProCareerVista — Professional Resume Writing Services",
+    template: "%s — ProCareerVista",
+  },
   description:
     "Professional resume writers crafting career stories that get noticed. ATS-optimized, industry-tailored, and designed to get you interviews.",
   icons: {

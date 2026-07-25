@@ -87,6 +87,14 @@ export default function Header() {
               ))}
               <li className="mobile-nav-cta">
                 <Link
+                  href="/free-consultation"
+                  className="btn btn-outline nav-btn"
+                  prefetch
+                  onClick={() => setMenuOpen(false)}
+                >
+                  Free Consultation
+                </Link>
+                <Link
                   href="/pricing"
                   className="btn btn-outline nav-btn"
                   prefetch
@@ -106,6 +114,9 @@ export default function Header() {
             </ul>
 
             <div className="nav-cta">
+              <Link href="/free-consultation" className="btn btn-outline nav-btn" prefetch>
+                Free Consultation
+              </Link>
               <Link href="/pricing" className="btn btn-outline nav-btn" prefetch>
                 See Plans
               </Link>

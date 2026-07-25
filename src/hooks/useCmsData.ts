@@ -1,11 +1,12 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 export function useCmsData<T>(fetcher: () => Promise<T>, deps: unknown[] = [], fallback: T) {
   const [data, setData] = useState<T>(fallback);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [retryCount, setRetryCount] = useState(0);
 
   useEffect(() => {
     let cancelled = false;
@@ -29,7 +30,11 @@ export function useCmsData<T>(fetcher: () => Promise<T>, deps: unknown[] = [], f
       cancelled = true;
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, deps);
+  }, [...deps, retryCount]);
 
-  return { data, loading, error };
+  const retry = useCallback(() => {
+    setRetryCount((count) => count + 1);
+  }, []);
+
+  return { data, loading, error, retry };
 }

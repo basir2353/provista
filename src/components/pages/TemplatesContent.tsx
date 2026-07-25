@@ -3,6 +3,7 @@
 import { useTemplatesFilter } from "@/hooks/usePageInteractivity";
 import { useCmsData } from "@/hooks/useCmsData";
 import { useSiteSettings } from "@/context/SiteSettingsContext";
+import CmsLoadState from "@/components/CmsLoadState";
 import { hasTemplatePreview, TemplatePreviewMedia } from "@/components/TemplatePreviewMedia";
 import { api, Template } from "@/lib/api";
 import { staggerDelay } from "@/lib/cms";
@@ -47,7 +48,7 @@ function TemplateCard({ template, index }: { template: Template; index: number }
 
 export default function TemplatesContent() {
   const settings = useSiteSettings();
-  const { data: templates, loading } = useCmsData(() => api.templates.list(), [], []);
+  const { data: templates, loading, error, retry } = useCmsData(() => api.templates.list(), [], []);
   useTemplatesFilter();
 
   const categories = ["all", ...Array.from(new Set(templates.map((t) => t.category)))];
@@ -84,10 +85,14 @@ export default function TemplatesContent() {
       <section className="templates-section">
         <div className="container">
           <div className="templates-grid" id="templatesGrid">
-            {loading && <p style={{ color: "var(--gray-500)" }}>Loading templates...</p>}
-            {!loading && templates.length === 0 && (
-              <p style={{ color: "var(--gray-500)" }}>No templates available yet.</p>
-            )}
+            <CmsLoadState
+              loading={loading}
+              error={error}
+              empty={!loading && !error && templates.length === 0}
+              loadingLabel="Loading templates..."
+              emptyLabel="No templates available yet."
+              onRetry={retry}
+            />
             {templates.map((template, i) => (
               <TemplateCard template={template} index={i} key={template.id} />
             ))}

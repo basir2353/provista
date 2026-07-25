@@ -1,8 +1,10 @@
 "use client";
 
+import { useEffect } from "react";
 import { useServiceNav } from "@/hooks/usePageInteractivity";
 import { useCmsData } from "@/hooks/useCmsData";
 import { useSiteSettings } from "@/context/SiteSettingsContext";
+import CmsLoadState from "@/components/CmsLoadState";
 import { api, Service } from "@/lib/api";
 import { parseJsonArray } from "@/lib/cms";
 
@@ -60,8 +62,20 @@ function ServiceBlock({ service, index }: { service: Service; index: number }) {
 
 export default function ServicesContent() {
   const settings = useSiteSettings();
-  const { data: services, loading } = useCmsData(() => api.services.list(), [], []);
+  const { data: services, loading, error, retry } = useCmsData(() => api.services.list(), [], []);
   useServiceNav();
+
+  useEffect(() => {
+    if (loading || error || services.length === 0) return;
+    const hash = window.location.hash.replace("#", "");
+    if (!hash) return;
+    const el = document.getElementById(hash);
+    if (!el) return;
+    const timer = window.setTimeout(() => {
+      el.scrollIntoView({ behavior: "smooth", block: "start" });
+    }, 80);
+    return () => window.clearTimeout(timer);
+  }, [loading, error, services]);
 
   return (
     <>
@@ -101,8 +115,17 @@ export default function ServicesContent() {
         </div>
       )}
 
-      {loading && (
-        <div className="container" style={{ padding: "40px 0", color: "var(--gray-500)" }}>Loading services...</div>
+      {(loading || error || services.length === 0) && (
+        <div className="container" style={{ padding: "40px 0" }}>
+          <CmsLoadState
+            loading={loading}
+            error={error}
+            empty={!loading && !error && services.length === 0}
+            loadingLabel="Loading services..."
+            emptyLabel="No services available yet."
+            onRetry={retry}
+          />
+        </div>
       )}
 
       {services.map((service, index) => (

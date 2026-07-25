@@ -3,6 +3,7 @@
 import { useTeamForm } from "@/hooks/usePageInteractivity";
 import { useCmsData } from "@/hooks/useCmsData";
 import { useSiteSettings } from "@/context/SiteSettingsContext";
+import CmsLoadState from "@/components/CmsLoadState";
 import { TeamAvatar, TeamMemberSocials } from "@/components/TeamMemberCard";
 import { api, TeamMember } from "@/lib/api";
 import { parseJsonArray, splitCsv, staggerDelay } from "@/lib/cms";
@@ -79,7 +80,7 @@ function MemberCard({ member, delay }: { member: TeamMember; delay: string }) {
 
 export default function TeamContent() {
   const settings = useSiteSettings();
-  const { data: members, loading } = useCmsData(() => api.team.list(), [], []);
+  const { data: members, loading, error, retry } = useCmsData(() => api.team.list(), [], []);
   useTeamForm();
 
   const leaders = members.filter((m) => m.type === "leader");
@@ -112,7 +113,14 @@ export default function TeamContent() {
             </h2>
           </div>
           <div className="leadership-grid">
-            {loading && <p style={{ color: "var(--gray-500)" }}>Loading team...</p>}
+            <CmsLoadState
+              loading={loading}
+              error={error}
+              empty={!loading && !error && leaders.length === 0}
+              loadingLabel="Loading team..."
+              emptyLabel="No team members available yet."
+              onRetry={retry}
+            />
             {leaders.map((leader, i) => (
               <LeaderCard leader={leader} delay={staggerDelay(i)} key={leader.id} />
             ))}

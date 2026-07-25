@@ -9,8 +9,14 @@ import { useEffect, useRef } from "react";
 // ──────────────────────────────────────────────────────────────────────
 export const TRUSTPILOT_BUSINESS_UNIT_ID = "6a5a0bb3cdddbcc488315e7b";
 
-export const TRUSTPILOT_REVIEW_URL =
+export const TRUSTPILOT_PROFILE_URL =
+  "https://www.trustpilot.com/review/procareervista.com";
+
+export const TRUSTPILOT_EVALUATE_URL =
   "https://www.trustpilot.com/evaluate/procareervista.com";
+
+/** @deprecated Prefer TRUSTPILOT_PROFILE_URL for social proof links */
+export const TRUSTPILOT_REVIEW_URL = TRUSTPILOT_PROFILE_URL;
 
 export const TRUSTPILOT_TEMPLATE_IDS = {
   micro: "5419b6ffb0d04a076446a9af",

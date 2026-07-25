@@ -447,7 +447,7 @@ body{font-family:var(--font-body);background:var(--off-white);color:var(--navy);
 
 /* PLAN SELECTOR */
 .plan-selector{display:flex;flex-direction:column;gap:16px;margin-bottom:36px;}
-.plan-option{background:white;border:2px solid var(--gray-100);border-radius:var(--radius-lg);padding:20px 24px;cursor:pointer;transition:all 0.25s;display:flex;align-items:center;gap:16px;}
+.plan-option{background:white;border:2px solid var(--gray-100);border-radius:var(--radius-lg);padding:20px 24px;cursor:pointer;transition:all 0.25s;display:flex;align-items:center;gap:16px;width:100%;text-align:left;font:inherit;color:inherit;}
 .plan-option:hover{border-color:var(--teal);box-shadow:var(--shadow);}
 .plan-option.selected{border-color:var(--teal);background:linear-gradient(135deg,rgba(0,184,169,0.04),rgba(0,212,196,0.02));}
 .plan-radio{width:22px;height:22px;border-radius:50%;border:2px solid var(--gray-300);display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all 0.2s;}

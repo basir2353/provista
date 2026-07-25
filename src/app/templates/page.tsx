@@ -1,7 +1,7 @@
 import TemplatesContent from "@/components/pages/TemplatesContent";
 
 export const metadata = {
-  title: "Resume Templates — ProCareerVista",
+  title: "Resume Templates",
   description:
     "9 professionally designed, ATS-optimized resume templates included with every package.",
 };

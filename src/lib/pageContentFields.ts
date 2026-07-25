@@ -12,7 +12,7 @@ export type PageSettingGroup = {
   fields: PageField[];
 };
 
-const heroFields = (prefix: string, defaults: Record<string, string>): PageField[] => [
+const heroFields = (prefix: string, _defaults: Record<string, string>): PageField[] => [
   { key: `${prefix}_hero_label`, label: "Hero Label" },
   { key: `${prefix}_hero_title`, label: "Hero Title" },
   { key: `${prefix}_hero_highlight`, label: "Hero Highlight (colored text)" },

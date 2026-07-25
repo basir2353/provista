@@ -4,9 +4,90 @@ import { useHomeInteractivity } from "@/hooks/usePageInteractivity";
 import { useCmsData } from "@/hooks/useCmsData";
 import { useSiteSettings } from "@/context/SiteSettingsContext";
 import { TeamAvatar, TeamMemberSocials } from "@/components/TeamMemberCard";
+import { hasTemplatePreview, TemplatePreviewMedia } from "@/components/TemplatePreviewMedia";
 import TrustpilotWidget from "@/components/TrustpilotWidget";
-import { api } from "@/lib/api";
-import { revealDelay } from "@/lib/cms";
+import StatCounter from "@/components/StatCounter";
+import { api, PricingPlan, Template } from "@/lib/api";
+import { isIncluded, parseJsonArray, revealDelay } from "@/lib/cms";
+
+function HomePlanCard({ plan, index }: { plan: PricingPlan; index: number }) {
+  const features = parseJsonArray<string>(plan.features);
+  return (
+    <div className={`pricing-card ${plan.popular ? "featured" : ""} reveal ${revealDelay(index)}`}>
+      {plan.popular && <div className="pricing-popular">Most Popular</div>}
+      <div className="pricing-plan-name">{plan.name}</div>
+      <div className="pricing-price">
+        <span className="pricing-price-currency">$</span>
+        {plan.price}
+      </div>
+      <div className="pricing-period">one-time payment</div>
+      {plan.description && <div className="pricing-desc">{plan.description}</div>}
+      <div className="pricing-divider"></div>
+      <ul className="pricing-features">
+        {features.map((feature) => {
+          const included = !feature.startsWith("✗");
+          return (
+            <li key={feature}>
+              <span className="pricing-check">{included ? "✓" : "✗"}</span>
+              {feature.replace(/^[✓✗]\s*/, "")}
+            </li>
+          );
+        })}
+        {!features.length && (
+          <>
+            <li><span className="pricing-check">✓</span>Professional Resume Rewrite</li>
+            <li><span className="pricing-check">✓</span>ATS Optimization</li>
+            <li><span className="pricing-check">✓</span>{plan.delivery} Delivery</li>
+            <li><span className="pricing-check">✓</span>{plan.revisions} Revisions</li>
+            <li>
+              <span className="pricing-check">{isIncluded(plan.coverLetter) ? "✓" : "✗"}</span>
+              Cover Letter
+            </li>
+            <li>
+              <span className="pricing-check">{isIncluded(plan.linkedin) ? "✓" : "✗"}</span>
+              LinkedIn Optimization
+            </li>
+          </>
+        )}
+      </ul>
+      <a
+        href={`/get-started?plan=${plan.slug}`}
+        className={plan.popular ? "btn btn-pricing-featured" : "btn btn-pricing-dark"}
+      >
+        {plan.popular ? "Get Started — Best Value" : "Get Started"}
+      </a>
+    </div>
+  );
+}
+
+function HomeTemplateCard({ template, index }: { template: Template; index: number }) {
+  const categoryLabel = template.category.charAt(0).toUpperCase() + template.category.slice(1);
+  const hasPreview = hasTemplatePreview(template);
+  return (
+    <div className={`template-card tmpl-${(index % 6) + 1} ${template.featured ? "featured-card" : ""}`}>
+      <div className={`template-preview ${hasPreview ? "has-media" : ""}`}>
+        {hasPreview ? (
+          <TemplatePreviewMedia template={template} />
+        ) : (
+          <div className="template-preview-inner">
+            <div className="tmpl-header-bar"></div>
+            <div className="tmpl-section-bar"></div>
+            <div className="tmpl-line" style={{ width: "100%" }}></div>
+            <div className="tmpl-line" style={{ width: "80%" }}></div>
+            <div className="tmpl-line" style={{ width: "90%" }}></div>
+            <div className="tmpl-section-bar"></div>
+            <div className="tmpl-line" style={{ width: "70%" }}></div>
+          </div>
+        )}
+      </div>
+      <div className="template-card-info">
+        <div className="template-card-name">{template.name}</div>
+        <div className="template-card-tag">{template.tags?.split(",")[0]?.trim() || categoryLabel}</div>
+      </div>
+      {template.featured && <div className="template-badge">★ Top Pick</div>}
+    </div>
+  );
+}
 
 export default function HomeContent() {
   const settings = useSiteSettings();
@@ -14,10 +95,17 @@ export default function HomeContent() {
   const { data: testimonials } = useCmsData(() => api.testimonials.list(), [], []);
   const { data: faqs } = useCmsData(() => api.faqs.list(), [], []);
   const { data: teamMembers } = useCmsData(() => api.team.list(), [], []);
+  const { data: plans } = useCmsData(() => api.pricing.plans.list(), [], []);
+  const { data: templates } = useCmsData(() => api.templates.list(), [], []);
   useHomeInteractivity();
 
   const homeFaqs = faqs.filter((f) => f.page === "home" || f.page === "general").slice(0, 8);
   const homeTeam = teamMembers.slice(0, 4);
+  const homeTemplates = (
+    templates.filter((t) => t.featured).length
+      ? [...templates].sort((a, b) => Number(b.featured) - Number(a.featured))
+      : templates
+  ).slice(0, 6);
 
   return (
     <>
@@ -44,35 +132,28 @@ export default function HomeContent() {
               </div>
               <div className="hero-stats">
                 <div>
-                  <div
+                  <StatCounter
                     className="hero-stat-num"
-                    data-count={settings.home_stat_1_value || "90"}
-                    data-suffix={settings.home_stat_1_suffix || "%"}
-                  >
-                    0{settings.home_stat_1_suffix || "%"}
-                  </div>
+                    value={settings.home_stat_1_value || "90"}
+                    suffix={settings.home_stat_1_suffix || "%"}
+                  />
                   <div className="hero-stat-label">{settings.home_stat_1_label || "Interview Rate"}</div>
                 </div>
                 <div>
-                  <div
+                  <StatCounter
                     className="hero-stat-num"
-                    data-count={settings.home_stat_2_value || "3"}
-                    data-suffix={settings.home_stat_2_suffix || "K+"}
-                  >
-                    0{settings.home_stat_2_suffix || "K+"}
-                  </div>
+                    value={settings.home_stat_2_value || "3"}
+                    suffix={settings.home_stat_2_suffix || "K+"}
+                  />
                   <div className="hero-stat-label">{settings.home_stat_2_label || "Resumes Written"}</div>
                 </div>
                 <div>
-                  <div
+                  <StatCounter
                     className="hero-stat-num"
-                    data-count={settings.home_stat_3_value || "4.9"}
-                    data-suffix={settings.home_stat_3_suffix || "★"}
-                    data-format="rating"
-                  >
-                    {settings.home_stat_3_value || "4.9"}
-                    {settings.home_stat_3_suffix || "★"}
-                  </div>
+                    value={settings.home_stat_3_value || "4.9"}
+                    suffix={settings.home_stat_3_suffix || "★"}
+                    format="rating"
+                  />
                   <div className="hero-stat-label">{settings.home_stat_3_label || "Client Rating"}</div>
                 </div>
               </div>
@@ -310,122 +391,12 @@ export default function HomeContent() {
               <h2 className="section-title reveal">{settings.home_templates_title} <span>{settings.home_templates_highlight}</span></h2>
               <p style={{color: "var(--gray-500)", marginTop: "10px", fontSize: "15px", maxWidth: "480px"}} className="reveal">{settings.home_templates_subtitle}</p>
             </div>
-            <a href="/pricing" className="btn btn-primary reveal" style={{flexShrink: "0"}}>{settings.home_templates_cta}</a>
+            <a href="/templates" className="btn btn-primary reveal" style={{flexShrink: "0"}}>{settings.home_templates_cta}</a>
           </div>
           <div className="templates-scroll">
-            <div className="template-card tmpl-1">
-              <div className="template-preview">
-                <div className="template-preview-inner">
-                  <div className="tmpl-header-bar"></div>
-                  <div className="tmpl-section-bar"></div>
-                  <div className="tmpl-line" style={{width: "100%"}}></div>
-                  <div className="tmpl-line" style={{width: "80%"}}></div>
-                  <div className="tmpl-line" style={{width: "90%"}}></div>
-                  <div className="tmpl-section-bar"></div>
-                  <div className="tmpl-line" style={{width: "100%"}}></div>
-                  <div className="tmpl-line" style={{width: "70%"}}></div>
-                  <div className="tmpl-section-bar"></div>
-                  <div className="tmpl-line" style={{width: "60%"}}></div>
-                  <div className="tmpl-line" style={{width: "80%"}}></div>
-                </div>
-              </div>
-              <div className="template-card-info">
-                <div className="template-card-name">Executive</div>
-                <div className="template-card-tag">MOST POPULAR</div>
-              </div>
-              <div className="template-badge">★ Top Pick</div>
-            </div>
-            <div className="template-card tmpl-2">
-              <div className="template-preview">
-                <div className="template-preview-inner">
-                  <div className="tmpl-header-bar"></div>
-                  <div className="tmpl-section-bar"></div>
-                  <div className="tmpl-line" style={{width: "100%"}}></div>
-                  <div className="tmpl-line" style={{width: "75%"}}></div>
-                  <div className="tmpl-section-bar"></div>
-                  <div className="tmpl-line" style={{width: "90%"}}></div>
-                  <div className="tmpl-line" style={{width: "65%"}}></div>
-                  <div className="tmpl-section-bar"></div>
-                  <div className="tmpl-line" style={{width: "55%"}}></div>
-                </div>
-              </div>
-              <div className="template-card-info">
-                <div className="template-card-name">Creative Pro</div>
-                <div className="template-card-tag">DESIGN ROLES</div>
-              </div>
-            </div>
-            <div className="template-card tmpl-3">
-              <div className="template-preview">
-                <div className="template-preview-inner">
-                  <div className="tmpl-header-bar"></div>
-                  <div className="tmpl-section-bar"></div>
-                  <div className="tmpl-line" style={{width: "100%"}}></div>
-                  <div className="tmpl-line" style={{width: "85%"}}></div>
-                  <div className="tmpl-line" style={{width: "70%"}}></div>
-                  <div className="tmpl-section-bar"></div>
-                  <div className="tmpl-line" style={{width: "95%"}}></div>
-                  <div className="tmpl-line" style={{width: "60%"}}></div>
-                </div>
-              </div>
-              <div className="template-card-info">
-                <div className="template-card-name">Corporate</div>
-                <div className="template-card-tag">FINANCE & LAW</div>
-              </div>
-            </div>
-            <div className="template-card tmpl-4">
-              <div className="template-preview">
-                <div className="template-preview-inner">
-                  <div className="tmpl-header-bar"></div>
-                  <div className="tmpl-section-bar"></div>
-                  <div className="tmpl-line" style={{width: "100%"}}></div>
-                  <div className="tmpl-line" style={{width: "80%"}}></div>
-                  <div className="tmpl-section-bar"></div>
-                  <div className="tmpl-line" style={{width: "90%"}}></div>
-                  <div className="tmpl-line" style={{width: "75%"}}></div>
-                  <div className="tmpl-section-bar"></div>
-                  <div className="tmpl-line" style={{width: "65%"}}></div>
-                </div>
-              </div>
-              <div className="template-card-info">
-                <div className="template-card-name">Tech Stack</div>
-                <div className="template-card-tag">IT & ENGINEERING</div>
-              </div>
-            </div>
-            <div className="template-card tmpl-5">
-              <div className="template-preview">
-                <div className="template-preview-inner">
-                  <div className="tmpl-header-bar"></div>
-                  <div className="tmpl-section-bar"></div>
-                  <div className="tmpl-line" style={{width: "100%"}}></div>
-                  <div className="tmpl-line" style={{width: "70%"}}></div>
-                  <div className="tmpl-section-bar"></div>
-                  <div className="tmpl-line" style={{width: "85%"}}></div>
-                  <div className="tmpl-line" style={{width: "60%"}}></div>
-                </div>
-              </div>
-              <div className="template-card-info">
-                <div className="template-card-name">Modern Edge</div>
-                <div className="template-card-tag">ENTRY LEVEL</div>
-              </div>
-              <div className="template-badge" style={{background: "var(--accent)"}}>New</div>
-            </div>
-            <div className="template-card tmpl-6">
-              <div className="template-preview">
-                <div className="template-preview-inner">
-                  <div className="tmpl-header-bar"></div>
-                  <div className="tmpl-section-bar"></div>
-                  <div className="tmpl-line" style={{width: "100%"}}></div>
-                  <div className="tmpl-line" style={{width: "90%"}}></div>
-                  <div className="tmpl-line" style={{width: "75%"}}></div>
-                  <div className="tmpl-section-bar"></div>
-                  <div className="tmpl-line" style={{width: "80%"}}></div>
-                </div>
-              </div>
-              <div className="template-card-info">
-                <div className="template-card-name">Minimalist</div>
-                <div className="template-card-tag">SENIOR ROLES</div>
-              </div>
-            </div>
+            {homeTemplates.map((template, index) => (
+              <HomeTemplateCard template={template} index={index} key={template.id} />
+            ))}
           </div>
         </div>
       </section>
@@ -464,58 +435,9 @@ export default function HomeContent() {
             <p className="section-sub reveal">{settings.home_pricing_subtitle}</p>
           </div>
           <div className="pricing-grid">
-            <div className="pricing-card reveal reveal-delay-1">
-              <div className="pricing-plan-name">Starter</div>
-              <div className="pricing-price"><span className="pricing-price-currency">$</span>50</div>
-              <div className="pricing-period">one-time payment</div>
-              <div className="pricing-desc">Perfect for entry-level professionals and recent graduates entering the job market.</div>
-              <div className="pricing-divider"></div>
-              <ul className="pricing-features">
-                <li><span className="pricing-check">✓</span>Professional Resume Rewrite</li>
-                <li><span className="pricing-check">✓</span>ATS Optimization</li>
-                <li><span className="pricing-check">✓</span>2 Template Choices</li>
-                <li><span className="pricing-check">✓</span>3 Revisions</li>
-                <li><span className="pricing-check">✓</span>72-Hour Delivery</li>
-                <li><span className="pricing-check">✓</span>Word & PDF Format</li>
-              </ul>
-              <a href="/get-started?plan=starter" className="btn btn-pricing-dark">Get Started</a>
-            </div>
-            <div className="pricing-card featured reveal reveal-delay-2">
-              <div className="pricing-popular">Most Popular</div>
-              <div className="pricing-plan-name">Professional</div>
-              <div className="pricing-price"><span className="pricing-price-currency">$</span>120</div>
-              <div className="pricing-period">one-time payment</div>
-              <div className="pricing-desc">For mid-career professionals targeting roles at leading companies and higher salaries.</div>
-              <div className="pricing-divider"></div>
-              <ul className="pricing-features">
-                <li><span className="pricing-check">✓</span>Expert Resume + Cover Letter</li>
-                <li><span className="pricing-check">✓</span>LinkedIn Profile Optimization</li>
-                <li><span className="pricing-check">✓</span>All Premium Templates</li>
-                <li><span className="pricing-check">✓</span>Unlimited Revisions</li>
-                <li><span className="pricing-check">✓</span>48-Hour Express Delivery</li>
-                <li><span className="pricing-check">✓</span>Interview Coaching Guide</li>
-                <li><span className="pricing-check">✓</span>60-Day Job Search Support</li>
-              </ul>
-              <a href="/get-started?plan=professional" className="btn btn-pricing-featured">Get Started — Best Value</a>
-            </div>
-            <div className="pricing-card reveal reveal-delay-3">
-              <div className="pricing-plan-name">Executive</div>
-              <div className="pricing-price"><span className="pricing-price-currency">$</span>180</div>
-              <div className="pricing-period">one-time payment</div>
-              <div className="pricing-desc">For senior leaders, C-suite executives, and those targeting six-figure positions.</div>
-              <div className="pricing-divider"></div>
-              <ul className="pricing-features">
-                <li><span className="pricing-check">✓</span>Executive Resume + Bio</li>
-                <li><span className="pricing-check">✓</span>Full LinkedIn Makeover</li>
-                <li><span className="pricing-check">✓</span>Board Resume & Cover Letter</li>
-                <li><span className="pricing-check">✓</span>Unlimited Revisions</li>
-                <li><span className="pricing-check">✓</span>24-Hour Rush Delivery</li>
-                <li><span className="pricing-check">✓</span>1:1 Strategy Call (30 min)</li>
-                <li><span className="pricing-check">✓</span>90-Day Priority Support</li>
-                <li><span className="pricing-check">✓</span>Career Branding Package</li>
-              </ul>
-              <a href="/get-started?plan=executive" className="btn btn-pricing-dark">Get Started</a>
-            </div>
+            {plans.map((plan, index) => (
+              <HomePlanCard plan={plan} index={index} key={plan.id} />
+            ))}
           </div>
         </div>
       </section>

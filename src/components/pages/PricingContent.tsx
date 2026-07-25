@@ -3,12 +3,13 @@
 import { usePricingToggle } from "@/hooks/usePageInteractivity";
 import { useCmsData } from "@/hooks/useCmsData";
 import { useSiteSettings } from "@/context/SiteSettingsContext";
+import CmsLoadState from "@/components/CmsLoadState";
 import { api, Addon, PricingPlan } from "@/lib/api";
 import { isIncluded, parseJsonArray, revealDelay } from "@/lib/cms";
 
 function PlanCard({ plan, index }: { plan: PricingPlan; index: number }) {
   const features = parseJsonArray<string>(plan.features);
-  const displayPrice = plan.bundlePrice ?? plan.price;
+  const displayPrice = plan.price;
 
   return (
     <div
@@ -84,8 +85,8 @@ function AddonCard({ addon, index }: { addon: Addon; index: number }) {
 
 export default function PricingContent() {
   const settings = useSiteSettings();
-  const { data: plans, loading: plansLoading } = useCmsData(() => api.pricing.plans.list(), [], []);
-  const { data: addons, loading: addonsLoading } = useCmsData(() => api.pricing.addons.list(), [], []);
+  const { data: plans, loading: plansLoading, error: plansError, retry: retryPlans } = useCmsData(() => api.pricing.plans.list(), [], []);
+  const { data: addons, loading: addonsLoading, error: addonsError, retry: retryAddons } = useCmsData(() => api.pricing.addons.list(), [], []);
   const { data: faqs } = useCmsData(() => api.faqs.list(), [], []);
   usePricingToggle();
 
@@ -121,7 +122,14 @@ export default function PricingContent() {
       <section className="pricing-section">
         <div className="container">
           <div className="pricing-grid">
-            {plansLoading && <p style={{ color: "var(--gray-500)" }}>Loading plans...</p>}
+            <CmsLoadState
+              loading={plansLoading}
+              error={plansError}
+              empty={!plansLoading && !plansError && plans.length === 0}
+              loadingLabel="Loading plans..."
+              emptyLabel="No plans available yet."
+              onRetry={retryPlans}
+            />
             {plans.map((plan, i) => (
               <PlanCard plan={plan} index={i} key={plan.id} />
             ))}
@@ -137,7 +145,14 @@ export default function PricingContent() {
             <p style={{ color: "var(--gray-500)", marginTop: "12px", fontSize: "15px", lineHeight: "1.7" }}>Add any of these services to any plan at checkout.</p>
           </div>
           <div className="addons-grid">
-            {addonsLoading && <p style={{ color: "var(--gray-500)" }}>Loading add-ons...</p>}
+            <CmsLoadState
+              loading={addonsLoading}
+              error={addonsError}
+              empty={!addonsLoading && !addonsError && addons.length === 0}
+              loadingLabel="Loading add-ons..."
+              emptyLabel="No add-ons available yet."
+              onRetry={retryAddons}
+            />
             {addons.map((addon, i) => (
               <AddonCard addon={addon} index={i} key={addon.id} />
             ))}

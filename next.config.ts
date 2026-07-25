@@ -1,5 +1,9 @@
 import type { NextConfig } from "next";
 
+const backendUrl =
+  process.env.NEXT_PUBLIC_API_URL ||
+  "https://backend-provista-production.up.railway.app";
+
 const nextConfig: NextConfig = {
   output: "standalone",
   poweredByHeader: false,
@@ -11,6 +15,18 @@ const nextConfig: NextConfig = {
     // Avoid Windows race conditions that corrupt .next during production builds.
     webpackBuildWorker: false,
     cpus: 1,
+  },
+  async rewrites() {
+    return [
+      {
+        source: "/api/:path*",
+        destination: `${backendUrl}/api/:path*`,
+      },
+      {
+        source: "/uploads/:path*",
+        destination: `${backendUrl}/uploads/:path*`,
+      },
+    ];
   },
 };
 

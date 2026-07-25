@@ -1,6 +1,20 @@
 import { parseApiErrorBody } from "@/lib/errors";
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL || "https://backend-provista-production.up.railway.app";
+/** Absolute backend origin (uploads + server-side fallback). */
+export const BACKEND_URL =
+  process.env.NEXT_PUBLIC_API_URL ||
+  "https://backend-provista-production.up.railway.app";
+
+/**
+ * Browser requests use same-origin `/api` (proxied via next.config rewrites)
+ * to avoid CORS. Server-side calls hit the backend directly.
+ */
+function getApiBase(): string {
+  if (typeof window !== "undefined") return "";
+  return BACKEND_URL;
+}
+
+const REQUEST_TIMEOUT_MS = 15_000;
 
 function getToken(): string | null {
   if (typeof window === "undefined") return null;
@@ -35,11 +49,27 @@ async function request<T>(
     headers["Authorization"] = `Bearer ${token}`;
   }
 
-  const res = await fetch(`${API_URL}${path}`, {
-    cache: "no-store",
-    ...options,
-    headers: { ...headers, ...(options.headers as Record<string, string>) },
-  });
+  const controller = new AbortController();
+  const timeoutId = setTimeout(() => controller.abort(), REQUEST_TIMEOUT_MS);
+
+  let res: Response;
+  try {
+    res = await fetch(`${getApiBase()}${path}`, {
+      cache: "no-store",
+      ...options,
+      signal: options.signal ?? controller.signal,
+      headers: { ...headers, ...(options.headers as Record<string, string>) },
+    });
+  } catch (err) {
+    if (err instanceof Error && err.name === "AbortError") {
+      throw new Error("Request timed out. Please try again.");
+    }
+    throw new Error(
+      err instanceof Error ? err.message : "Network error. Please try again."
+    );
+  } finally {
+    clearTimeout(timeoutId);
+  }
 
   if (res.status === 401) {
     clearToken();
@@ -316,5 +346,10 @@ export const api = {
 
 export function uploadUrl(path?: string | null): string {
   if (!path) return "";
-  return `${API_URL}/uploads/${path}`;
+  if (path.startsWith("http://") || path.startsWith("https://") || path.startsWith("/")) {
+    return path;
+  }
+  // Same-origin in browser (rewritten); absolute on server.
+  const base = typeof window !== "undefined" ? "" : BACKEND_URL;
+  return `${base}/uploads/${path}`;
 }
