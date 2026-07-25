@@ -221,8 +221,15 @@ export default function FreeConsultationContent() {
               </div>
 
               {calendlyUrl ? (
-                <div style={{ marginTop: 8 }}>
-                  <CalendlyEmbed url={calendlyUrl} height={700} />
+                <div style={{ marginTop: 16 }}>
+                  <CalendlyEmbed
+                    url={calendlyUrl}
+                    height={720}
+                    prefill={{
+                      name: `${form.firstName} ${form.lastName}`.trim(),
+                      email: form.email,
+                    }}
+                  />
                 </div>
               ) : (
                 <div

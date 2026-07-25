@@ -124,8 +124,8 @@ export default function ContactContent() {
                 {settings.calendly_button_text}
               </a>
             </div>
-            <div className="calendly-embed-wrap reveal">
-              <CalendlyEmbed url={calendlyUrl} />
+            <div className="reveal">
+              <CalendlyEmbed url={calendlyUrl} showOpenLink={false} />
             </div>
           </div>
         </section>
