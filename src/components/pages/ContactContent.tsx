@@ -58,9 +58,9 @@ export default function ContactContent() {
               <div className="response-box reveal" style={{ marginTop: "20px" }}>
                 <div className="response-box-title">⚡ Our Response Times</div>
                 <div className="response-items">
-                  <div className="response-item"><span className="response-item-label">General Inquiries</span><span className="response-item-val">Within 2 hrs</span></div>
+                  <div className="response-item"><span className="response-item-label">General Inquiries</span><span className="response-item-val">Within 1 hrs</span></div>
                   <div className="response-item"><span className="response-item-label">Order Support</span><span className="response-item-val">Within 1 hr</span></div>
-                  <div className="response-item"><span className="response-item-label">Revision Requests</span><span className="response-item-val">Within 24 hrs</span></div>
+                  <div className="response-item"><span className="response-item-label">Revision Requests</span><span className="response-item-val">Within 12 hrs</span></div>
                   <div className="response-item"><span className="response-item-label">Rush Orders</span><span className="response-item-val">Immediate</span></div>
                 </div>
               </div>
