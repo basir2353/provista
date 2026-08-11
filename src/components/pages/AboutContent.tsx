@@ -139,7 +139,7 @@ export default function AboutContent() {
       <section className="stats-section">
         <div className="container">
           <div className="stats-grid">
-            <div className="stat-item reveal"><span className="stat-icon">📄</span><div className="stat-num">3000<sup>+</sup></div><div className="stat-label">Resumes Successfully Delivered</div></div>
+            <div className="stat-item reveal"><span className="stat-icon">📄</span><div className="stat-num">3K<sup>+</sup></div><div className="stat-label">Resumes Successfully Delivered</div></div>
             <div className="stat-item reveal rd1"><span className="stat-icon">🌍</span><div className="stat-num">25<sup>+</sup></div><div className="stat-label">Countries Served Worldwide</div></div>
             <div className="stat-item reveal rd2"><span className="stat-icon">📈</span><div className="stat-num">98<sup>%</sup></div><div className="stat-label">Client Interview Success Rate</div></div>
             <div className="stat-item reveal rd3"><span className="stat-icon">⭐</span><div className="stat-num">4.9<sup>/5</sup></div><div className="stat-label">Average Client Satisfaction</div></div>
