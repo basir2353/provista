@@ -89,7 +89,7 @@ export default function FreeConsultationContent() {
             Book a <span>Free Career Call</span>
           </h1>
           <p>
-            Tell us a bit about your goals first — then pick a time that works for you.
+            Tell us a bit about your goals first, then pick a time that works for you.
             No pressure, no obligation.
           </p>
         </div>
