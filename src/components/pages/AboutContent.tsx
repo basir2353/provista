@@ -183,7 +183,7 @@ export default function AboutContent() {
               <div className="why-main-box">
                 <div className="why-box-icon">🏆</div>
                 <div className="why-box-title">Rated #1 Resume Service </div>
-                <div className="why-box-desc">Our clients land interviews at a rate 3x higher than the national average, with an average salary increase of 32% in their new roles.</div>
+                <div className="why-box-desc">Our clients land interviews at a rate 3x higher than the national average.</div>
                 <div className="why-box-rating">
                   <div className="why-box-stars">★★★★★</div>
                   <div className="why-box-rating-text">4.9/5 from 3,200+ verified reviews</div>
