@@ -522,16 +522,16 @@ function GetStartedForm({
             </div>
             <div className="trust-badges">
               <div className="trust-badge">
-                <span className="trust-badge-icon">🛡️</span>30-Day Money-Back Guarantee
+                <span className="trust-badge-icon">⚡</span>Fast Turnaround
               </div>
               <div className="trust-badge">
                 <span className="trust-badge-icon">🔒</span>Secure SSL Payment
               </div>
               <div className="trust-badge">
-                <span className="trust-badge-icon">👤</span>Human-Written, Never AI
+                <span className="trust-badge-icon">👤</span>Human Written
               </div>
               <div className="trust-badge">
-                <span className="trust-badge-icon">⭐</span>4.9/5 from 12,000+ clients
+                <span className="trust-badge-icon">⭐</span>4.9/5 from 3k+ clients
               </div>
             </div>
             <button
