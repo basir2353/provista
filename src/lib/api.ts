@@ -1,9 +1,7 @@
 import { parseApiErrorBody } from "@/lib/errors";
 
 /** Absolute backend origin — used for all API + upload requests. */
-export const BACKEND_URL =
-  process.env.NEXT_PUBLIC_API_URL ||
-  "https://backend-provista-production.up.railway.app";
+export const BACKEND_URL = "";
 
 const REQUEST_TIMEOUT_MS = 12_000;
 
