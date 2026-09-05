@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
-import { api } from "@/lib/api";
+import { api, BACKEND_URL } from "@/lib/api";
 
 export function useHomeInteractivity() {
   useEffect(() => {
@@ -175,7 +175,7 @@ export function useTeamForm() {
       };
 
       try {
-        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || "https://backend-provista-production-9ba0.up.railway.app"}/api/applications`, {
+        const res = await fetch(`${BACKEND_URL}/api/applications`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(data),

@@ -1,7 +1,8 @@
+import { getBackendUrl } from "@/lib/backendUrl";
 import { parseApiErrorBody } from "@/lib/errors";
 
 /** Absolute backend origin — used for all API + upload requests. */
-export const BACKEND_URL = "";
+export const BACKEND_URL = getBackendUrl();
 
 const REQUEST_TIMEOUT_MS = 12_000;
 

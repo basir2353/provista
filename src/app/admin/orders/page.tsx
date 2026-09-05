@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import AdminHeader from "@/components/admin/AdminHeader";
 import Modal from "@/components/admin/Modal";
-import { api, Order } from "@/lib/api";
+import { api, Order, uploadUrl } from "@/lib/api";
 
 const STATUS_OPTIONS = ["new", "assigned", "in_progress", "delivered", "revision", "completed", "cancelled"];
 const PAYMENT_OPTIONS = ["pending", "paid", "refunded"];
@@ -121,7 +121,7 @@ export default function AdminOrdersPage() {
               {selected.resumeFile && (
                 <div className="admin-form-group full">
                   <label className="admin-label">Uploaded Resume</label>
-                  <a href={`${process.env.NEXT_PUBLIC_API_URL || "https://backend-provista-production-9ba0.up.railway.app"}/uploads/${selected.resumeFile}`} target="_blank" className="admin-btn admin-btn-secondary admin-btn-sm">Download Resume</a>
+                  <a href={uploadUrl(selected.resumeFile)} target="_blank" className="admin-btn admin-btn-secondary admin-btn-sm">Download Resume</a>
                 </div>
               )}
             </div>
