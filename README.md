@@ -48,7 +48,7 @@ Full content management system at `/admin` — manage everything from one place:
 
 ## Backend API (`backend-provista/`)
 
-REST API powered by Express + Prisma + SQLite. See [backend-provista/README.md](backend-provista/README.md) for full API documentation.
+REST API powered by Express + Prisma + PostgreSQL. Live API: [https://backend-provista-production-9ba0.up.railway.app](https://backend-provista-production-9ba0.up.railway.app). See [backend-provista/README.md](backend-provista/README.md) for full API documentation.
 
 ## Quick Start (Full Stack)
 
@@ -97,22 +97,15 @@ NEXT_PUBLIC_API_URL=http://localhost:4000
 ## Production
 
 ```bash
-# Backend
-cd backend-provista && npm run build && npm start
+# Backend (Railway)
+# API: https://backend-provista-production-9ba0.up.railway.app
+cd backend-provista && npm run db:setup && npm run build && npm start
 
 # Frontend
+# Set NEXT_PUBLIC_API_URL=https://backend-provista-production-9ba0.up.railway.app
 npm run build && npm start
 ```
 
 ## Push Backend to GitHub
 
-The `backend-provista` folder is a separate git repository. To push:
-
-1. Create a new repo on GitHub: `backend-provista`
-2. Run:
-
-```bash
-cd backend-provista
-git remote add origin https://github.com/YOUR_USERNAME/backend-provista.git
-git push -u origin main
-```
+The `backend-provista` folder is a separate git repository: [github.com/basir2353/backend-provista](https://github.com/basir2353/backend-provista).

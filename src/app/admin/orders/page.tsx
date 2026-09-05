@@ -121,7 +121,7 @@ export default function AdminOrdersPage() {
               {selected.resumeFile && (
                 <div className="admin-form-group full">
                   <label className="admin-label">Uploaded Resume</label>
-                  <a href={`${process.env.NEXT_PUBLIC_API_URL || "https://backend-provista-production.up.railway.app"}/uploads/${selected.resumeFile}`} target="_blank" className="admin-btn admin-btn-secondary admin-btn-sm">Download Resume</a>
+                  <a href={`${process.env.NEXT_PUBLIC_API_URL || "https://backend-provista-production-9ba0.up.railway.app"}/uploads/${selected.resumeFile}`} target="_blank" className="admin-btn admin-btn-secondary admin-btn-sm">Download Resume</a>
                 </div>
               )}
             </div>
