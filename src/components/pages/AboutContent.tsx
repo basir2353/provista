@@ -78,24 +78,6 @@ export default function AboutContent() {
               <div className="timeline-item">
                 <div className="timeline-dot"></div>
                 <div className="timeline-year"></div>
-                <div className="timeline-title">Team Expansion</div>
-                <div className="timeline-desc">Grew to a team of certified writers, serving clients the Globe.</div>
-              </div>
-              <div className="timeline-item">
-                <div className="timeline-dot"></div>
-                <div className="timeline-year"></div>
-                <div className="timeline-title">ATS Technology Integration</div>
-                <div className="timeline-desc">Introduced proprietary ATS scoring technology, raising average client interview rates from 72% to 94%.</div>
-              </div>
-              <div className="timeline-item">
-                <div className="timeline-dot"></div>
-                <div className="timeline-year"></div>
-                <div className="timeline-title">Global Expansion</div>
-                <div className="timeline-desc">Now serving clients in 25 countries. Team of 4 specialist writers. Launched career coaching and interview prep programs.</div>
-              </div>
-              <div className="timeline-item">
-                <div className="timeline-dot"></div>
-                <div className="timeline-year"></div>
                 <div className="timeline-title">300+ Careers Transformed</div>
                 <div className="timeline-desc">Celebrated a decade of impact. Rated #1 resume writing service with a 4.9/5 client satisfaction score.</div>
               </div>
