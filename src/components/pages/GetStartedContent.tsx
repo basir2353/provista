@@ -531,7 +531,7 @@ function GetStartedForm({
                 <span className="trust-badge-icon">👤</span>Human Written
               </div>
               <div className="trust-badge">
-                <span className="trust-badge-icon">⭐</span>4.9/5 from 3k+ clients
+                <span className="trust-badge-icon">⭐</span>4.9/5 from veified clients
               </div>
             </div>
             <button
