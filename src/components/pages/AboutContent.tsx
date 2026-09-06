@@ -96,12 +96,6 @@ export default function AboutContent() {
               <div className="timeline-item">
                 <div className="timeline-dot"></div>
                 <div className="timeline-year"></div>
-                <div className="timeline-title">5,000th Client Milestone</div>
-                <div className="timeline-desc">Celebrated our 5,000th successfully placed professional. Launched LinkedIn optimization and executive bio services.</div>
-              </div>
-              <div className="timeline-item">
-                <div className="timeline-dot"></div>
-                <div className="timeline-year"></div>
                 <div className="timeline-title">Global Expansion</div>
                 <div className="timeline-desc">Now serving clients in 25 countries. Team of 4 specialist writers. Launched career coaching and interview prep programs.</div>
               </div>
