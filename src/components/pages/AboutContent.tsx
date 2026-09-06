@@ -134,7 +134,7 @@ export default function AboutContent() {
             <div>
               <span className="section-label">Why ProCareerVista</span>
               <h2 className="section-title reveal">What Sets Us <span>Apart From the Rest</span></h2>
-              <p className="reveal" style={{color: "var(--gray-500)", fontSize: "16px", margin: "16px 0 36px", lineHeight: "1.7"}}>There are hundreds of resume services out there. Here's why 3000+ professionals chose us:</p>
+              <p className="reveal" style={{color: "var(--gray-500)", fontSize: "16px", margin: "16px 0 36px", lineHeight: "1.7"}}>There are hundreds of resume services out there. Here's why 3,000+ professionals chose us:</p>
               <div className="why-list">
                 <div className="why-item reveal"><div className="why-icon">👤</div><div><div className="why-title">100% Human Written </div><div className="why-desc">Every resume is crafted by a certified human writer who specializes in your exact industry.</div></div></div>
                 <div className="why-item reveal rd1"><div className="why-icon">🎯</div><div><div className="why-title">Industry Specialist Writers</div><div className="why-desc">We match you with a writer who has worked in your field, not a generalist. They understand your industry's language, expectations, and hiring patterns.</div></div></div>
@@ -161,7 +161,7 @@ export default function AboutContent() {
       <section className="cta-section">
         <div className="container">
           <h2>Ready to Write Your Next Chapter?</h2>
-          <p>Join 3000+ professionals who trusted ProCareerVista to transform their careers. Your dream job is one great resume away.</p>
+          <p>Join 3,000+ professionals who trusted ProCareerVista to transform their careers. Your dream job is one great resume away.</p>
           <div className="cta-actions">
             <a href="/get-started" className="btn btn-white">✦ Get Started Today</a>
             <a href="/pricing" className="btn btn-outline-white">View Pricing</a>
