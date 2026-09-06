@@ -122,7 +122,7 @@ export default function TemplatesContent({ initialTemplates }: { initialTemplate
       <section className="cta-banner">
         <div className="container">
           <h2>All Templates Included With Every Package</h2>
-          <p>No extra charge — choose your template when you place your order.</p>
+          <p>No extra charge; choose your template when you place your order.</p>
           <a href="/get-started" className="btn btn-white">✦ Start Your Order Today</a>
         </div>
       </section>
