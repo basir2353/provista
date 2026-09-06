@@ -179,7 +179,7 @@ export default function AboutContent() {
                 <div className="why-box-desc">Our clients land interviews at a rate 3x higher than the national average.</div>
                 <div className="why-box-rating">
                   <div className="why-box-stars">★★★★★</div>
-                  <div className="why-box-rating-text">4.9/5 from verified clients</div>
+                  <div className="why-box-rating-text">4.9/5 from verified reviews</div>
                 </div>
               </div>
             </div>
