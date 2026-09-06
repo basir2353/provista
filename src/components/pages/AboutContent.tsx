@@ -33,7 +33,7 @@ export default function AboutContent() {
                 <div className="hero-stats-row">
                   <div className="hero-stat-box">
                     <div className="hero-stat-num">
-                      {settings.home_stat_2_value || "12"}
+                      {settings.home_stat_2_value || "3K"}
                       {settings.home_stat_2_suffix || "K+"}
                     </div>
                     <div className="hero-stat-label">{settings.home_stat_2_label || "Resumes Written"}</div>
@@ -122,7 +122,7 @@ export default function AboutContent() {
           <div className="section-header" style={{textAlign: "center", maxWidth: "600px", margin: "0 auto 56px"}}>
             <span className="section-label">Our Core Values</span>
             <h2 className="section-title reveal">What Drives <span>Everything We Do</span></h2>
-            <p className="reveal" style={{color: "var(--gray-500)", marginTop: "16px", fontSize: "16px", lineHeight: "1.7"}}>These aren't just words on a wall — they're the principles that guide every resume we write and every client we serve.</p>
+            <p className="reveal" style={{color: "var(--gray-500)", marginTop: "16px", fontSize: "16px", lineHeight: "1.7"}}>These aren't just words on a wall, they're the principles that guide every resume we write and every client we serve.</p>
           </div>
           <div className="values-grid">
             <div className="value-card reveal"><div className="value-icon">🎯</div><h3 className="value-title">Excellence in Every Word</h3><p className="value-desc">We treat every resume as a masterpiece. No shortcuts, no templates that weren't crafted with deep care and expertise for the specific industry and role.</p></div>
@@ -186,7 +186,7 @@ export default function AboutContent() {
                 <div className="why-box-desc">Our clients land interviews at a rate 3x higher than the national average.</div>
                 <div className="why-box-rating">
                   <div className="why-box-stars">★★★★★</div>
-                  <div className="why-box-rating-text">4.9/5 from 3,200+ verified reviews</div>
+                  <div className="why-box-rating-text">4.9/5 from verified reviews</div>
                 </div>
               </div>
             </div>
@@ -198,7 +198,7 @@ export default function AboutContent() {
       <section className="cta-section">
         <div className="container">
           <h2>Ready to Write Your Next Chapter?</h2>
-          <p>Join 12,000+ professionals who trusted ProCareerVista to transform their careers. Your dream job is one great resume away.</p>
+          <p>Join 3000+ professionals who trusted ProCareerVista to transform their careers. Your dream job is one great resume away.</p>
           <div className="cta-actions">
             <a href="/get-started" className="btn btn-white">✦ Get Started Today</a>
             <a href="/pricing" className="btn btn-outline-white">View Pricing</a>
