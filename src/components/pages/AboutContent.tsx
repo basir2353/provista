@@ -75,12 +75,6 @@ export default function AboutContent() {
               <div className="reveal" style={{marginTop: "28px"}}><a href="/team" className="btn btn-primary">Meet Our Full Team →</a></div>
             </div>
       <div className="story-timeline reveal">
-              <div className="timeline-item">
-                <div className="timeline-dot"></div>
-                <div className="timeline-year"></div>
-                <div className="timeline-title">300+ Careers Transformed</div>
-                <div className="timeline-desc">Celebrated a decade of impact. Rated #1 resume writing service with a 4.9/5 client satisfaction score.</div>
-              </div>
             </div>
           </div>
         </div>
