@@ -162,7 +162,7 @@ export default function TeamContent({ initialMembers }: { initialMembers?: TeamM
               <p className="reveal" style={{ color: "var(--gray-500)", fontSize: "16px", marginTop: "14px", lineHeight: 1.7 }}>We&apos;re always looking for talented certified resume writers and career coaches to join our mission. Work remotely, on your schedule.</p>
               <div className="join-perks">
                 <div className="join-perk reveal"><div className="join-perk-icon">🌍</div><div><div className="join-perk-title">100% Remote Work</div><div className="join-perk-desc">Work from anywhere in the world on a flexible schedule that fits your life.</div></div></div>
-                <div className="join-perk reveal rd1"><div className="join-perk-icon">💰</div><div><div className="join-perk-title">Competitive Pay Per Resume</div><div className="join-perk-desc">Earn $25–$80 per resume depending on complexity and your experience level.</div></div></div>
+                <div className="join-perk reveal rd1"><div className="join-perk-icon">💰</div><div><div className="join-perk-title">Competitive Pay Per Resume</div><div className="join-perk-desc">Earn a fixed price per resume depending on complexity and your experience level.</div></div></div>
                 <div className="join-perk reveal rd2"><div className="join-perk-icon">📚</div><div><div className="join-perk-title">Ongoing Training & Support</div><div className="join-perk-desc">Access our writer resource library, ATS tools, and monthly team training sessions.</div></div></div>
                 <div className="join-perk reveal rd3"><div className="join-perk-icon">🚀</div><div><div className="join-perk-title">Grow With Us</div><div className="join-perk-desc">Top writers advance to Senior Writer, Team Lead, and specialty coaching roles.</div></div></div>
               </div>
@@ -197,7 +197,7 @@ export default function TeamContent({ initialMembers }: { initialMembers?: TeamM
       <section className="cta-section">
         <div className="container">
           <h2>Ready to Work With Our Team?</h2>
-          <p>Get matched with the perfect writer for your industry and career level within 2 hours of placing your order.</p>
+          <p>Get matched with the perfect writer for your industry and career level within 1 hours of placing your order.</p>
           <div className="cta-actions">
             <a href="/get-started" className="btn btn-white">✦ Get Started Today</a>
             <a href="/pricing" className="btn btn-ghost">View Pricing</a>
