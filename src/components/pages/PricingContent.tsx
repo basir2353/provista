@@ -291,7 +291,7 @@ export default function PricingContent({
       <section className="cta-banner">
         <div className="container">
           <h2>Ready to Invest in Your Career?</h2>
-          <p>Join 3000+ professionals who landed better jobs with ProCareerVista.</p>
+          <p>Join 3,000+ professionals who landed better jobs with ProCareerVista.</p>
           <a href="/get-started" className="btn btn-white">✦ Get Started Today</a>
         </div>
       </section>
