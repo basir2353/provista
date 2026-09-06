@@ -74,7 +74,41 @@ export default function AboutContent() {
               <p className="story-intro reveal" style={{fontSize: "15px"}}>Today, our team of certified writers serves clients from entry level graduates to Fortune 500 executives, spanning over 20+ industries and 25+ countries. We combine human expertise with cutting edge ATS technology to give every client the best possible chance at the job they deserve.</p>
               <div className="reveal" style={{marginTop: "28px"}}><a href="/team" className="btn btn-primary">Meet Our Full Team →</a></div>
             </div>
-      
+      <div className="story-timeline reveal">
+              <div className="timeline-item">
+                <div className="timeline-dot"></div>
+                <div className="timeline-year"></div>
+                <div className="timeline-title">ProCareerVista Founded</div>
+                <div className="timeline-desc">Kaleem Ullah launches the company from his home office, serving her first 50 clients with a 95% interview success rate.</div>
+              </div>
+              <div className="timeline-item">
+                <div className="timeline-dot"></div>
+                <div className="timeline-year"></div>
+                <div className="timeline-title">Team Expansion</div>
+                <div className="timeline-desc">Grew to a team of certified writers, serving clients the Globe.</div>
+              </div>
+              <div className="timeline-item">
+                <div className="timeline-dot"></div>
+                <div className="timeline-year"></div>
+                <div className="timeline-title">ATS Technology Integration</div>
+                <div className="timeline-desc">Introduced proprietary ATS scoring technology, raising average client interview rates from 72% to 94%.</div>
+              </div>
+              <div className="timeline-item">
+                <div className="timeline-dot"></div>
+                <div className="timeline-year"></div>
+                <div className="timeline-title">Global Expansion</div>
+                <div className="timeline-desc">Now serving clients in 25 countries. Team of 4 specialist writers. Launched career coaching and interview prep programs.</div>
+              </div>
+              <div className="timeline-item">
+                <div className="timeline-dot"></div>
+                <div className="timeline-year"></div>
+                <div className="timeline-title">300+ Careers Transformed</div>
+                <div className="timeline-desc">Celebrated a decade of impact. Rated #1 resume writing service with a 4.9/5 client satisfaction score.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
       
       <section className="values-section">
         <div className="container">
