@@ -36,7 +36,7 @@ export default function ContactContent() {
                   <div className="info-card-icon">📧</div>
                   <div className="info-card-title">Email Us</div>
                   <a href={`mailto:${email}`} className="info-card-val">{email}</a>
-                  <div className="info-card-sub">We reply within 2 business hours</div>
+                  <div className="info-card-sub">We reply within 1 business hours</div>
                 </div>
                 {calendlyUrl && (
                   <div className="info-card reveal reveal-delay-1">
