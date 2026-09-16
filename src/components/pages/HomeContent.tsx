@@ -567,7 +567,23 @@ export default function HomeContent({
       </section>
       
       
-     
+      <section id="newsletter">
+        <div className="newsletter-bg"></div>
+        <div className="container">
+          <div className="newsletter-inner">
+            <div className="reveal">
+              <h2 className="newsletter-title">{settings.home_newsletter_title}</h2>
+              <p className="newsletter-sub">{settings.home_newsletter_subtitle}</p>
+            </div>
+            <div className="reveal">
+              <div className="newsletter-form">
+                <input type="email" className="newsletter-input" placeholder={settings.home_newsletter_placeholder} />
+                <button className="btn-newsletter">{settings.home_newsletter_button}</button>
+              </div>
+              <p className="newsletter-note">{settings.home_newsletter_note}</p>
+            </div>
+          </div>
+        </div>
       </section>
 
       <section className="cta-section">
