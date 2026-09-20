@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useBlogFilter } from "@/hooks/usePageInteractivity";
 import { useCmsData } from "@/hooks/useCmsData";
 import { useSiteSettings } from "@/context/SiteSettingsContext";
@@ -66,7 +67,7 @@ export default function BlogContent({ initialPosts }: { initialPosts?: BlogPost[
                     <span>·</span>
                     <span>{featured.readTime}</span>
                   </div>
-                  <a href={`/blog#${featured.slug}`} className="fa-read">Read Article →</a>
+                  <Link href={`/blog/${featured.slug}`} className="fa-read">Read Article →</Link>
                 </div>
               </div>
             )}
@@ -110,7 +111,7 @@ export default function BlogContent({ initialPosts }: { initialPosts?: BlogPost[
                       <span>·</span>
                       <span>{featured.readTime}</span>
                     </div>
-                    <a href={`/blog#${featured.slug}`} className="read-more" style={{ marginTop: "16px", display: "inline-flex" }}>Read Full Article →</a>
+                    <Link href={`/blog/${featured.slug}`} className="read-more" style={{ marginTop: "16px", display: "inline-flex" }}>Read Full Article →</Link>
                   </div>
                 </div>
               )}
@@ -141,7 +142,7 @@ export default function BlogContent({ initialPosts }: { initialPosts?: BlogPost[
                         <span className="post-dot"></span>
                         <span>{post.readTime}</span>
                       </div>
-                      <a href={`/blog#${post.slug}`} className="read-more">Read More →</a>
+                      <Link href={`/blog/${post.slug}`} className="read-more">Read More →</Link>
                     </div>
                   </div>
                 ))}
@@ -159,13 +160,13 @@ export default function BlogContent({ initialPosts }: { initialPosts?: BlogPost[
                 <div className="sidebar-title">🔥 Popular Posts</div>
                 <div className="popular-posts">
                   {popularPosts.map((post, i) => (
-                    <div className="popular-post-item" key={post.id}>
+                    <Link href={`/blog/${post.slug}`} className="popular-post-item" key={post.id}>
                       <div className="pp-num">{String(i + 1).padStart(2, "0")}</div>
                       <div>
                         <div className="pp-title">{post.title}</div>
                         <div className="pp-meta">{post.readTime} · {post.views.toLocaleString()} views</div>
                       </div>
-                    </div>
+                    </Link>
                   ))}
                 </div>
               </div>
