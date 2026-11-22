@@ -8,8 +8,8 @@ export default function ContactContent() {
   const settings = useSiteSettings();
   useContactForm();
 
-  const email = settings.contact_email || "hello@procareervista.com";
-  const phone = settings.contact_phone || "+1 (555) 123-4567";
+  const email = settings.contact_email || "contact@procareervista.com";
+  const phone = settings.contact_phone || "+1 (214) 988-8955";
   const hours = settings.business_hours || "Mon–Fri, 9am–6pm EST";
   const calendlyUrl = settings.calendly_url?.trim() || "";
 
